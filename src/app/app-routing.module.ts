@@ -1,14 +1,35 @@
-import { Routes } from '@angular/router';
-import { ProfileComponent } from './profile/profile.component';
-import { ChatComponent } from './chat/chat.component';
-import { ShareComponent } from './share/share.component'; 
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ProductPageComponent } from './product-page/product-page.component';
+import { SearchComponent } from './search/search.component';
 
-// Change this to a simple 'export const' array
 export const routes: Routes = [
-  { path: 'share', component: ShareComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'chat', component: ChatComponent },
-  { path: '', redirectTo: '/profile', pathMatch: 'full' },
-  { path: '**', redirectTo: '/profile' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'product-details/:id',
+    loadComponent: () => import('./product-details/product-details.component').then(m => m.ProductDetailsComponent)
+  },
+  {
+    path: 'products',
+    component: ProductPageComponent
+  },
+  {
+    path: 'categories',
+    component: ProductPageComponent
+  },
+  {
+    path: 'search',
+    component: SearchComponent
+  },
+  { path: '**', redirectTo: 'login' }
 ];
 
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
