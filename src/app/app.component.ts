@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router'; // For page navigation injection
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'internship';
+  title = 'CampusCart';
 }

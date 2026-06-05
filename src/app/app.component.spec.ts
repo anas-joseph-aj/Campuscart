@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+<<<<<<< HEAD
+=======
 import { RouterTestingModule } from '@angular/router/testing';
+>>>>>>> 1384fc2196b07129da5a10bc083c243fce67552f
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
+<<<<<<< HEAD
+=======
     imports: [RouterTestingModule],
+>>>>>>> 1384fc2196b07129da5a10bc083c243fce67552f
     declarations: [AppComponent]
   }));
 

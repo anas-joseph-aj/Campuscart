@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Figma Parameter Definitions & Core Structural Layout Architecture Framework 
+   ========================================================================== */
+.page-container {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  background-color: #FAFAFA;
+  font-family: 'IBM Plex Serif', serif;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   LEFT SIDEBAR PANEL COMPONENT STYLING 
+   ========================================================================== */
+.sidebar-panel {
+  width: 240px;
+  background-color: #26A69A;
+  /* Elegant deep green teal base matching your sample image captures */
+  padding: 24px 0px 24px 0px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* For "Categories" Headline Box layout configuration rules */
+.sidebar-header {
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 16.5px;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  padding: 0px 24px;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.category-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* Gap: 2px specified in your Figma Layout properties block info trace sheet */
+}
+
+/* Standard inactive item option configuration states */
+.category-menu-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  /* Height 40px specified across button instances */
+  padding: 8px 24px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  /* Typography fallback assignments */
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0px;
+}
+
+.category-menu-list li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Active Highlight White Row State Rule */
+.category-menu-list li.active {
+  background-color: #FFFFFF;
+  color: #101828;
+  /* Colors match Figma text inspect hex string #101828 properties fields */
+  font-weight: 500;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-left: 12px;
+  padding-left: 12px;
+
+  /* Shadows and Blurs parameters applied from Figma layout parameters sheet */
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Badge container matching right elements layout */
+.badge-pill-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.count-digit {
+  background-color: #26A69A;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* Active line count modification */
+.category-menu-list li.active .count-digit {
+  background-color: #26A69A;
+  color: #FFFFFF;
+}
+
+.arrow-glyph {
+  font-size: 16px;
+  font-weight: bold;
+  color: #A0AEC0;
+}
+
+.category-menu-list li.active .arrow-glyph {
+  color: #26A69A;
+}
+
+/* ==========================================================================
+   RIGHT ACTION CONTENT VIEWPORT CANVAS STYLES
+   ========================================================================== */
+.content-viewport {
+  flex-grow: 1;
+  padding: 32px 40px;
+  box-sizing: border-box;
+}
+
+/* Header Alignment containing title field values and input targets */
+.action-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 16px;
+}
+
+/* Header typography specified across the documentation notes */
+.main-view-title {
+  color: #101828;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 28px;
+  letter-spacing: 0px;
+  margin: 0;
+}
+
+/* Input text shell wrappers */
+.search-input-box-wrapper {
+  position: relative;
+  width: 240px;
+}
+
+.search-icon-symbol {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.search-native-input {
+  width: 100%;
+  height: 36px;
+  padding: 6px 12px 6px 36px;
+  background: #FFFFFF;
+  border: 0.8px solid #6FCF97;
+  /* 0.8px Top Side Border #6FCF97 color specified in figma doc */
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.search-native-input:focus {
+  border-color: #26A69A;
+  box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.15);
+}
+
+/* ==========================================================================
+   PRODUCT PROFILE CONTAINER CARD ELEMENT ITEM GRID 
+   ========================================================================== */
+.products-flex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  /* Default row-column spacing rules */
+}
+
+.product-card-unit {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.product-card-unit:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Floating Interactive Heart Element Badge Node Configuration */
+.heart-action-node {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #FFFFFF;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  transition: transform 0.15s ease;
+}
+
+.heart-action-node:hover {
+  transform: scale(1.1);
+}
+
+.heart-svg {
+  fill: none;
+  stroke: #A0AEC0;
+  stroke-width: 2px;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+/* State management modifier trigger properties */
+.heart-action-node.is-active-liked .heart-svg {
+  fill: #EF5350;
+  /* Vibrant active heart crimson red shade token state matching figma sample images */
+  stroke: #EF5350;
+}
+
+/* Image box aspect framing elements layout */
+.card-image-canvas {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.native-render-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Metadata content layout description mapping block labels */
+.card-details-footer-metadata-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-product-title-string {
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.meta-product-sub-brand-string {
+  font-size: 12px;
+  color: #718096;
+  margin: 0;
+}
+
+.meta-product-cost-currency-value-string {
+  font-size: 16px;
+  font-weight: 700;
+  color: #26A69A;
+  /* Styled currency matching primary color profiles */
+  margin-top: 4px;
+}
+
+/* Keeps active sidebar PNG icons colored correctly */
+button.bg-white\/95 img {
+  filter: none !important;
+}
+
+/* Scrollbar tweaks to keep the expanding sidebar look completely seamless */
+aside::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}

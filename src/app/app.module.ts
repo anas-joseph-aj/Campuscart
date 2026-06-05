@@ -1,24 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module'; // Fixed routing reference
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ProfileComponent } from './profile/profile.component';
-import { ChatComponent } from './chat/chat.component';
-import { ShareComponent } from './share/share.component';
+import { SearchComponent } from './search/search.component';
+import { ReportComponent } from './report/report.component'; // 1. IMPORT YOUR REPORT COMPONENT (Adjust path if it's inside a folder, e.g., './report/report.component')
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent,
-    ChatComponent,
-    ShareComponent
+    SearchComponent,
+    ReportComponent // 2. ADD IT HERE IN THE DECLARATIONS ARRAY!
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    FormsModule // This makes [(ngModel)] function inside chat.component.html
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
