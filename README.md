@@ -40,9 +40,9 @@ CampusCart provides a secure and easy-to-use platform for students to:
 
 ## Team Members
 
+- Muskan
 - Anas Joseph 
 - Krupa John
-- Muskan
 - Hannah Krupa
 - Trisha N
 - Diksha Bavdane
