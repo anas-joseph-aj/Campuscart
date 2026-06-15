@@ -43,7 +43,7 @@ CampusCart provides a secure and easy-to-use platform for students to:
 - Muskan
 - Anas Joseph 
 - Krupa John
-- Hannah Krupa
+- Hannah Krupa K
 - Trisha N
 - Diksha Bavdane
 - Punitha
