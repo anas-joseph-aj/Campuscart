@@ -1,27 +1,56 @@
-# OtpUi
+# CampusCart
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+CampusCart is a campus marketplace platform where students can buy, sell, and exchange products within their college community.
 
-## Development server
+## Project Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+CampusCart provides a secure and easy-to-use platform for students to:
 
-## Code scaffolding
+- Buy products from other students
+- Sell products to other students
+- Manage product listings
+- View product details
+- Connect with buyers and sellers
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies Used
 
-## Build
+### Frontend
+- Angular
+- HTML
+- CSS
+- Tailwind CSS
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Backend
+- Java
+- Spring Boot
 
-## Running unit tests
+### Database
+- MySQL
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Modules
 
-## Running end-to-end tests
+1. User Authentication
+2. Product Management
+3. Product Listings
+4. Buy/Sell Products
+5. User Profile
+6. Wishlist
+7. Messaging System
+8. Admin Dashboard
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Team Members
 
-## Further help
+- Anas Joseph 
+- Krupa John
+- Muskan
+- Hannah Krupa
+- Trisha N
+- Diksha Bavdane
+- Punitha
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Future Enhancements
+
+- Real-time Chat
+- Payment Integration
+- Product Recommendations
+- Mobile Responsive Design
