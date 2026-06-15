@@ -1,0 +1,11 @@
+/* When Wishlist is active, fill the path with red */
+.active-wishlist svg {
+    fill: #E53E3E !important;
+    stroke: #E53E3E !important;
+}
+
+/* When Profile is active, fill the path with black */
+.active-profile svg {
+    fill: black !important;
+    stroke: black !important;
+}

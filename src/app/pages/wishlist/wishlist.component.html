@@ -1,0 +1,107 @@
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap"
+  rel="stylesheet">
+
+<style>
+  .browse-btn {
+    transition: all 0.2s ease;
+  }
+
+  .browse-btn:hover {
+    background: #20a896 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(38, 192, 171, 0.25);
+  }
+</style>
+
+<div class="w-full min-h-screen bg-[#FAFAFA] pb-10 pt-[77px] font-['IBM_Plex_Sans'] overflow-x-hidden box-border">
+  <app-header></app-header>
+  <div class="w-full h-[2px] bg-[#2BAE96]"></div>
+
+  <div style="max-width: 1000px; margin: 0 auto; padding: 40px 24px; box-sizing: border-box; width: 100%;">
+    <h1
+      style="font-family: 'IBM Plex Serif', serif; font-size: 36px; font-weight: 700; text-align: center; color: #111827; margin: 0 0 40px 0;">
+      Wishlist</h1>
+
+    <!-- Empty Wishlist State -->
+    <div *ngIf="wishlistItems.length === 0"
+      style="width: 100%; background: #FFFFFF; border: 1.5px solid #26C0AB; border-radius: 24px; padding: 60px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box;">
+
+      <img src="assets/cart.png" alt="Empty Wishlist"
+        style="width: 320px; max-width: 100%; height: auto; display: block; margin-bottom: 24px;">
+
+      <h2
+        style="margin: 0; font-family: 'IBM Plex Serif', serif; font-size: 32px; font-weight: 700; color: #111827; text-align: center;">
+        Your Wishlist is Empty</h2>
+
+      <p
+        style="margin: 16px 0 0 0; font-family: 'IBM Plex Serif', serif; font-size: 18px; color: #6B7280; text-align: center; line-height: 1.5;">
+        Looks like you haven't added anything to your wishlist yet.
+      </p>
+      <p
+        style="margin: 8px 0 28px 0; font-family: 'IBM Plex Serif', serif; font-size: 18px; color: #6B7280; text-align: center; line-height: 1.5;">
+        Explore products and add your favourites!
+      </p>
+
+      <button (click)="navigateToProducts()" class="browse-btn"
+        style="background: #26C0AB; color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s ease;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+          <path d="M3 6h18"></path>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        Browse Products
+      </button>
+    </div>
+
+    <!-- Filled Wishlist State -->
+    <div *ngIf="wishlistItems.length > 0" class="flex flex-col gap-5">
+      <div *ngFor="let item of wishlistItems"
+        class="w-full bg-[#EEF7F5] border border-[#26C0AB] rounded-[18px] px-[30px] py-5 flex items-center justify-between shadow-[0px_4px_4px_rgba(0,0,0,0.25)] box-border">
+
+        <div class="flex items-center gap-[30px]">
+          <div
+            class="relative w-[110px] h-[110px] bg-white rounded-xl border border-[#E5EFED] flex items-center justify-center p-2">
+            <img [src]="item.image" [alt]="item.name" class="max-w-[85%] h-auto">
+
+            <button (click)="deleteItem(item.id)"
+              class="absolute -top-2.5 -right-2.5 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-[0_2px_5px_rgba(0,0,0,0.1)] text-[#E53E3E] cursor-pointer hover:bg-red-50">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </button>
+          </div>
+
+          <div>
+            <h2 class="m-0 text-2xl font-bold text-[#1A202C]">{{ item.name }}</h2>
+            <p class="my-1.5 text-[15px] font-medium text-[#4A5568]">{{ item.specs }}</p>
+            <p class="m-0 text-lg font-bold text-[#2FA084]">{{ item.price }}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-[15px]">
+          <button (click)="chatWithSeller(item)"
+            class="bg-white border border-[#3182CE] text-[#3182CE] h-[42px] px-5 rounded-[25px] text-sm font-semibold cursor-pointer flex items-center gap-2.5 transition hover:bg-blue-50">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 2C6.48 2 2 6.03 2 11c0 2.21 0.91 4.22 2.39 5.75L3 21l4.73-1.63C9.17 19.83 10.56 20 12 20c5.52 0 10-4.03 10-9s-4.48-9-10-9z" />
+            </svg>
+            Chat Seller
+          </button>
+
+          <button (click)="deleteItem(item.id)"
+            class="w-[42px] h-[42px] bg-[#FFF5F5] border border-[#FED7D7] text-[#E53E3E] rounded-md cursor-pointer flex items-center justify-center transition hover:bg-red-100">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

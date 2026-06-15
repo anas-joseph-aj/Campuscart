@@ -1,0 +1,345 @@
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap"
+  rel="stylesheet">
+<style>
+  .category-box {
+    transition: all 0.3s ease;
+    border: 1px solid #26C0AB;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    height: 110px;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .category-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(38, 192, 171, 0.2);
+    border-color: #26C0AB;
+  }
+
+  .icon-circle {
+    width: 44px;
+    height: 44px;
+    background: #F0FDF9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .product-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #26C0AB;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 320px;
+    height: 320px;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 10px 30px rgba(38, 192, 171, 0.35);
+    border-color: #26C0AB;
+    transform: translateY(-5px);
+  }
+
+  .feedback-btn {
+    background: #26C0AB;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .feedback-btn:hover {
+    background: #20a896;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(38, 192, 171, 0.25);
+  }
+
+  .btn-shop-now {
+    background: #2FA084;
+    border: none;
+    color: white;
+    height: 46px;
+    padding: 0 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-shop-now:hover {
+    background: #258c73;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(47, 160, 132, 0.25);
+  }
+
+  .btn-search {
+    height: 40px;
+    width: 120px;
+    border: none;
+    background: #2FA084;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-search:hover {
+    background: #258c73;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div style="width:100%; min-height:100vh; font-family:'IBM Plex Sans', sans-serif; box-sizing: border-box; padding-top:77px; background-color: #FAFAFA;">
+  <app-header></app-header>
+  <div class="w-full h-[2px] bg-[#2BAE96]"></div>
+  
+  <div style="max-width: 1440px; margin: 32px auto; padding: 0 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 32px;">
+    
+    <!-- Hero Section -->
+    <div
+      style="padding: 32px; width:100%; display:flex; align-items:center; gap:32px; background:#F8FCF7; border:1px solid rgba(38, 192, 171, 0.18); border-radius:24px; box-shadow:0 20px 46px rgba(15, 23, 42, 0.08); min-height: 378px; box-sizing: border-box;">
+      <div style="flex:1; max-width:400px; padding:16px 0;">
+        <h1 style="margin:0; font-size:48px; font-weight:700; color:#1A202C; line-height:1.05;">Buy, Sell & Discover
+        </h1>
+        <h1 style="margin:0; font-size:48px; font-weight:700; color:#2FA084; line-height:1.05;">Within Your Campus</h1>
+        <p style="margin-top:16px; color:#718096; font-size:16px; width: 100%; max-width: 370px; line-height: 1.55;">The
+          best marketplace for students to buy, sell or exchange anything within the campus.</p>
+        <button (click)="navigateToAllProducts()" class="btn-shop-now">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+            <path d="M3 6h18"></path>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          Shop Now
+        </button>
+      </div>
+
+      <div style="flex:1; display:flex; justify-content:flex-end; padding:0;">
+        <div
+          style="width:100%; max-width:860px; min-height:378px; border-radius:24px; overflow:hidden; background:transparent; box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.12); position:relative;">
+          <img src="assets/home.png" alt="Campus" style="width:100%; height:100%; object-fit:cover; display:block;" />
+          <div
+            style="position:absolute; left:0; top:0; bottom:0; width:36%; pointer-events:none; background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 28%, rgba(255,255,255,0) 100%); z-index:2;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Section -->
+    <div (click)="navigateToSearch()"
+      style="width:100%; display:flex; align-items:center; gap:12px; background:white; border:1px solid #26C0AB; border-radius:12px; padding:0 18px; cursor: pointer; box-shadow: 0 10px 30px rgba(45, 138, 108, 0.04); box-sizing: border-box;">
+
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+
+      <input type="text" placeholder="Search for Books, laptops, clothes and more..." readonly
+        style="width:100%; padding:16px; border:none; outline:none; font-size:15px; margin-left:8px; cursor: pointer; background: transparent;">
+
+      <button (click)="navigateToSearch()" class="btn-search">
+        Search
+      </button>
+    </div>
+
+    <!-- Categories Section -->
+    <div style="border-radius:16px; padding:24px; background:#fff; border: 1px solid rgba(38, 192, 171, 0.12); box-shadow: 0 10px 30px rgba(45, 138, 108, 0.02); box-sizing: border-box;">
+      <div style="display:flex; align-items:center; justify-content:flex-start; margin-bottom: 20px;">
+        <h2 style="font-size:20px; font-weight:700; margin:0; color:#1A202C;">Top Categories</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:14px; box-sizing: border-box;">
+        <div class="category-box" (click)="openCategory('Books')">
+          <div class="icon-circle">📚</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Books</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Electronics')">
+          <div class="icon-circle">💻</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Electronics</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Furniture')">
+          <div class="icon-circle">🪑</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Furniture</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Fashion')">
+          <div class="icon-circle">👗</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Fashion</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Pets')">
+          <div class="icon-circle">🐾</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Pets</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Kitchen')">
+          <div class="icon-circle">🍳</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Kitchen</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Vehicle')">
+          <div class="icon-circle">🚗</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Vehicle</div>
+        </div>
+        <div class="category-box" (click)="openCategory('Sports')">
+          <div class="icon-circle">⚽</div>
+          <div style="margin-top:8px; font-size:13px; font-weight:600; color:#4A5568;">Sports</div>
+        </div>
+        <a routerLink="/categories" class="category-box"
+          style="text-decoration:none; border:1px solid #26C0AB; color:#26C0AB; background:#fff; justify-content:center;">
+          <div style="font-size:15px; font-weight:700;">View More</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Featured Products Section -->
+    <div style="display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <h2 style="font-size:20px; font-weight:700; margin:0; color:#1A202C;">Featured Products</h2>
+        <a routerLink="/products" style="font-size:14px; color:#2FA084; font-weight:600; text-decoration:none;">View All &gt;</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; box-sizing: border-box;">
+      <div *ngFor="let product of featuredProducts" class="product-card" (click)="navigateToProduct(product.id)"
+        style="position:relative; overflow:hidden;">
+        <button class="favorite-btn" type="button" (click)="toggleLike(product, $event)"
+          [ngStyle]="{ color: product.liked ? '#E53E3E' : '#4A5568' }"
+          style="position:absolute; top:16px; right:16px; z-index:2; width:40px; height:40px; border-radius:50%; background:white; border:1px solid rgba(74,85,104,0.16); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(0,0,0,0.08); cursor:pointer;">
+          <svg viewBox="0 0 24 24" [attr.fill]="product.liked ? 'currentColor' : 'none'" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
+          </svg>
+        </button>
+        <img [src]="product.image"
+          style="width:100%; height:200px; object-fit:cover; border-radius: 12px 12px 0 0; display:block;">
+        <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h3 style="margin:0 0 8px 0; font-size:17px;">{{ product.name }}</h3>
+            <p style="color:#2FA084; font-weight:800; margin:0;">₹{{ product.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback-section"
+      style="background: #EEF7F5; border: 1px solid #C6ECE2; border-radius: 18px; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; position: relative; box-sizing: border-box;">
+
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div
+          style="background: #26C0AB; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M31.6666 13.3333H30V8.33333C30 7.00725 29.4732 5.73548 28.5355 4.7978C27.5978 3.86012 26.3261 3.33333 25 3.33333H8.33331C7.00723 3.33333 5.73546 3.86012 4.79778 4.7978C3.8601 5.73548 3.33331 7.00725 3.33331 8.33333V28.3333C3.33496 28.6624 3.43396 28.9836 3.61785 29.2564C3.80174 29.5293 4.06228 29.7416 4.36665 29.8667C4.56445 29.96 4.78135 30.0056 4.99998 30C5.21932 30.0013 5.43676 29.9592 5.63982 29.8763C5.84289 29.7933 6.02758 29.6711 6.18331 29.5167L10.8666 24.8167H13.3333V27.2167C13.3333 28.5427 13.8601 29.8145 14.7978 30.7522C15.7355 31.6899 17.0072 32.2167 18.3333 32.2167H29.8666L33.8166 36.1833C33.9724 36.3378 34.1571 36.46 34.3601 36.543C34.5632 36.6259 34.7806 36.6679 35 36.6667C35.2186 36.6723 35.4355 36.6266 35.6333 36.5333C35.9377 36.4083 36.1982 36.196 36.3821 35.9231C36.566 35.6502 36.665 35.329 36.6666 35V18.3333C36.6666 17.0073 36.1399 15.7355 35.2022 14.7978C34.2645 13.8601 32.9927 13.3333 31.6666 13.3333ZM13.3333 18.3333V21.4833H10.1833C9.96397 21.4821 9.74653 21.5241 9.54347 21.607C9.34041 21.69 9.15571 21.8122 8.99998 21.9667L6.66665 24.3167V8.33333C6.66665 7.89131 6.84224 7.46738 7.1548 7.15482C7.46736 6.84226 7.89129 6.66667 8.33331 6.66667H25C25.442 6.66667 25.8659 6.84226 26.1785 7.15482C26.4911 7.46738 26.6666 7.89131 26.6666 8.33333V13.3333H18.3333C17.0072 13.3333 15.7355 13.8601 14.7978 14.7978C13.8601 15.7355 13.3333 17.0073 13.3333 18.3333ZM33.3333 30.9833L31.6666 29.3167C31.5123 29.1592 31.3282 29.0339 31.1251 28.9481C30.922 28.8622 30.7038 28.8176 30.4833 28.8167H18.3333C17.8913 28.8167 17.4674 28.6411 17.1548 28.3285C16.8422 28.016 16.6666 27.592 16.6666 27.15V18.3333C16.6666 17.8913 16.8422 17.4674 17.1548 17.1548C17.4674 16.8423 17.8913 16.6667 18.3333 16.6667H31.6666C32.1087 16.6667 32.5326 16.8423 32.8452 17.1548C33.1577 17.4674 33.3333 17.8913 33.3333 18.3333V30.9833Z"
+              fill="white" />
+          </svg>
+        </div>
+
+        <div style="display: flex; flex-direction: column; font-family: 'IBM Plex Sans', sans-serif;">
+          <h3 style="margin: 0; font-size: 20px; font-weight: 700; color: #1A202C;">Help Us Improve CampusCart</h3>
+          <p style="margin: 6px 0 0 0; color: #4A5568; font-size: 15px;">Your feedback helps us make CampusCart better for everyone.</p>
+        </div>
+      </div>
+
+      <button routerLink="/feedback" class="feedback-btn">
+        <svg width="18" height="18" viewBox="0 0 22 21" fill="none" stroke="white" stroke-width="2"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10.9993 1L7.9428 7.2388L1 8.24555L6.02945 13.1625L4.8272 20L10.9993 16.7096L17.1727 20L15.9793 13.1625L21 8.24555L14.0956 7.2388L10.9993 1Z" />
+        </svg>
+        Give Feedback
+      </button>
+    </div>
+  </div> <!-- Close main content container -->
+
+  <!-- Footer Section -->
+  <div
+    style="margin-top:80px; padding:40px 0 0 0; border-top:1px solid #E5E7EB; display:flex; flex-direction:column; color:#718096; font-family: 'IBM Plex Serif', serif; background-color:#FFFFFF;">
+    <!-- Footer Columns -->
+    <div
+      style="display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; width:100%; max-width:1440px; margin:0 auto; padding: 0 24px; box-sizing:border-box;">
+
+        <!-- Logo & Description -->
+        <div>
+          <img src="assets/logo.png" style="height:36px; margin-bottom:16px; display:block;">
+          <p style="font-size:16px; margin:0; line-height:1.6; max-width:280px; color:#718096;">
+            Buying and selling and exchanging within your campus community.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Quick Links</h3>
+          <div style="font-size:16px; display:flex; flex-direction:column; gap:12px;">
+            <a routerLink="/home" style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Home</a>
+            <a routerLink="/products" style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">All
+              Products</a>
+            <a routerLink="/categories"
+              style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Categories</a>
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Support</h3>
+          <div style="font-size:16px; display:flex; flex-direction:column; gap:12px;">
+            <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Help Center</a>
+            <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Terms of Service</a>
+            <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Privacy Policy</a>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Contact</h3>
+          <div style="font-size:16px;">
+            <a href="mailto:campuscartsupport@gmail.com" target="_blank"
+              style="text-decoration:none; color:#718096; cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              campuscartsupport@gmail.com
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Divider Line -->
+      <div style="width:100%; border-top:1px solid #E5E7EB; margin-top:40px; margin-bottom:24px;"></div>
+
+      <!-- Copyright -->
+      <div style="width:100%; text-align:center; padding-bottom:24px;">
+        <p
+          style="font-size:16px; color:#718096; margin:0; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <span style="font-size:20px; font-weight:400; line-height:1;">©</span> CampusCart . All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>

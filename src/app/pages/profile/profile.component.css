@@ -1,0 +1,13 @@
+.font-serif-custom {
+  font-family: 'IBM Plex Serif', serif !important;
+  font-weight: 400; /* Regular weight matching your design */
+}
+
+.font-sans-custom {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Ensure headings have regular weights */
+h1, h2, h3 {
+  font-weight: 400 !important;
+}

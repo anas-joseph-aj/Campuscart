@@ -1,0 +1,75 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-6" style="font-family: 'IBM Plex Serif', serif;">
+  <div class="w-full max-w-[1200px] flex items-center justify-between gap-12">
+
+    <!-- Left: Image -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="w-full max-w-[520px]">
+        <img src="assets/login.png" alt="Login Illustration" class="w-full h-auto object-contain" />
+      </div>
+    </div>
+
+    <!-- Right: OTP Form -->
+    <div class="flex-1 flex flex-col items-center justify-center">
+
+      <h1 class="text-[40px] font-semibold leading-tight text-[#1A202C] text-center">
+        Enter OTP
+      </h1>
+
+      <p class="mt-4 max-w-[420px] text-center text-[16px] leading-relaxed text-[#9CA3AF]">
+        We've sent a 6-digit OTP to
+        <br>
+        <span class="text-[#1A202C] font-medium">{{ email }}</span>
+      </p>
+
+      <!-- OTP Boxes -->
+      <div class="flex gap-3 mt-10">
+        <input #otpInput1 type="text" maxlength="1" [(ngModel)]="otp1"
+          (input)="moveNext($event, otpInput2)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #otpInput2 type="text" maxlength="1" [(ngModel)]="otp2"
+          (input)="moveNext($event, otpInput3)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #otpInput3 type="text" maxlength="1" [(ngModel)]="otp3"
+          (input)="moveNext($event, otpInput4)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #otpInput4 type="text" maxlength="1" [(ngModel)]="otp4"
+          (input)="moveNext($event, otpInput5)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #otpInput5 type="text" maxlength="1" [(ngModel)]="otp5"
+          (input)="moveNext($event, otpInput6)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #otpInput6 type="text" maxlength="1" [(ngModel)]="otp6"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+      </div>
+
+      <!-- Timer -->
+      <p class="text-[14px] mt-5 text-center">
+        <span class="text-[#9CA3AF]">OTP will expire in</span>
+        <span class="text-[#2FA084] font-semibold ml-1">{{ formattedTime }}</span>
+      </p>
+
+      <!-- Error / Status Messages -->
+      <div *ngIf="errorMessage" class="text-red-500 mt-3 text-[14px] text-center">{{ errorMessage }}</div>
+      <div *ngIf="statusMessage" class="text-[#2FA084] mt-3 text-[15px] font-medium text-center">{{ statusMessage }}</div>
+
+      <!-- Verify Button -->
+      <button (click)="verifyOtp()"
+        class="mt-8 w-[320px] h-[56px] rounded-[14px] bg-[#2FA084] text-white text-[17px] font-semibold transition-all duration-300 hover:bg-[#268E74] hover:shadow-lg active:scale-[0.98]">
+        Verify OTP
+      </button>
+
+      <!-- Resend OTP -->
+      <p class="text-[15px] leading-relaxed font-medium text-center mt-8">
+        <span class="text-[#9CA3AF]">Didn't receive the OTP?</span>
+        <span class="text-[#2FA084] cursor-pointer ml-1.5 hover:underline" (click)="resendOtp()">Resend OTP</span>
+      </p>
+
+    </div>
+
+  </div>
+</div>

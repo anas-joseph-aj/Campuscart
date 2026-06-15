@@ -1,0 +1,95 @@
+<div style="background: #FAFAFA; min-height: 100vh; font-family: 'IBM Plex Sans', sans-serif; padding-top: 77px;">
+  <app-header></app-header>
+
+  <div class="w-full h-[2px] bg-[#2BAE96]"></div>
+
+  <div style="background: #FAFAFA; min-height: 100vh; padding: 40px 100px;">
+    <div style="margin-bottom: 32px;">
+      <h1 style="font-size: 32px; font-weight: 700; color: #1A1A2E; margin: 0;">Add New Product</h1>
+      <p style="color: #6B7280; font-size: 16px; margin: 8px 0 0 0;">Select a category first, then fill in the product details</p>
+    </div>
+
+    <form [formGroup]="productForm" (ngSubmit)="uploadProduct()" style="display: flex; gap: 40px; align-items: flex-start;">
+      <div *ngIf="formErrors.submit" style="position: absolute; top: 24px; left: 100px; right: 100px; padding: 14px 18px; border-radius: 12px; background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; font-size: 14px;">
+        {{ formErrors.submit }}
+      </div>
+      <div style="background: white; border: 1px solid #26C0AB; padding: 32px; border-radius: 20px; width: 446px;">
+        <h2 style="font-family: 'IBM Plex Serif', serif; font-size: 24px; font-weight: 700; color: #1A1A2E; margin-bottom: 8px;">1. Select Category</h2>
+        <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Choose the category your product belongs to</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+          <div *ngFor="let cat of categories" (click)="selectCategory(cat)" [style.background]="selectedCategory?.name === cat.name ? '#E6FFFB' : 'transparent'" style="border: 1px solid #26C0AB; border-radius: 11px; padding: 20px; cursor: pointer; text-align: center; position: relative;">
+            <div *ngIf="selectedCategory?.name === cat.name" style="position: absolute; top: 8px; right: 8px; color: #2FA084;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#2FA084" stroke-width="2"/><path d="M7 11L10 14L15 8" stroke="#2FA084" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div style="font-size: 24px;">{{cat.icon}}</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1A1A2E; margin-top: 10px;">{{cat.name}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedCategory" style="margin-top: 110px;">
+        <svg width="41" height="38" viewBox="0 0 41 38" fill="none"><path d="M17.0837 26.9167L25.6253 19L17.0837 11.0834V26.9167Z" fill="#2FA084"/></svg>
+      </div>
+
+      <div *ngIf="selectedCategory" style="background: white; border: 1px solid #26C0AB; padding: 32px; border-radius: 20px; width: 558px;">
+        <h2 style="font-family: 'IBM Plex Serif', serif; font-size: 24px; font-weight: 700; color: #1A1A2E;">2. Enter Product Details</h2>
+        <p style="color: #6B7280; font-size: 14px; margin-bottom: 24px;">Add product information for <span style="color: #26C0AB; font-weight: 600;">{{selectedCategory.name}}</span></p>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div *ngIf="formErrors.submit" style="padding: 14px 18px; border-radius: 12px; background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; font-size: 14px;">
+            {{ formErrors.submit }}
+          </div>
+
+          <div *ngFor="let field of selectedCategory.fields" style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-weight: 700; color: #1A1A2E; font-size: 14px;">{{field}}</label>
+            <input [formControlName]="getControlName(field)" [placeholder]="'Enter ' + field" style="padding: 14px; border: 1px solid #26C0AB; border-radius: 11px; outline: none; width: 100%;">
+            <span *ngIf="productForm.get(getControlName(field))?.invalid && (productForm.get(getControlName(field))?.touched || formSubmitted)" style="color: #DC2626; font-size: 12px;">{{ field }} is required.</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-weight: 700; color: #1A1A2E; font-size: 14px;">Description</label>
+            <textarea formControlName="description" placeholder="Enter product description" style="padding: 14px; border: 1px solid #26C0AB; border-radius: 11px; outline: none; width: 100%; height: 80px; resize: none;"></textarea>
+            <span *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.touched || formSubmitted)" style="color: #DC2626; font-size: 12px;">Description is required.</span>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-end;">
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+              <label style="font-weight: 700; color: #1A1A2E;">Enter Price(₹)</label>
+              <input formControlName="price" type="number" placeholder="Enter product price" style="padding: 14px; border: 1px solid #26C0AB; border-radius: 11px; outline: none; width: 100%;">
+              <span *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.touched || formSubmitted)" style="color: #DC2626; font-size: 12px;">Price is required.</span>
+            </div>
+            <select formControlName="negotiable" style="flex: 1; padding: 14px; border: 1px solid #26C0AB; border-radius: 11px; background: white; cursor: pointer; height: 48px;">
+              <option>Price Not Negotiable</option>
+              <option>Price Negotiable</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; margin-top: 20px;">
+            <label style="font-weight: 700; color: #1A1A2E; font-size: 14px;">Product Image</label>
+            <p style="color: #6B7280; font-size: 12px; margin: 4px 0 8px 0;">Upload clear product images</p>
+            
+            <div (click)="fileInput.click()" style="border: 1px dashed #26C0AB; padding: 20px; border-radius: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; background: #FAFAFA;">
+              <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept="image/png, image/jpeg, image/jpg">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 0C24.05 0 29.07 4.5 29.62 10.3C33.2 10.8 36 13.8 36 17.5C36 21.5 32.6 24.7 28.5 24.7H22.5C22.2 24.7 21.9 24.6 21.7 24.4C21.5 24.2 21.4 23.9 21.4 23.6C21.4 23.3 21.5 23 21.7 22.8C21.9 22.6 22.2 22.5 22.5 22.5H28.5C31.4 22.5 33.7 20.2 33.7 17.5C33.7 14.7 31.4 12.5 28.5 12.5H27.4V11.3C27.4 6.3 23.2 2.2 18 2.2C15.5 2.2 13.2 3.1 11.3 4.7C9.7 6.2 8.8 8 8.8 9.3V10.3L7.8 10.5C4.6 10.8 2.2 13.4 2.2 16.5C2.2 19.8 5 22.5 8.5 22.5H13.5C13.8 22.5 14.1 22.6 14.3 22.8C14.5 23 14.6 23.3 14.6 23.6C14.6 23.9 14.5 24.2 14.3 24.4C14.1 24.6 13.8 24.7 13.5 24.7H8.5C3.8 24.7 0 21.1 0 16.5C0 12.5 2.8 9.2 6.6 8.4C6.9 6.4 8.2 4.5 9.9 3Z" fill="#26C0AB"/><path d="M17.2 9.3C17.3 9.2 17.4 9.1 17.6 9.1C17.7 9 17.9 9 18 9C18.1 9 18.3 9 18.4 9.1C18.6 9.1 18.7 9.2 18.8 9.3L25.5 16.1C25.8 16.3 25.9 16.6 25.9 16.9C25.9 17.2 25.8 17.5 25.5 17.7C25.3 17.9 25 18 24.8 18C24.5 18 24.2 17.9 24 17.7L19.1 12.8V32.6C19.1 32.9 19 33.2 18.8 33.4C18.6 33.6 18.3 33.8 18 33.8C17.7 33.8 17.4 33.6 17.2 33.4C17 33.2 16.9 32.9 16.9 32.6V12.8L12 17.7C11.8 17.9 11.5 18 11.3 18C11 18 10.7 17.9 10.5 17.7C10.2 17.5 10.1 17.2 10.1 16.9C10.1 16.6 10.2 16.3 10.5 16.1L17.2 9.3Z" fill="#26C0AB"/></svg>
+              <div style="text-align: left;">
+                <p style="margin: 0; color: #1A1A2E; font-size: 14px;"><b>Click to upload</b> or drag and drop</p>
+                <p style="margin: 0; color: #6B7280; font-size: 12px;">PNG, JPG, JPEG</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <div *ngFor="let img of productImages; let i = index" style="width: 82px; height: 82px; border: 1px solid #26C0AB; border-radius: 11px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                <button *ngIf="img" (click)="removeImage(i)" style="position: absolute; top: 2px; right: 2px; background: #FF4D4D; color: white; border: none; border-radius: 50%; width: 18px; height: 18px; cursor: pointer; z-index: 3; font-size: 10px;">X</button>
+                <img *ngIf="img" [src]="img" style="width: 100%; height: 100%; object-fit: cover;">
+                <svg *ngIf="!img" width="40" height="40" viewBox="0 0 55 50" fill="none"><path d="M44.6865 7.80598H10.3115C7.4638 7.80598 5.15527 9.90464 5.15527 12.4935V37.4935C5.15527 40.0823 7.4638 42.181 10.3115 42.181H44.6865C47.5342 42.181 49.8428 40.0823 49.8428 37.4935V12.4935C49.8428 9.90464 47.5342 7.80598 44.6865 7.80598Z" stroke="#D1D5DB" stroke-width="2"/><path d="M36.0918 20.3059C37.9903 20.3059 39.5293 18.9068 39.5293 17.1809C39.5293 15.455 37.9903 14.0559 36.0918 14.0559C34.1933 14.0559 32.6543 15.455 32.6543 17.1809C32.6543 18.9068 34.1933 20.3059 36.0918 20.3059Z" stroke="#D1D5DB" stroke-width="2"/><path d="M32.6553 32.7854L22.9164 23.9485C22.2967 23.3852 21.4637 23.0584 20.5878 23.0348C19.7119 23.0112 18.8591 23.2926 18.2038 23.8215L5.15527 34.3684" stroke="#D1D5DB" stroke-width="2"/><path d="M24.0654 42.181L37.3148 30.1361C37.9208 29.5841 38.7318 29.2581 39.5887 29.2219C40.4455 29.1858 41.2863 29.4422 41.9458 29.9408L49.8467 35.931" stroke="#D1D5DB" stroke-width="2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button type="submit" [disabled]="isUploading" style="background-color: #26C0AB; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;">Upload Product</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

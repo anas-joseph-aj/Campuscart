@@ -1,0 +1,388 @@
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap"
+  rel="stylesheet">
+
+<div class="h-screen w-full bg-white flex flex-col select-none overflow-y-auto pt-[77px]" (click)="closeImageMenu()">
+
+  <app-header></app-header>
+
+  <ng-container *ngIf="isEditMode">
+    <input type="file" #fileInput class="hidden" accept="image/*" (change)="onFileSelected($event)">
+
+    <div class="w-full flex-1 flex justify-center items-center gap-[120px] px-12 py-4"
+      style="font-family: 'IBM Plex Serif', serif;">
+
+      <div class="w-[320px] h-[320px] relative shrink-0 flex items-center justify-center">
+        <div
+          class="w-full h-full bg-[#FDEEED] rounded-full overflow-hidden flex items-center justify-center relative border-2 border-[#2FA08420]">
+          <img *ngIf="profileImageUrl" [src]="profileImageUrl" class="w-full h-full object-cover">
+          <img *ngIf="!profileImageUrl" src="assets/profile.png" class="w-full h-full object-cover"
+            style="transform: scale(1.1) translateY(12px);" alt="Profile Default">
+        </div>
+
+        <button type="button" (click)="toggleImageMenu($event)"
+          class="absolute bottom-[-15px] left-1/2 -translate-x-1/2 w-[76px] h-[76px] bg-white rounded-full flex items-center justify-center z-30 transition-transform active:scale-95 cursor-pointer">
+          <svg class="w-[34px] h-[34px] text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 47.774 47.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+          </svg>
+        </button>
+
+        <div *ngIf="isImageMenuOpen"
+          class="absolute bottom-[-115px] left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-xl shadow-xl w-[140px] py-2 flex flex-col z-40"
+          (click)="$event.stopPropagation()">
+          <button type="button" (click)="triggerUpload(fileInput)"
+            class="w-full px-4 py-2 text-left text-[16px] text-gray-700 hover:bg-gray-100 font-medium transition-colors">
+            Upload
+          </button>
+          <button type="button" (click)="removePicture()" [disabled]="!profileImageUrl"
+            class="w-full px-4 py-2 text-left text-[16px] font-medium transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
+            [ngClass]="profileImageUrl ? 'text-red-600 hover:bg-red-50' : 'text-gray-400'">
+            Remove
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-[24px] shrink-0">
+        <div class="flex items-center">
+          <label class="w-[300px] text-[32px] font-medium text-[#000000]">Name</label>
+          <input #nameInput [value]="userName" type="text" placeholder="Enter Your Name"
+            class="w-[474px] h-[64px] px-6 text-[20px] rounded-[18px] border-2 border-[#2FA084] bg-[#EEF7F5] outline-none text-black placeholder-gray-500">
+        </div>
+
+        <div class="flex items-center">
+          <label class="w-[300px] text-[32px] font-medium text-[#000000]">Department</label>
+          <div class="relative w-[474px] h-[64px]">
+            <select #deptInput (change)="userDept = deptInput.value"
+              [ngClass]="userDept ? 'text-black' : 'text-gray-500'"
+              class="w-full h-full px-6 text-[20px] rounded-[18px] border-2 border-[#2FA084] bg-[#EEF7F5] outline-none appearance-none cursor-pointer">
+              <option value="" disabled [selected]="!userDept">Select Department</option>
+              <optgroup label="Computational & Physical Sciences" class="text-black">
+                <option value="Dept. of Computer Science" [selected]="userDept === 'Dept. of Computer Science'">Dept. of
+                  Computer Science</option>
+                <option value="Dept. of Physical Sciences" [selected]="userDept === 'Dept. of Physical Sciences'">Dept.
+                  of Physical Sciences</option>
+              </optgroup>
+              <optgroup label="Biological & Forensic Sciences" class="text-black">
+                <option value="Dept. of Life Sciences" [selected]="userDept === 'Dept. of Life Sciences'">Dept. of Life
+                  Sciences</option>
+                <option value="Dept. of Forensic Science" [selected]="userDept === 'Dept. of Forensic Science'">Dept. of
+                  Forensic Science</option>
+              </optgroup>
+              <optgroup label="Commerce & Economics" class="text-black">
+                <option value="Dept. of Commerce" [selected]="userDept === 'Dept. of Commerce'">Dept. of Commerce
+                </option>
+                <option value="Dept. of Professional Accounting & Finance"
+                  [selected]="userDept === 'Dept. of Professional Accounting & Finance'">Dept. of Professional
+                  Accounting & Finance</option>
+                <option value="Dept. of Economics" [selected]="userDept === 'Dept. of Economics'">Dept. of Economics
+                </option>
+              </optgroup>
+              <optgroup label="Management" class="text-black">
+                <option value="Dept. of Management" [selected]="userDept === 'Dept. of Management'">Dept. of Management
+                </option>
+                <option value="Dept. of Professional Management Studies"
+                  [selected]="userDept === 'Dept. of Professional Management Studies'">Dept. of Professional Management
+                  Studies</option>
+                <option value="MBA International Finance" [selected]="userDept === 'MBA International Finance'">MBA
+                  International Finance</option>
+                <option value="MBA Business Analytics" [selected]="userDept === 'MBA Business Analytics'">MBA Business
+                  Analytics</option>
+                <option value="MBA International Business" [selected]="userDept === 'MBA International Business'">MBA
+                  International Business</option>
+                <option value="MBA Strategic Business" [selected]="userDept === 'MBA Strategic Business'">MBA Strategic
+                  Business</option>
+                <option value="MBA Fintech" [selected]="userDept === 'MBA Fintech'">MBA Fintech</option>
+              </optgroup>
+              <optgroup label="Humanities & Social Sciences" class="text-black">
+                <option value="Dept. of Psychology" [selected]="userDept === 'Dept. of Psychology'">Dept. of Psychology
+                </option>
+                <option value="Dept. of Media Studies" [selected]="userDept === 'Dept. of Media Studies'">Dept. of Media
+                  Studies</option>
+                <option value="Dept. of English" [selected]="userDept === 'Dept. of English'">Dept. of English</option>
+                <option value="Dept. of Social Sciences and Languages"
+                  [selected]="userDept === 'Dept. of Social Sciences and Languages'">Dept. of Social Sciences and
+                  Languages</option>
+                <option value="Dept. of Social Work" [selected]="userDept === 'Dept. of Social Work'">Dept. of Social
+                  Work</option>
+              </optgroup>
+              <optgroup label="Technology & Post Graduate Science" class="text-black">
+                <option value="MCA" [selected]="userDept === 'MCA'">MCA</option>
+                <option value="M.Sc. Data Science" [selected]="userDept === 'M.Sc. Data Science'">M.Sc. Data Science
+                </option>
+                <option value="M.Sc. Cyber Security" [selected]="userDept === 'M.Sc. Cyber Security'">M.Sc. Cyber
+                  Security</option>
+              </optgroup>
+              <optgroup label="School of Law" class="text-black">
+                <option value="B.A. LL.B.(H)" [selected]="userDept === 'B.A. LL.B.(H)'">B.A. LL.B.(H)</option>
+                <option value="B.B.A. LL.B.(H)" [selected]="userDept === 'B.B.A. LL.B.(H)'">B.B.A. LL.B.(H)</option>
+                <option value="B.Com LL.B.(H)" [selected]="userDept === 'B.Com LL.B.(H)'">B.Com LL.B.(H)</option>
+                <option value="LL.M. (CAL / IPTL)" [selected]="userDept === 'LL.M. (CAL / IPTL)'">LL.M. (CAL / IPTL)
+                </option>
+                <option value="Post Graduate Diploma" [selected]="userDept === 'Post Graduate Diploma'">Post Graduate
+                  Diploma</option>
+              </optgroup>
+              <optgroup label="Non-Teaching Staff" class="text-black">
+                <option value="Administrative staff" [selected]="userDept === 'Administrative staff'">Administrative
+                  staff</option>
+                <option value="Software Development Centre" [selected]="userDept === 'Software Development Centre'">
+                  Software Development Centre</option>
+              </optgroup>
+            </select>
+            <div class="absolute inset-y-0 right-6 flex items-center pointer-events-none text-black">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <div class="flex items-center">
+            <label class="w-[300px] text-[32px] font-medium text-[#000000]">Role</label>
+            <div class="relative w-[474px] h-[64px]">
+              <select #roleInput (change)="userRole = roleInput.value"
+                [ngClass]="userRole ? 'text-black' : 'text-gray-500'"
+                class="w-full h-full px-6 text-[20px] rounded-[18px] border-2 border-[#2FA084] bg-[#EEF7F5] outline-none appearance-none cursor-pointer">
+                <option value="" disabled [selected]="!userRole">Select Role</option>
+                <option value="Student" [selected]="userRole === 'Student'" class="text-black">Student</option>
+                <option value="Faculty" [selected]="userRole === 'Faculty'" class="text-black">Faculty</option>
+                <option value="Staff" [selected]="userRole === 'Staff'" class="text-black">Staff</option>
+              </select>
+              <div class="absolute inset-y-0 right-6 flex items-center pointer-events-none text-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-[474px] ml-[300px] h-[40px] flex items-center mt-1">
+            <p *ngIf="message" [style.color]="isError ? '#FB2C36' : '#1F6F5F'" class="font-medium text-[20px]">
+              {{ message }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-[110px] flex items-center justify-center border-t-2 border-[#6FCF975C] shrink-0">
+      <button type="button" (click)="saveProfile(nameInput.value, deptInput.value, roleInput.value)"
+        [disabled]="isSaving"
+        class="text-white text-[24px] font-medium w-[198px] h-[64px] rounded-[25px] cursor-pointer transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        [style.backgroundColor]="isSaving ? '#999' : '#2FA084'"
+        [style.hoverBackgroundColor]="isSaving ? '#999' : '#26a870'">
+        {{ isSaving ? 'Saving...' : 'Save' }}</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isEditMode">
+    <input type="file" #fileInput class="hidden" accept="image/*" (change)="onFileSelected($event)">
+
+    <main class="flex-1 px-24 py-8 space-y-8 max-w-[1440px] mx-auto w-full">
+
+      <section
+        class="w-full border border-[#2FA0844D] bg-white rounded-[24px] px-14 py-11 flex items-center gap-14 relative shadow-sm">
+
+        <div class="w-[280px] h-[280px] relative shrink-0 flex items-center justify-center">
+          <div
+            class="w-full h-full bg-[#FDEEED] rounded-full overflow-hidden flex items-center justify-center relative border border-gray-100">
+            <img *ngIf="profileImageUrl" [src]="profileImageUrl" class="w-full h-full object-cover rounded-full">
+            <img *ngIf="!profileImageUrl" src="assets/profile.png" class="w-full h-full object-cover"
+              style="transform: scale(1.1) translateY(12px);" alt="Profile Default">
+          </div>
+
+          <div *ngIf="isOwnProfile" (click)="toggleImageMenu($event)"
+            class="absolute bottom-[-12px] left-1/2 -translate-x-1/2 w-[70px] h-[70px] bg-white rounded-full flex items-center justify-center z-20 cursor-pointer active:scale-95 transition-transform">
+            <svg class="w-[30px] h-[30px] text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 47.774 47.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+            </svg>
+          </div>
+
+          <div *ngIf="isImageMenuOpen"
+            class="absolute bottom-[-105px] left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-xl shadow-xl w-[140px] py-2 flex flex-col z-40"
+            (click)="$event.stopPropagation()">
+            <button type="button" (click)="triggerUpload(fileInput)"
+              class="w-full px-4 py-2 text-left text-[16px] text-gray-700 hover:bg-gray-100 font-medium transition-colors">
+              Upload
+            </button>
+            <button type="button" (click)="removePicture()" [disabled]="!profileImageUrl"
+              class="w-full px-4 py-2 text-left text-[16px] font-medium transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
+              [ngClass]="profileImageUrl ? 'text-red-600 hover:bg-red-50' : 'text-gray-400'">
+              Remove
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 flex flex-col justify-center" style="font-family: 'IBM Plex Serif', serif;">
+          <h1 class="text-[36px] font-extrabold text-black tracking-tight mb-2 leading-[150%] align-middle">
+            {{ userName }}
+          </h1>
+
+          <div class="mb-6 flex gap-3 items-center">
+            <span
+              class="px-[24px] py-[6px] text-[#4B5563] font-normal text-[20px] leading-[150%] bg-[#E5E7EB] rounded-full h-[38px] flex items-center justify-center align-middle"
+              style="font-family: 'IBM Plex Serif', serif;">
+              {{ userDept }}
+            </span>
+
+            <span
+              class="px-[24px] py-[6px] text-[#26C0AB] font-normal text-[20px] leading-[150%] bg-[#26C0AB]/10 rounded-full h-[38px] flex items-center justify-center align-middle"
+              style="font-family: 'IBM Plex Serif', serif;">
+              {{ userRole }}
+            </span>
+          </div>
+
+          <div class="w-full flex flex-col">
+
+            <div class="w-full border-t border-gray-200/80"></div>
+            <button *ngIf="isOwnProfile" (click)="isEditMode = true"
+              class="absolute top-0 right-2 w-[44px] h-[44px] bg-[#26C0AB]/10 text-[#26C0AB] rounded-full flex items-center justify-center transition-all duration-200 hover:bg-[#26C0AB] hover:text-white cursor-pointer shadow-sm group"
+              title="Edit Profile Details">
+              <svg class="w-[20px] h-[20px]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+              </svg>
+            </button>
+
+            <div class="py-4 flex items-center justify-between w-full">
+              <div class="flex items-center">
+                <div
+                  class="w-[56px] h-[56px] rounded-full border border-[#26C0AB] flex items-center justify-center text-[#26C0AB] mr-5 shrink-0"
+                  style="background-color: rgba(38, 192, 171, 0.05);">
+                  <svg class="w-[28px] h-[28px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                    </path>
+                  </svg>
+                </div>
+                <span class="text-[#717182] font-medium text-[24px] w-[140px] leading-[150%]">Email</span>
+              </div>
+              <span class="text-gray-900 font-medium tracking-normal text-left flex-1 pl-4 text-[20px]">{{ userEmail
+                }}</span>
+            </div>
+
+            <div class="py-4 flex items-center justify-between w-full">
+              <div class="flex items-center">
+                <div
+                  class="w-[56px] h-[56px] rounded-full border border-[#26C0AB] flex items-center justify-center text-[#26C0AB] mr-5 shrink-0"
+                  style="background-color: rgba(38, 192, 171, 0.05);">
+                  <svg class="w-[26px] h-[26px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <span class="text-[#717182] font-medium text-[24px] w-[140px] leading-[150%]">Joined On</span>
+              </div>
+              <span class="text-gray-900 font-medium tracking-normal text-left flex-1 pl-4 text-[20px]">{{
+                userJoinedDate }}</span>
+            </div>
+
+            <div class="w-full border-t border-gray-200/80"></div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-3 gap-6" style="font-family: 'IBM Plex Serif', serif;">
+        <div (click)="goToProductListings()"
+          class="border border-gray-100 bg-white rounded-[20px] p-6 flex items-center gap-5 shadow-sm cursor-pointer hover:border-[#26C0AB]/40 transition-all duration-200">
+          <div class="w-[74px] h-[74px] bg-[#26C0AB]/10 rounded-full flex items-center justify-center shrink-0">
+            <div class="w-[56px] h-[56px] bg-[#26C0AB] rounded-full flex items-center justify-center text-white">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="text-[32px] font-bold text-black leading-tight">{{ productsListed }}</div>
+            <div class="text-black text-[15px] font-medium tracking-wide">Products Listed</div>
+          </div>
+        </div>
+
+        <div (click)="goToProductSold()"
+          class="border border-gray-100 bg-white rounded-[20px] p-6 flex items-center gap-5 shadow-sm cursor-pointer hover:border-[#26C0AB]/40 transition-all duration-200">
+          <div class="w-[74px] h-[74px] bg-[#26C0AB]/10 rounded-full flex items-center justify-center shrink-0">
+            <div class="w-[56px] h-[56px] bg-[#26C0AB] rounded-full flex items-center justify-center text-white">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="text-[32px] font-bold text-black leading-tight">{{ productsSold }}</div>
+            <div class="text-black text-[15px] font-medium tracking-wide">Products Sold</div>
+          </div>
+        </div>
+
+        <div (click)="goToWishlist()"
+          class="border border-gray-100 bg-white rounded-[20px] p-6 flex items-center gap-5 shadow-sm cursor-pointer hover:border-[#26C0AB]/40 transition-all duration-200">
+          <div class="w-[74px] h-[74px] bg-[#26C0AB]/10 rounded-full flex items-center justify-center shrink-0">
+            <div class="w-[56px] h-[56px] bg-[#26C0AB] rounded-full flex items-center justify-center text-white">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="text-[32px] font-bold text-black leading-tight">{{ wishlistItems }}</div>
+            <div class="text-black text-[15px] font-medium tracking-wide">Wishlist Items</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border border-gray-200 bg-white rounded-[24px] p-8 space-y-6 shadow-sm">
+        <div class="flex items-center justify-between px-2">
+          <h2 class="text-[32px] font-bold text-black tracking-tight" style="font-family: 'IBM Plex Serif', serif;">
+            Recent Listing</h2>
+          <a href="#" (click)="goToProductListings(); $event.preventDefault()"
+            class="text-[#2FA084] font-semibold text-[18px] flex items-center gap-1 hover:opacity-80"
+            style="font-family: 'Inter', sans-serif;">
+            View all <span class="text-[20px] font-light leading-none -mt-0.5">&rsaquo;</span>
+          </a>
+        </div>
+
+        <div *ngIf="recentProducts.length > 0" class="grid grid-cols-3 gap-8"
+          style="font-family: 'IBM Plex Serif', serif;">
+
+          <div *ngFor="let product of recentProducts"
+            class="border-2 border-[#2FA08466] rounded-[18px] bg-white p-6 h-[440px] flex flex-col justify-between relative group transform hover:-translate-y-2 hover:shadow-md transition-all duration-300 cursor-pointer">
+            <button (click)="goToSharePage(); $event.stopPropagation()"
+              class="absolute top-6 right-6 hover:opacity-70 transition-opacity z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#22b39a"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3" fill="none" />
+                <circle cx="6" cy="12" r="3" fill="none" />
+                <circle cx="18" cy="19" r="3" fill="none" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <div class="h-[220px] w-full flex items-center justify-center p-2 mt-4 bg-white rounded-xl">
+              <img [src]="product.image" [alt]="product.title" class="max-h-full max-w-full object-contain">
+            </div>
+            <div class="space-y-4 pb-2">
+              <h3 class="text-black text-[16px] font-medium tracking-tight">{{ product.title }}</h3>
+              <div class="text-[#2FA084] font-bold text-[18px]">{{ product.priceDisplay || ('₹' + product.price) }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="recentProducts.length === 0" class="w-full text-center py-10 text-[#6C757D] text-[18px]">
+          No recent listings. You haven't uploaded any products yet.
+        </div>
+      </section>
+    </main>
+  </ng-container>
+</div>

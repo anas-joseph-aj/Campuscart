@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* When active, the SVG fill and stroke change */
+.active-wishlist svg {
+    fill: #E53E3E !important;
+    stroke: #E53E3E !important;
+}
+
+.active-profile svg {
+    fill: black !important;
+    stroke: black !important;
+}

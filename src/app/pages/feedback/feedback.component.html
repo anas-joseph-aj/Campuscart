@@ -1,0 +1,57 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600&display=swap" rel="stylesheet">
+
+<app-header></app-header>
+
+<div class="w-full h-[2px] bg-[#2BAE96]"></div>
+
+<div style="width: 100%; min-height: calc(100vh - 80px); background: #FAFAFA; display: flex; justify-content: center; align-items: flex-start; padding: 40px 10px; box-sizing: border-box; font-family: 'IBM Plex Serif', serif; margin-top: 77px;">
+  
+  <div style="width: 100%; max-width: 580px; background: #EEF7F5; border: 1px solid #26C0AB; border-radius: 20px; padding: 35px; text-align: center; box-sizing: border-box;">
+    
+    <h1 style="font-size: 32px; font-weight: 500; margin-bottom: 8px;">Feedback</h1>
+    <p style="font-size: 16px; color: #717182; margin-bottom: 25px;">We’d love to hear your thoughts.</p>
+
+    <div style="background: #FFFFFF; border: 1px solid #E5EFED; border-radius: 16px; padding: 30px; text-align: left;">
+      
+      <h2 style="font-size: 20px; font-weight: 500; margin-bottom: 20px;">Rate your experience</h2>
+      
+      <div style="width: 100%; margin: 0 auto 30px auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; height: 50px;">
+          <span *ngFor="let i of [1,2,3,4,5]" 
+                (click)="setRating(i)" 
+                style="cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke-width="1.5"
+                 [style.stroke]="rating >= i ? '#26C0AB' : '#717182'"
+                 [style.fill]="rating >= i ? '#26C0AB' : 'none'">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <h3 style="font-size: 18px; font-weight: 500; margin-bottom: 12px;">Your Feedback</h3>
+      <div style="position: relative; width: 100%;">
+        <textarea [(ngModel)]="feedbackText" 
+                  maxlength="500" 
+                  placeholder="Tell us about your experience..." 
+                  style="width: 100%; height: 160px; border: 1px solid #71718280; border-radius: 12px; padding: 15px; box-sizing: border-box; resize: none; font-size: 15px;"></textarea>
+        
+        <span style="position: absolute; bottom: 12px; right: 15px; color: #717182; font-size: 13px;">
+          {{feedbackText.length}}/500
+        </span>
+      </div>
+
+      <button (click)="submitFeedback()" 
+              [disabled]="isSubmitting"
+              style="width: 100%; height: 48px; background: #26C0AB; color: white; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; margin-top: 25px; opacity: 1; transition: opacity 0.2s;"
+              [style.opacity]="isSubmitting ? '0.65' : '1'"
+              [style.cursor]="isSubmitting ? 'not-allowed' : 'pointer'">
+        {{ isSubmitting ? 'Submitting...' : 'Submit Feedback' }}
+      </button>
+
+      <p *ngIf="errorMessage" style="color: #e53e3e; font-size: 14px; margin-top: 12px; text-align: center;">
+        {{ errorMessage }}
+      </p>
+    </div>
+  </div>
+</div>

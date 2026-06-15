@@ -1,0 +1,319 @@
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="min-h-screen w-full bg-[#FAFAFA] flex flex-col pt-[101px] px-4 pb-14 select-none overflow-x-hidden"
+  style="font-family: 'IBM Plex Serif', serif;">
+  <app-header></app-header>
+  <div class="w-full flex-1 flex flex-col items-center justify-start overflow-y-auto">
+
+    <div *ngIf="!isSubmitted"
+      class="w-full max-w-[965px] border border-[#26C0AB] bg-[#EEF7F5] rounded-[18px] p-8 md:p-12 flex flex-col items-center animate-fade-in">
+
+      <button (click)="navigateToHome()"
+        class="w-full text-left text-[#4B5563] hover:text-[#2BAE96] transition-colors mb-6 font-medium text-sm flex items-center gap-1.5"
+        style="font-family: 'IBM Plex Serif', serif;">
+        <span class="text-xs">←</span> Back
+      </button>
+
+      <!-- Caution Warning Symbol -->
+      <div class="w-[110px] h-[110px] rounded-full flex items-center justify-center mb-5 select-none shrink-0"
+        style="background-color: rgba(251, 44, 54, 0.10);">
+        <svg class="w-16 h-16 text-[#FB2C36]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      </div>
+
+      <h1 class="text-[32px] font-bold text-[#1F2937] tracking-tight text-center"
+        style="font-family: 'IBM Plex Serif', serif;">Report User</h1>
+      <p class="text-[15px] text-gray-500 font-medium text-center mt-1.5 mb-8"
+        style="font-family: 'IBM Plex Serif', serif;">
+        Help us keep CampusCart safe and friendly for everyone.
+      </p>
+
+      <div
+        class="w-full max-w-[856.54px] bg-white border border-gray-200/60 rounded-[14px] px-6 py-4 flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 bg-[#EEF7F5] rounded-full flex items-center justify-center text-[#26C0AB] shrink-0">
+            <!-- Profile Icon -->
+            <svg class="w-[44px] h-[44px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="7.5" r="4" fill="#26C0AB" />
+              <path
+                d="M4 18.5C4 15.4624 7.58172 13 12 13C16.4183 13 20 15.4624 20 18.5+C20 19.5 19 20.5 17.5 20.5H6.5C5 20.5 4 19.5 4 18.5Z"
+                fill="#26C0AB" />
+            </svg>
+          </div>
+          <span class="text-[17px] font-bold text-gray-800" style="font-family: 'IBM Plex Serif', serif;">{{
+            reportedUser.name }}</span>
+        </div>
+        <button type="button" (click)="viewProfile(reportedUser.id)"
+          class="text-[13px] font-bold text-[#26C0AB] hover:underline flex items-center gap-0.5"
+          style="font-family: 'IBM Plex Serif', serif;">
+          View Profile <span class="text-[11px] font-bold">&gt;</span>
+        </button>
+      </div>
+
+      <div class="w-full max-w-[856.54px] flex flex-col gap-6">
+
+        <div class="w-full flex flex-col gap-3">
+          <label class="text-[16px] font-bold text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
+            Why are you reporting this user? <span class="text-[#FB2C36]">*</span>
+          </label>
+
+          <div
+            class="w-full bg-white border border-gray-200 rounded-[14px] overflow-hidden flex flex-col divide-y divide-gray-100">
+            <label *ngFor="let option of reportReasons" (click)="selectReason(option)"
+              [class.bg-[#EEF7F5]]="selectedReason === option"
+              class="w-full flex items-center gap-3.5 px-5 py-4 cursor-pointer hover:bg-gray-50/40 transition-colors select-none">
+              <input type="radio" name="reasonGroup" [checked]="selectedReason === option"
+                class="h-4 w-4 text-[#26C0AB] focus:ring-[#26C0AB] border-gray-300" />
+              <span class="text-[14px] font-medium text-gray-600" style="font-family: 'IBM Plex Serif', serif;">{{
+                option }}</span>
+            </label>
+          </div>
+          <p *ngIf="showValidationError && !selectedReason" class="text-xs text-[#FB2C36] font-medium px-1"
+            style="font-family: 'IBM Plex Serif', serif;">Please select a reason for reporting.</p>
+        </div>
+
+        <div class="w-full flex flex-col gap-2">
+          <label class="text-[16px] font-bold text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
+            Additional Details <span class="text-gray-400 font-normal text-xs">(Optional)</span>
+          </label>
+          <p class="text-[13px] text-gray-400 font-medium -mt-1 px-0.5" style="font-family: 'IBM Plex Serif', serif;">
+            Please provide more information about the issue.</p>
+          <textarea (input)="onDetailsChange($event)" [value]="additionalDetails" placeholder="Write here..."
+            style="font-family: 'IBM Plex Serif', serif;"
+            class="w-full max-w-[856.54px] h-[144px] border border-[#717182]/50 rounded-[18px] p-4 text-[14px] text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#26C0AB] focus:ring-1 focus:ring-[#26C0AB] transition-all bg-white resize-none">
+          </textarea>
+          <div class="flex justify-end text-xs text-gray-400 font-medium px-1"
+            style="font-family: 'IBM Plex Serif', serif;">
+            <span>{{ additionalDetails.length }}/200</span>
+          </div>
+        </div>
+
+        <div class="w-full flex flex-col gap-2">
+          <div
+            class="w-full h-[68px] border border-gray-200 rounded-[14px] bg-white flex items-center justify-start px-5 relative hover:bg-gray-50/50 transition-all">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*"
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+
+            <div *ngIf="!selectedFileName" class="flex items-center gap-3.5 pointer-events-none">
+              <!-- Cloud Upload Vector Icon: Exact reproduction of image_5d53c5.png style -->
+              <div class="text-[#26C0AB] shrink-0">
+                <svg class="w-11 h-11" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                  <!-- Cloud -->
+                  <path
+                    d="M20 50H46C53.18 50 59 44.18 59 37C59 30.31 53.94 24.81 47.46 24.11C45.98 15.55 38.53 9 29.5 9C21.98 9 15.49 13.56 12.71 20.05C6.59 21.05 2 26.36 2 32.75C2 42.28 9.72 50 19.25 50H20Z"
+                    fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+
+                  <!-- Arrow -->
+                  <path d="M32 47V25" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+
+                  <path d="M22 35L32 24L42 35" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[14px] font-semibold text-[#26C0AB]"
+                  style="font-family: 'IBM Plex Serif', serif;">Upload Screenshot (Optional)</span>
+                <span class="text-[11px] text-gray-400" style="font-family: 'IBM Plex Serif', serif;">JPG or PNG. Max
+                  size 5MB</span>
+              </div>
+            </div>
+
+            <div *ngIf="selectedFileName" class="flex items-center justify-between w-full z-20">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#26C0AB]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-sm text-gray-700 font-medium max-w-[400px] truncate"
+                  style="font-family: 'IBM Plex Serif', serif;">{{ selectedFileName }}</span>
+              </div>
+              <button type="button" (click)="clearSelectedFile($event)"
+                class="text-gray-400 hover:text-red-500 transition-colors px-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full pt-4 flex items-center justify-between">
+          <button type="button" (click)="cancelReport()"
+            class="h-[44px] px-9 rounded-[8px] border border-[#26C0AB] bg-white text-[#26C0AB] font-semibold text-sm hover:bg-[#EEF7F5] transition-colors"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Cancel
+          </button>
+          <button type="button" (click)="submitFormDirectly()"
+            class="h-[44px] px-9 rounded-[8px] text-white font-semibold text-sm bg-[#FB2C36] hover:bg-[#e0242d] transition-colors shadow-xs"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Submit Report
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Submission Success View -->
+    <div *ngIf="isSubmitted"
+      class="w-full max-w-[984px] min-h-[780px] border border-[#26C0AB] bg-white rounded-[18px] p-8 md:p-14 flex flex-col items-center justify-center animate-scale-in">
+
+      <img src="assets/reportsubmitted.png" alt="Success Tick"
+        class="w-[250px] h-[250px] object-contain mb-2 select-none" />
+
+      <h1 class="text-[34px] font-[600] text-[#1F2937] tracking-tight mb-2"
+        style="font-family: 'IBM Plex Serif', serif;">
+        Report Submitted!
+      </h1>
+
+      <p class="text-[16px] text-gray-500 text-center max-w-[520px] mb-8 font-normal leading-relaxed"
+        style="font-family: 'IBM Plex Serif', serif;">
+        Thank you for helping us keep CampusCart
+        <br>
+        safe and friendly for everyone.
+      </p>
+
+      <div
+        class="w-full max-w-[612px] border border-gray-200 rounded-[14px] bg-white overflow-hidden flex flex-col mb-5">
+
+        <div class="w-full flex items-center p-5 border-b border-gray-100">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-[#EEF7F5] rounded-full flex items-center justify-center text-[#26C0AB] shrink-0">
+              <svg class="w-[44px] h-[44px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="7.5" r="4" fill="#26C0AB" />
+                <path
+                  d="M4 18.5C4 15.4624 7.58172 13 12 13C16.4183 13 20 15.4624 20 18.5C20 19.5 19 20.5 17.5 20.5H6.5C5 20.5 4 19.5 4 18.5Z"
+                  fill="#26C0AB" />
+              </svg>
+            </div>
+            <div class="flex flex-col items-start gap-0.5">
+              <span class="text-[12px] text-gray-400 font-medium tracking-wide"
+                style="font-family: 'IBM Plex Serif', serif;">Reported User</span>
+              <span class="text-[16px] font-bold text-gray-800 leading-tight"
+                style="font-family: 'IBM Plex Serif', serif;">{{ reportedUser.name }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full flex items-center p-5">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 flex items-center justify-center text-[#26C0AB] shrink-0">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round">
+                </rect>
+                <line x1="16" y1="2" x2="16" y2="6" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="8" y1="2" x2="8" y2="6" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="3" y1="10" x2="21" y2="10" stroke-linecap="round" stroke-linejoin="round"></line>
+                <path d="M8 14h8M8 18h5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="flex flex-col items-start gap-0.5">
+              <span class="text-[12px] text-gray-400 font-medium tracking-wide"
+                style="font-family: 'IBM Plex Serif', serif;">Report ID</span>
+              <span class="text-[16px] font-bold text-gray-800 leading-tight"
+                style="font-family: 'IBM Plex Serif', serif;">{{ reportNumber }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="w-full max-w-[612px] bg-[#EEF7F5] rounded-[14px] p-5 flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 border border-[#26C0AB]/10 text-center">
+        <svg class="w-8 h-8 text-[#26C0AB] shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+          </path>
+        </svg>
+        <p class="text-[14px] text-gray-600 font-medium leading-relaxed" style="font-family: 'IBM Plex Serif', serif;">
+          We will review your report carefully and take
+          <br>
+          appropriate action if it violates our guidelines.
+        </p>
+      </div>
+
+      <button (click)="navigateToHome()"
+        class="w-[243px] h-[63px] text-white font-semibold text-[16px] rounded-[16px] flex items-center justify-center hover:opacity-95 active:scale-[0.98] transition-all"
+        style="background-color: #26C0AB; font-family: 'IBM Plex Serif', serif;">
+        Go to Home
+      </button>
+
+    </div>
+
+    <!-- Info Grid Footer -->
+    <div class="w-full max-w-[965px] grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 mt-16 px-4">
+
+      <div class="flex items-center gap-5 sm:justify-start">
+        <div class="shrink-0 overflow-visible" style="width: 54px; height: 60px;">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="filter: drop-shadow(0px 5px 0px rgba(38, 192, 171, 0.14)) drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.12));">
+            <path d="M12 21.5C17 20 20.5 15.2 20.5 10V5.2L12 2.2L3.5 5.2V10C3.5 15.2 7 20 12 21.5Z" fill="white"
+              stroke="#26C0AB" stroke-width="2.2" stroke-linejoin="round" />
+            <path d="M8.5 11.5L11 14L16 8.5" stroke="#26C0AB" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="flex flex-col text-left">
+          <h4 class="text-[22px] font-bold text-gray-800 tracking-tight leading-tight"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Safe & Secure
+          </h4>
+          <p class="text-[13px] text-gray-400 font-medium tracking-wide mt-0.5"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Your safety is our priority
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5 sm:justify-start">
+        <div class="shrink-0 overflow-visible" style="width: 50px; height: 58px;">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="filter: drop-shadow(0px 5px 0px rgba(38, 192, 171, 0.14)) drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.12));">
+            <rect x="4" y="11" width="16" height="10.5" rx="2.5" fill="white" stroke="#26C0AB" stroke-width="2.2" />
+            <path d="M7 11V7.2C7 4.3 9.2 2.2 12 2.2C14.8 2.2 17 4.3 17 7.2V11" stroke="#26C0AB" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="15" r="1.5" fill="#26C0AB" />
+            <path d="M12 16.5V18.5" stroke="#26C0AB" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="flex flex-col text-left">
+          <h4 class="text-[22px] font-bold text-gray-800 tracking-tight leading-tight"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Privacy Protected
+          </h4>
+          <p class="text-[13px] text-gray-400 font-medium tracking-wide mt-0.5"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Your report is confidential
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5 sm:justify-start">
+        <div class="shrink-0 overflow-visible" style="width: 56px; height: 56px;">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="filter: drop-shadow(0px 5px 0px rgba(38, 192, 171, 0.14)) drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.12));">
+            <circle cx="12" cy="12" r="9.5" fill="white" stroke="#26C0AB" stroke-width="2.2" />
+            <path d="M8.5 12L11 14.5L15.5 9.5" stroke="#26C0AB" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="flex flex-col text-left">
+          <h4 class="text-[22px] font-bold text-gray-800 tracking-tight leading-tight"
+            style="font-family: 'IBM Plex Serif', serif;">
+            Quick Action
+          </h4>
+          <p class="text-[13px] text-gray-400 font-medium tracking-wide mt-0.5"
+            style="font-family: 'IBM Plex Serif', serif;">
+            We review reports carefully
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

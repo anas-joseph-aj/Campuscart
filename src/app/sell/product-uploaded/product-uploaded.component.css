@@ -1,0 +1,8 @@
+/* Custom styling overrides to achieve perfect figma alignment if your base configuration differs */
+h1 {
+  font-family: 'Georgia', 'Cambria', 'Times New Roman', Times, serif;
+}
+
+button {
+  letter-spacing: -0.01em;
+}

@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-6" style="font-family: 'IBM Plex Serif', serif;">
+  <div class="w-full max-w-[1200px] flex items-center justify-between gap-12">
+
+    <!-- Left: Image -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="w-full max-w-[520px]">
+        <img src="assets/login.png" alt="Login Illustration" class="w-full h-auto object-contain" />
+      </div>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="flex-1 flex flex-col items-center justify-center">
+      <h1 class="text-[40px] font-semibold leading-tight text-[#1A202C] text-center">
+        Login to CampusCart
+      </h1>
+      <p class="mt-4 max-w-[420px] text-center text-[16px] leading-relaxed text-[#9CA3AF]">
+        Enter your email address and we'll<br>send you an OTP to continue
+      </p>
+
+      <div class="mt-10 w-full max-w-[420px]">
+        <label class="block mb-2 text-[14px] font-medium text-[#6B7280]">
+          E-mail
+        </label>
+
+        <input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="Enter your college Email"
+          class="w-full h-[56px] rounded-[14px] border border-[#2FA084] bg-[#F0FDF9] px-5 outline-none text-[15px] text-[#374151] placeholder-[#9CA3AF] focus:ring-2 focus:ring-[#2FA084]/30 transition-all" />
+
+        <p *ngIf="errorMessage" class="text-red-500 mt-3 text-[14px]">
+          {{ errorMessage }}
+        </p>
+
+        <div *ngIf="statusMessage" class="text-[#2FA084] mt-3 text-[15px] font-medium">
+          {{ statusMessage }}
+        </div>
+
+        <div class="w-full flex justify-center">
+          <button
+            (click)="generateOtp()"
+            class="mt-10 w-[220px] h-[56px] rounded-[14px] bg-[#2FA084] text-white text-[17px] font-semibold transition-all duration-300 hover:bg-[#268E74] hover:shadow-lg active:scale-[0.98]">
+            Generate OTP
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

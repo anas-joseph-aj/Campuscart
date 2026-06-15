@@ -1,0 +1,304 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
+
+<!-- Standard shared header — same as all other pages -->
+<app-header></app-header>
+
+<div class="h-screen w-full bg-white flex flex-col select-none overflow-hidden pt-[77px]" style="font-family: 'IBM Plex Serif', serif;">
+
+  <div class="flex-1 p-6 bg-white overflow-hidden flex justify-center items-center">
+
+    <!-- ── Loading state ── -->
+    <div *ngIf="isLoadingChats" class="w-full h-full max-w-[1300px] border border-[#6FCF97] rounded-[18px] flex flex-col justify-center items-center bg-white">
+      <div class="animate-spin rounded-full h-12 w-12 border-4 border-[#26C0AB] border-t-transparent mb-4"></div>
+      <p class="text-[18px] text-[#717182] font-medium" style="font-family: 'IBM Plex Serif', serif;">Loading chats...</p>
+    </div>
+
+    <!-- ── Empty state ── -->
+    <div *ngIf="!isLoadingChats && (!conversationsList || conversationsList.length === 0) && !isConversationSelected"
+         class="w-full h-full max-w-[1300px] border border-[#6FCF97] rounded-[18px] flex flex-col justify-start items-center p-6 bg-white">
+      <div class="w-full pb-3 text-left">
+        <h1 class="text-[40px] font-medium text-black mb-4 select-none" style="font-family: 'IBM Plex Serif', serif;">
+          Chats
+        </h1>
+      </div>
+      <div class="flex-1 flex flex-col justify-center items-center text-center pb-12">
+        <div class="mb-4 max-w-[240px] flex justify-center items-center">
+          <img src="assets/chat2.png" alt="No conversations yet" class="max-w-full h-auto object-contain">
+        </div>
+        <h2 class="text-[32px] font-medium text-black tracking-tight mb-2" style="font-family: 'IBM Plex Serif', serif;">
+          No conversations yet
+        </h2>
+        <p class="text-[16px] text-[#717182] max-w-[400px] leading-relaxed" style="font-family: 'IBM Plex Serif', serif;">
+          When you message a seller or buyer, your chat will appear here.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Chat panel (list + conversation) ── -->
+    <div *ngIf="!isLoadingChats && ((conversationsList && conversationsList.length > 0) || isConversationSelected)"
+         class="w-full h-full max-w-[1300px] border border-[#6FCF97] rounded-[18px] flex overflow-hidden">
+
+      <!-- Sidebar: chat list -->
+      <aside class="w-[340px] h-full border-r border-[#717182]/50 flex flex-col bg-white shrink-0">
+        <div class="p-6 pb-3">
+          <h1 class="text-[40px] font-medium text-black mb-4 select-none" style="font-family: 'IBM Plex Serif', serif;">
+            Chats
+          </h1>
+          <div class="relative w-full h-[48px] border border-[#26C0AB] rounded-[18px] bg-white flex items-center px-4 mb-4">
+            <svg class="w-[26px] h-[28px] text-[#717182] mr-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange()" placeholder="Search chats..."
+                   class="w-full bg-transparent text-[20px] text-black font-extralight placeholder-[#717182] outline-none border-none">
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto">
+          <div class="flex flex-col w-full">
+            <div *ngFor="let user of conversationsList"
+                 (click)="selectConversation(user)"
+                 class="chat-row w-full px-6 py-4 border-t border-b border-[#26C0AB] flex items-center justify-between cursor-pointer transition-all"
+                 [class.active]="isConversationSelected && activeChannelUser.id === user.id">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden shadow-sm"
+                     style="background-color: rgba(224, 243, 240, 0.9);">
+                  <img *ngIf="user.avatarUrl; else listLetterAvatar"
+                       [src]="user.avatarUrl"
+                       [alt]="user.name"
+                       class="w-full h-full object-cover">
+                  <ng-template #listLetterAvatar>
+                    <span class="font-semibold text-[20px] text-[#26C0AB] select-none" style="font-family: 'Inter', sans-serif;">
+                      {{ getUserInitial(user.name) }}
+                    </span>
+                  </ng-template>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <span class="text-[20px] font-medium text-black leading-tight" style="font-family: 'IBM Plex Serif', serif;">
+                    {{ user.name }}
+                  </span>
+                  <span *ngIf="user.subtitle" class="text-[13px] text-[#717182] truncate max-w-[180px]">{{ user.subtitle }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main: conversation area -->
+      <main class="flex-1 h-full flex flex-col bg-white overflow-hidden">
+
+        <!-- No conversation selected -->
+        <ng-container *ngIf="!isConversationSelected">
+          <div class="flex-1 w-full flex flex-col justify-center items-center px-12 text-center bg-white">
+            <div class="mb-6 max-w-[240px] flex justify-center items-center">
+              <img src="assets/chat1.png" alt="Select Conversation" class="max-w-full h-auto object-contain">
+            </div>
+            <h2 class="text-[32px] font-medium text-black tracking-tight mb-2" style="font-family: 'IBM Plex Serif', serif;">
+              Select a conversation
+            </h2>
+            <p class="text-[16px] text-[#717182] max-w-[400px] leading-relaxed" style="font-family: 'IBM Plex Serif', serif;">
+              Choose a chat from the sidebar to view messages and continue the conversation.
+            </p>
+          </div>
+        </ng-container>
+
+        <!-- Active conversation -->
+        <ng-container *ngIf="isConversationSelected">
+
+          <!-- Conversation header -->
+          <div class="w-full h-[80px] border-b border-[#717182]/50 px-8 flex items-center gap-4 bg-white shrink-0">
+            <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center shrink-0 overflow-hidden shadow-sm"
+                 style="background-color: rgba(224, 243, 240, 0.9);">
+              <img *ngIf="activeChannelUser.avatarUrl; else dynamicLetterAvatar"
+                   [src]="activeChannelUser.avatarUrl"
+                   [alt]="activeChannelUser.name"
+                   class="w-full h-full object-cover">
+              <ng-template #dynamicLetterAvatar>
+                <span class="font-semibold text-[22px] text-[#26C0AB] select-none" style="font-family: 'Inter', sans-serif;">
+                  {{ getUserInitial(activeChannelUser.name) }}
+                </span>
+              </ng-template>
+            </div>
+            <div class="flex flex-col justify-center">
+              <h2 class="text-[20px] font-medium text-black leading-tight" style="font-family: 'IBM Plex Serif', serif;">
+                {{ activeChannelUser.name }}
+              </h2>
+            </div>
+
+            <!-- Linked product chip (if any) -->
+            <div *ngIf="activeChannelUser.linkedItem" class="ml-auto flex items-center gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-[56px] h-[56px] border border-[#717182]/40 rounded-[14px] bg-white overflow-hidden shrink-0 flex items-center justify-center p-1 shadow-sm">
+                  <img *ngIf="activeChannelUser.linkedItem.imageUrl" [src]="activeChannelUser.linkedItem.imageUrl" class="w-full h-full object-contain" alt="Product">
+                  <svg *ngIf="!activeChannelUser.linkedItem.imageUrl" class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                  </svg>
+                </div>
+                <div class="flex flex-col justify-center select-none">
+                  <span class="text-[15px] font-normal text-black">{{ activeChannelUser.linkedItem.title }}</span>
+                  <span class="text-[14px] font-bold text-[#2FA084]" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ activeChannelUser.linkedItem.price }}</span>
+                </div>
+              </div>
+              <button (click)="viewProductDetail(activeChannelUser.linkedItem)"
+                      class="h-[38px] px-4 border border-[#26C0AB] rounded-[14px] text-[13px] font-medium text-[#26C0AB] bg-white hover:bg-teal-50/50 transition-colors shrink-0">
+                View Product
+              </button>
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div class="flex-1 overflow-y-auto p-8 space-y-6 bg-white relative" (click)="activeUnsendDropdownId = null">
+            <div *ngFor="let msg of chatLogs"
+                 [class.justify-start]="!msg.isMe"
+                 [class.justify-end]="msg.isMe"
+                 class="flex w-full items-center gap-2 group relative">
+
+              <button *ngIf="msg.isMe"
+                      (click)="$event.stopPropagation(); activeUnsendDropdownId = (activeUnsendDropdownId === msg.id ? null : msg.id)"
+                      class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 focus:outline-none text-[18px] p-1 order-1">
+                ⋮
+              </button>
+
+<div [ngClass]="msg.isMe ? 'bg-[#26C0AB] text-white' : 'bg-gray-100 text-gray-800'"
+                   (contextmenu)="$event.preventDefault(); msg.isMe ? activeUnsendDropdownId = msg.id : null; $event.stopPropagation()"
+                   class="max-w-[65%] px-5 py-3 text-[16px] leading-relaxed rounded-[16px] relative order-2 cursor-pointer transition-all">
+
+                <span *ngIf="msg.text">{{ msg.text }}</span>
+
+                <div *ngIf="msg.file" class="mt-2 rounded overflow-hidden">
+                  <!-- Image -->
+                  <img *ngIf="msg.file.isImage" [src]="msg.file.url" alt="Uploaded image"
+                       class="max-w-full max-h-[180px] object-cover rounded-lg shadow-sm border border-white/20">
+
+                  <!-- Audio -->
+                  <div *ngIf="msg.file.isAudio"
+                       class="flex items-center gap-3 min-w-[280px] max-w-full py-2 px-3 bg-black/10 rounded-[14px] mt-1 text-white">
+                    <audio #audioElement [src]="msg.file.url" preload="auto"
+                           (loadedmetadata)="initAudioDuration(msg.file, audioElement)"
+                           (timeupdate)="onAudioTimeUpdate(msg.file, audioElement)"
+                           (ended)="onAudioTrackEnded(msg.file)"
+                           class="hidden"></audio>
+                    <button (click)="togglePlayback(msg.file, audioElement)"
+                            class="w-9 h-9 rounded-full bg-white text-[#26C0AB] flex items-center justify-center font-bold focus:outline-none shadow-sm hover:scale-105 transition-transform shrink-0">
+                      <span *ngIf="!msg.file.isPlaying" class="ml-0.5 text-[14px]">▶</span>
+                      <span *ngIf="msg.file.isPlaying" class="text-[12px]">❚❚</span>
+                    </button>
+                    <span class="text-[13px] font-mono font-medium min-w-[42px] select-none text-white/90">
+                      {{ getAudioCountdownDisplay(msg.file) }}
+                    </span>
+                    <div class="flex-1 h-1.5 rounded-full bg-white/30 overflow-hidden relative cursor-pointer">
+                      <div class="h-full bg-white rounded-full transition-all duration-75" [style.width.%]="msg.file.progress || 0"></div>
+                    </div>
+                  </div>
+
+                  <!-- Other file -->
+                  <div *ngIf="!msg.file.isImage && !msg.file.isAudio"
+                       class="p-2 bg-black/10 rounded flex items-center gap-2 text-[14px]">
+                    <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                    <a [href]="msg.file.url" target="_blank" class="underline truncate font-medium hover:text-teal-100">{{ msg.file.name }}</a>
+                  </div>
+                </div>
+
+                <span class="block text-[11px] mt-1.5 text-right font-light"
+                      [class.text-teal-100]="msg.isMe"
+                      [class.text-gray-400]="!msg.isMe">
+                  {{ msg.time }}
+                </span>
+              </div>
+
+              <!-- Unsend dropdown -->
+              <div *ngIf="activeUnsendDropdownId === msg.id"
+                   class="absolute bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-50 bottom-[90%] right-[40px] w-[110px]">
+                <button (click)="unsendMessage(msg); activeUnsendDropdownId = null"
+                        class="w-full text-left px-3 py-1.5 text-xs text-red-600 hover:bg-gray-50 flex items-center gap-1.5 font-medium">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Unsend
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Composer -->
+          <div class="p-6 pb-8 bg-white space-y-4 shrink-0 border-t border-[#717182]/50">
+
+            <!-- Quick-reply chips -->
+            <div class="flex flex-wrap gap-x-3 gap-y-3 items-center px-1">
+              <button *ngFor="let chip of contextualChips"
+                      (click)="injectChipValue(chip)"
+                      class="h-[36px] px-4 border border-[#26C0AB] text-[#26C0AB] rounded-[14px] text-[15px] font-normal bg-[#26C0AB]/5 hover:bg-teal-50/40 transition-all flex items-center justify-center">
+                {{ chip }}
+              </button>
+            </div>
+
+            <!-- Input bar -->
+            <div class="w-full h-[56px] border border-[#CBD5E1] rounded-[22px] bg-white flex items-center p-0 relative overflow-hidden">
+
+              <!-- Attachment -->
+              <div class="h-full w-[60px] border-r border-[#CBD5E1] rounded-l-[22px] bg-white flex items-center justify-center shrink-0 relative">
+                <button (click)="filePicker.click()" class="text-black hover:text-[#26C0AB] transition-colors flex items-center justify-center w-full h-full">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                  </svg>
+                </button>
+                <input #filePicker type="file" (change)="onFileSelected($event)" class="hidden" multiple accept="image/*,application/*,text/*">
+              </div>
+
+              <div class="flex-1 h-full flex items-center pl-4 pr-1 gap-4 bg-white">
+
+                <!-- Recording indicator -->
+                <div class="flex-1 flex items-center justify-between" *ngIf="isRecordingVoice">
+                  <div class="flex items-center gap-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                    <span class="text-[15px] font-medium text-red-500 animate-pulse" style="font-family: 'Inter', sans-serif;">
+                      Recording... {{ getFormattedDuration() }}
+                    </span>
+                  </div>
+                  <button (click)="discardAudioRecording()" class="text-[#717182] hover:text-red-500 transition-colors focus:outline-none mr-2" title="Discard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Text input -->
+                <input *ngIf="!isRecordingVoice"
+                       type="text"
+                       [(ngModel)]="textComposerPayload"
+                       (keyup.enter)="_dispatchMessage()"
+                       placeholder="Type a message..."
+                       class="flex-1 bg-transparent text-[16px] font-normal outline-none border-none"
+                       style="font-family: 'IBM Plex Serif', serif; color: #717182;">
+
+                <!-- Voice toggle -->
+                <button (click)="toggleVoiceDictation()" class="transition-colors shrink-0 hover:text-teal-600 focus:outline-none" [class.text-red-500]="isRecordingVoice">
+                  <svg *ngIf="isRecordingVoice" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                  </svg>
+                  <svg *ngIf="!isRecordingVoice" class="w-5 h-5 text-black hover:text-[#26C0AB]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3v-6a3 3 0 016 0v6a3 3 0 01-3 3z"></path>
+                  </svg>
+                </button>
+
+                <!-- Send -->
+                <button (click)="_dispatchMessage()"
+                        class="w-[36px] h-[36px] rounded-full bg-[#26C0AB] text-white flex items-center justify-center hover:bg-[#1fa391] transition-all shrink-0 mr-1.5">
+                  <svg class="w-[18px] h-[18px] transform -rotate-45 translate-x-[1px] translate-y-[-1px]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                  </svg>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+      </main>
+
+    </div>
+  </div>
+</div>

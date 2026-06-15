@@ -1,0 +1,245 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-10 py-10">
+
+  <div class="flex items-center gap-[70px]">
+
+    <!-- LEFT EMPTY SPACE -->
+    <div class="w-[620px] h-[723px]"></div>
+
+    <!-- RIGHT VERIFICATION SECTION -->
+    <div class="w-[693px] flex flex-col items-center">
+
+      <!-- SUCCESS ICON -->
+      <div class="relative mb-8">
+
+        <!-- OUTER LIGHT CIRCLE -->
+        <div
+          class="w-[130px] h-[130px]
+                 rounded-full
+                 bg-[#E9F7F2]
+                 flex items-center justify-center">
+
+          <!-- INNER OPEN GREEN CIRCLE -->
+          <div
+            class="relative
+                   w-[72px]
+                   h-[72px]
+                   rounded-full
+                   border-[7px]
+                   border-[#22C55E]
+                   border-t-transparent
+                   rotate-[20deg]
+                   flex items-center justify-center
+                   ">
+
+            <!-- TICK -->
+            <span
+              class="-rotate-[20deg]
+                     text-[#22C55E]
+                     text-[38px]
+                     font-bold">
+
+              ✓
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- COLOUR POPUPS -->
+
+        <span
+          class="absolute top-[-10px] left-[-28px]
+                 text-[#7C3AED] text-[26px] rotate-12">
+          ✦
+        </span>
+
+        <span
+          class="absolute top-[8px] right-[-30px]
+                 text-[#3B82F6] text-[24px] -rotate-12">
+          ✦
+        </span>
+
+        <span
+          class="absolute bottom-[12px] left-[-32px]
+                 text-[#22C55E] text-[22px]">
+          ✦
+        </span>
+
+        <span
+          class="absolute bottom-[0px] right-[-28px]
+                 text-[#F59E0B] text-[24px]">
+          ✦
+        </span>
+
+        <span
+          class="absolute left-[10px] top-[-22px]
+                 text-[#EC4899] text-[18px]">
+          •
+        </span>
+
+        <span
+          class="absolute right-[5px] top-[-18px]
+                 text-[#06B6D4] text-[18px]">
+          •
+        </span>
+
+        <span
+          class="absolute left-[-18px] top-[40px]
+                 text-[#8B5CF6] text-[18px]">
+          •
+        </span>
+
+        <span
+          class="absolute right-[-18px] top-[50px]
+                 text-[#FB923C] text-[18px]">
+          •
+        </span>
+
+      </div>
+
+      <!-- HEADING -->
+      <h1
+        class="text-[48px]
+               leading-[150%]
+               font-medium
+               text-black
+               text-center"
+        style="font-family: 'IBM Plex Serif', serif;">
+
+        Verification Completed!
+
+      </h1>
+
+      <!-- SUBTITLE -->
+      <p
+        class="w-[500px]
+               text-[24px]
+               leading-[150%]
+               text-center
+               text-[#A29E9E]
+               mt-3"
+        style="font-family: 'IBM Plex Serif', serif;">
+
+        Your email has been verified successfully.
+        <br />
+        You can now access all features.
+
+      </p>
+
+      <!-- VERIFIED EMAIL CARD -->
+      <div
+        class="w-[500px]
+               h-[110px]
+               rounded-[18px]
+               border border-[#B8DDD2]
+               bg-white
+               flex items-center justify-between
+               px-6
+               mt-10">
+
+        <!-- LEFT SECTION -->
+        <div class="flex items-center gap-5">
+
+          <!-- MAIL ICON -->
+          <div
+            class="relative
+                   w-[82px]
+                   h-[82px]
+                   rounded-full
+                   bg-[#DFF5EE]
+                   flex items-center justify-center">
+
+            <!-- GLOW -->
+            <div
+              class="absolute
+                     inset-0
+                     rounded-full
+                     bg-[#2FA084]
+                     opacity-10
+                     blur-md">
+            </div>
+
+            <!-- SVG MAIL -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.8"
+              stroke="currentColor"
+              class="relative z-10
+                     w-[38px] h-[38px]
+                     text-[#2FA084]">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21.75 7.5v9a2.25 2.25 0 0 1-2.25 2.25h-15A2.25 2.25 0 0 1 2.25 16.5v-9m19.5 0A2.25 2.25 0 0 0 19.5 5.25h-15A2.25 2.25 0 0 0 2.25 7.5m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 9.659A2.25 2.25 0 0 1 2.25 7.743V7.5" />
+
+            </svg>
+
+          </div>
+
+          <!-- EMAIL TEXT -->
+          <div>
+
+            <p
+              class="text-[18px]
+                     text-[#A29E9E]"
+              style="font-family: 'IBM Plex Serif', serif;">
+
+              Verified Email
+
+            </p>
+
+            <p
+              class="text-[24px]
+                     text-black"
+              style="font-family: 'IBM Plex Serif', serif;">
+
+              {{ email }}
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT SUCCESS ICON -->
+        <div class="flex items-center justify-center">
+
+          <!-- OPEN CIRCLE -->
+          <div
+            class="relative
+                   w-[35px]
+                   h-[30px]
+                   border-[2.5px]
+                   border-[#2FA084]
+                   border-l-transparent
+                   rounded-full
+                   rotate-[18deg]
+                   flex items-center justify-center">
+
+            <!-- TICK -->
+            <span
+              class="-rotate-[18deg]
+                     text-[#2FA084]
+                     text-[15px]
+                     font-bold
+                     leading-none">
+
+              ✓
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

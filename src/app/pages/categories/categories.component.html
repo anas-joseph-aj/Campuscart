@@ -1,0 +1,125 @@
+<app-header></app-header>
+<div style="max-width:1440px; margin: 32px auto; padding: 77px 24px 0 24px;">
+  <div
+    style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:20px;">
+    <div>
+      <h1 style="margin:0; font-size:36px; font-weight:800; color:#111827;">Categories</h1>
+      <p style="margin:8px 0 0 0; color:#6B7280; font-size:15px;">Browse products by categories</p>
+    </div>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div
+      style="width:100%; display:flex; align-items:center; gap:12px; background:#FFFFFF; border:1px solid #C6ECE2; border-radius:15px; padding:14px 18px; box-shadow: 0 10px 30px rgba(45, 138, 108, 0.04);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input [(ngModel)]="searchText" placeholder="Search categories..."
+        style="width:100%; border:none; outline:none; padding:12px 0; font-size:15px; color:#111827; background:transparent;" />
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(217px,1fr)); gap:20px; justify-items:center;">
+    <div *ngFor="let c of filteredCategories" (click)="openCategory(c)"
+      style="width:217px; height:194px; background:#fff; border:0.8px solid #26C0AB; border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; cursor:pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+      <div
+        style="width:64px; height:64px; border-radius:18px; display:flex; align-items:center; justify-content:center; background:#F0FEF9; font-size:28px;">
+        {{c.icon}}</div>
+      <div style="font-weight:700; font-size:16px; color:#111827; text-align:center;">{{c.name}}</div>
+      <div style="color:#6B7280; font-size:14px;">{{c.count}} products</div>
+    </div>
+  </div>
+
+  <div style="margin-top:36px; width:100%;">
+    <div
+      style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; background:#EEF7F5; border:1px solid #26C0AB; border-radius:10px; padding:18px 22px; min-height:100px;">
+      <div style="display:flex; align-items:center; gap:16px; min-width:0;">
+        <div
+          style="width:80px; height:80px; border-radius:50%; background:#26C0AB; display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M34.5455 18.1818H40V21.8182H34.5455V18.1818ZM0 18.1818H5.45455V21.8182H0V18.1818ZM21.8182 0V5.45455H18.1818V0H21.8182ZM7.12727 4.54545L11 8.43636L8.41818 11L4.54545 7.14545L7.12727 4.54545ZM29 8.41818L32.8545 4.54545L35.4545 7.14545L31.5818 11L29 8.41818ZM20 9.09091C22.8933 9.09091 25.668 10.2403 27.7139 12.2861C29.7597 14.332 30.9091 17.1067 30.9091 20C30.9091 24.0364 28.7091 27.5636 25.4545 29.4545V32.7273C25.4545 33.2095 25.263 33.6719 24.922 34.0129C24.581 34.3539 24.1186 34.5455 23.6364 34.5455H16.3636C15.8814 34.5455 15.419 34.3539 15.078 34.0129C14.737 33.6719 14.5455 33.2095 14.5455 32.7273V29.4545C11.2909 27.5636 9.09091 24.0364 9.09091 20C9.09091 17.1067 10.2403 14.332 12.2861 12.2861C14.332 10.2403 17.1067 9.09091 20 9.09091ZM23.6364 36.3636V38.1818C23.6364 38.664 23.4448 39.1265 23.1038 39.4675C22.7629 39.8084 22.3004 40 21.8182 40H18.1818C17.6996 40 17.2371 39.8084 16.8962 39.4675C16.5552 39.1265 16.3636 38.664 16.3636 38.1818V36.3636H23.6364ZM18.1818 30.9091H21.8182V27.0364C24.9636 26.2364 27.2727 23.3818 27.2727 20C27.2727 18.0712 26.5065 16.2213 25.1426 14.8574C23.7787 13.4935 21.9288 12.7273 20 12.7273C18.0712 12.7273 16.2213 13.4935 14.8574 14.8574C13.4935 16.2213 12.7273 18.0712 12.7273 20C12.7273 23.3818 15.0364 26.2364 18.1818 27.0364V30.9091Z"
+              fill="white" />
+          </svg>
+        </div>
+        <div style="min-width:0;">
+          <div style="font-weight:800; font-size:18px; color:#111827;">Can’t find what you’re looking for?</div>
+          <div style="color:#6B7280; font-size:14px; margin-top:6px; line-height:1.5;">Try searching with different
+            keywords or browse all products.</div>
+        </div>
+      </div>
+      <button routerLink="/products"
+        style="background:#26C0AB; color:#fff; border:none; padding:14px 24px; border-radius:16px; font-weight:700; cursor:pointer; min-width:180px; white-space:nowrap;">View
+        All Products →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer Section -->
+<div
+  style="margin-top:80px; padding:40px 0 0 0; border-top:1px solid #E5E7EB; display:flex; flex-direction:column; color:#718096; font-family: 'IBM Plex Serif', serif; background-color:#FFFFFF;">
+  <!-- Footer Columns -->
+  <div
+    style="display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; width:100%; max-width:1440px; margin:0 auto; padding: 0 24px; box-sizing:border-box;">
+
+    <!-- Logo & Description -->
+    <div>
+      <img src="assets/logo.png" style="height:36px; margin-bottom:16px; display:block;">
+      <p style="font-size:16px; margin:0; line-height:1.6; max-width:280px; color:#718096;">
+        Buying and selling and exchanging within your campus community.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Quick Links</h3>
+      <div style="font-size:16px; display:flex; flex-direction:column; gap:12px;">
+        <a routerLink="/home" style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Home</a>
+        <a routerLink="/products" style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">All
+          Products</a>
+        <a routerLink="/categories"
+          style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Categories</a>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div>
+      <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Support</h3>
+      <div style="font-size:16px; display:flex; flex-direction:column; gap:12px;">
+        <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Help Center</a>
+        <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Terms of Service</a>
+        <a style="text-decoration:none; color:#718096; cursor:pointer; font-weight:400;">Privacy Policy</a>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h3 style="color:#1A202C; margin-top:0; margin-bottom:16px; font-weight:800; font-size:18px;">Contact</h3>
+      <div style="font-size:16px;">
+        <a href="mailto:campuscartsupport@gmail.com" target="_blank"
+          style="text-decoration:none; color:#718096; cursor:pointer; display:flex; align-items:center; gap:8px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          campuscartsupport@gmail.com
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Divider Line -->
+  <div style="width:100%; border-top:1px solid #E5E7EB; margin-top:40px; margin-bottom:24px;"></div>
+
+  <!-- Copyright -->
+  <div style="width:100%; text-align:center; padding-bottom:24px;">
+    <p
+      style="font-size:16px; color:#718096; margin:0; display:flex; align-items:center; justify-content:center; gap:6px;">
+      <span style="font-size:20px; font-weight:400; line-height:1;">©</span> CampusCart . All rights reserved.
+    </p>
+  </div>
+</div>

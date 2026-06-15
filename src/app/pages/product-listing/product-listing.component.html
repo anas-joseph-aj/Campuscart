@@ -1,0 +1,218 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<div class="h-screen w-full bg-white flex flex-col select-none overflow-y-auto pt-[77px]" style="font-family: 'IBM Plex Serif', serif;">
+  
+  <app-header></app-header>
+
+  <main class="flex-1 px-16 py-8 max-w-[1440px] mx-auto w-full space-y-6">
+    
+    <button (click)="goBack()" class="flex items-center gap-1 text-[#6C757D] font-medium text-[14px] hover:text-black transition-colors" style="font-family: 'Inter', sans-serif;">
+      <span class="text-[16px]">&larr;</span> Back
+    </button>
+
+    <div class="space-y-1">
+      <h1 class="text-[36px] font-extrabold text-black tracking-tight">My Listed Products</h1>
+      <p class="text-[#8A92A6] text-[18px] font-medium tracking-normal">Manage and view all the products you have listed for sale</p>
+    </div>
+
+    <div class="w-full flex justify-between items-center pt-4">
+      <div class="flex gap-4" style="font-family: 'Inter', sans-serif;">
+        <button (click)="setTab('all')" 
+                [ngClass]="currentTab === 'all' ? 'bg-[#EEF7F5] border-2 border-[#2FA084] text-[#2FA084] font-semibold' : 'bg-white border border-gray-200 text-gray-400 font-normal'"
+                class="px-6 py-2.5 rounded-[12px] text-[16px] transition-all cursor-pointer">
+          All ({{ products.length }})
+        </button>
+        <button (click)="setTab('active')" 
+                [ngClass]="currentTab === 'active' ? 'bg-[#EEF7F5] border-2 border-[#2FA084] text-[#2FA084] font-semibold' : 'bg-white border border-gray-200 text-gray-400 font-normal'"
+                class="px-6 py-2.5 rounded-[12px] text-[16px] transition-all cursor-pointer">
+          Active ({{ getStatusCount('Active') }})
+        </button>
+        <button (click)="setTab('inactive')" 
+                [ngClass]="currentTab === 'inactive' ? 'bg-[#EEF7F5] border-2 border-[#2FA084] text-[#2FA084] font-semibold' : 'bg-white border border-gray-200 text-gray-400 font-normal'"
+                class="px-6 py-2.5 rounded-[12px] text-[16px] transition-all cursor-pointer">
+          Inactive ({{ getStatusCount('Inactive') }})
+        </button>
+      </div>
+
+      <div class="relative" style="font-family: 'Inter', sans-serif;">
+        <button (click)="toggleDropdown($event)" 
+                class="bg-white border border-gray-200 rounded-[12px] pl-5 pr-12 py-3 text-gray-500 font-medium text-[15px] outline-none cursor-pointer flex items-center justify-between min-w-[185px] hover:border-gray-300 transition-colors">
+          <span class="whitespace-nowrap">{{ selectedSortLabel }}</span>
+          <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+            <svg class="w-4 h-4 transition-transform duration-200" [class.rotate-180]="isDropdownOpen" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </div>
+        </button>
+
+        <div *ngIf="isDropdownOpen" class="absolute right-0 mt-2 w-full bg-white border border-gray-100 rounded-[16px] shadow-[0_10px_25px_rgba(0,0,0,0.08)] overflow-hidden z-50 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+          <button (click)="selectSort('newest')" 
+                  [ngClass]="sortBy === 'newest' ? 'bg-[#EEF7F5] text-[#2FA084] font-semibold' : 'text-gray-600 font-medium hover:bg-gray-50'"
+                  class="w-full text-left px-5 py-3 text-[15px] transition-colors cursor-pointer">
+            Newest First
+          </button>
+          <button (click)="selectSort('low-high')" 
+                  [ngClass]="sortBy === 'low-high' ? 'bg-[#EEF7F5] text-[#2FA084] font-semibold' : 'text-gray-600 font-medium hover:bg-gray-50'"
+                  class="w-full text-left px-5 py-3 text-[15px] transition-colors cursor-pointer">
+            Price: Low to High
+          </button>
+          <button (click)="selectSort('high-low')" 
+                  [ngClass]="sortBy === 'high-low' ? 'bg-[#EEF7F5] text-[#2FA084] font-semibold' : 'text-gray-600 font-medium hover:bg-gray-50'"
+                  class="w-full text-left px-5 py-3 text-[15px] transition-colors cursor-pointer">
+            Price: High to Low
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filteredProducts.length > 0" class="grid grid-cols-3 gap-8 pt-4">
+      <div *ngFor="let item of filteredProducts" 
+           class="border border-[#DCEEEA] rounded-[20px] bg-white p-5 h-[440px] flex flex-col justify-between relative transform hover:-translate-y-1 transition-all duration-200 overflow-visible shadow-[0_2px_8px_rgba(47,160,132,0.03)]">
+        
+        <span [ngClass]="item.status === 'Active' ? 'bg-[#EBF7F5] text-[#26C0AB]' : 'bg-[#FDF3E7] text-[#D48C2C]'"
+              class="absolute top-5 left-5 text-[13px] font-semibold tracking-normal px-3 py-1 rounded-[8px]" style="font-family: 'Inter', sans-serif;">
+          {{ item.status }}
+        </span>
+
+        <div class="absolute top-5 right-5">
+          <button (click)="shareProduct(item, $event)" class="w-9 h-9 flex items-center justify-center bg-white rounded-full text-[#26C0AB] hover:bg-[#EBF7F5] border border-[#26C0AB]/10 shadow-sm cursor-pointer transition-all" title="Share Product">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="h-[180px] w-full flex items-center justify-center p-2 mt-8 bg-white rounded-xl">
+          <img [src]="item.image" [alt]="item.title" class="max-h-[165px] max-w-full object-contain">
+        </div>
+
+        <div class="space-y-1.5 px-1">
+          <h3 class="text-black text-[17px] font-bold tracking-tight line-clamp-1" style="font-family: 'IBM Plex Serif', serif;">{{ item.title }}</h3>
+          <div class="text-[#2FA084] font-bold text-[16px]" style="font-family: 'Inter', sans-serif;">{{ item.priceDisplay }}</div>
+        </div>
+
+        <div class="w-full pt-1 space-y-3" style="font-family: 'Inter', sans-serif;">
+          <div *ngIf="item.status === 'Inactive'" class="w-full h-[36px] rounded-[8px] bg-[#FDF3E7] text-[#C98024] flex items-center justify-center gap-1.5 px-3 text-[13px] font-medium" style="font-family: 'IBM Plex Serif', serif;">
+            <svg class="w-4 h-4 text-[#C98024]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Deactivated on {{ item.deactivateDate }}
+          </div>
+
+          <div *ngIf="item.status === 'Active'" class="flex items-center gap-3 w-full">
+            <button (click)="openEditModal(item, $event)" class="flex-1 h-[44px] rounded-[10px] border border-[#26C0AB] text-[#26C0AB] bg-white font-bold text-[15px] hover:bg-[#26C0AB]/5 transition-colors cursor-pointer">
+              Edit
+            </button>
+            <button (click)="triggerDeleteConfirmation(item, $event)" class="flex-1 h-[44px] rounded-[10px] border border-[#FB2C36] text-[#FB2C36] bg-white font-bold text-[15px] hover:bg-[#FB2C36]/5 transition-colors cursor-pointer">
+              Delete
+            </button>
+          </div>
+
+          <button *ngIf="item.status === 'Inactive'" (click)="reactivateProduct(item, $event)" class="w-full h-[44px] rounded-[10px] border border-[#26C0AB] text-[#26C0AB] bg-white font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-[#26C0AB]/5 transition-colors cursor-pointer">
+            <svg class="w-4 h-4 text-[#26C0AB]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+            Reactivate
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filteredProducts.length === 0" class="flex flex-col items-center justify-center pt-16 pb-24 w-full space-y-5 animate-in fade-in duration-200">
+      <img [src]="currentTab === 'all' ? 'assets/all.png' : (currentTab === 'active' ? 'assets/active.png' : 'assets/inactive.png')" 
+           alt="No items placeholder" 
+           class="h-[150px] w-auto object-contain">
+      <div class="text-center space-y-2">
+        <h2 class="text-[26px] font-bold text-black tracking-tight">
+          {{ currentTab === 'all' ? 'No products listed' : (currentTab === 'active' ? 'No active listings' : 'No inactive listings') }}
+        </h2>
+        <p class="text-[#8A92A6] text-[16px] font-medium max-w-md">
+          {{ currentTab === 'all' ? 'Start selling your first product.' : (currentTab === 'active' ? 'You have no more active listings.' : 'All your products are currently active.') }}
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <div *ngIf="isEditModalOpen" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4" style="font-family: 'Inter', sans-serif;">
+    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/70">
+        <h2 class="text-[18px] font-bold text-gray-900">Modify Listed Item</h2>
+        <button (click)="isEditModalOpen = false" class="text-gray-400 hover:text-gray-600 text-[20px] cursor-pointer">&times;</button>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <div class="space-y-1">
+          <label class="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">Product Name</label>
+          <input type="text" [(ngModel)]="editingProduct.title" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-black font-medium focus:border-[#26C0AB] outline-none transition-colors">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">Price (₹)</label>
+          <input type="number" [(ngModel)]="editingProduct.price" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-black font-medium focus:border-[#26C0AB] outline-none transition-colors">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">Product Image</label>
+          <div class="flex items-center gap-4 mt-1">
+            <div class="w-16 h-16 rounded-xl border border-gray-200 bg-gray-50 overflow-hidden flex items-center justify-center shrink-0">
+              <img *ngIf="editingProduct.image" [src]="editingProduct.image" class="w-full h-full object-contain">
+              <svg *ngIf="!editingProduct.image" class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            
+            <label class="flex-1 flex flex-col items-center px-4 py-2 bg-white rounded-xl border border-gray-200 tracking-wide text-gray-600 font-semibold text-[13px] cursor-pointer hover:bg-gray-50 transition-colors text-center">
+              <span>Choose Image File</span>
+              <input type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+        <button (click)="markAsSold()" class="px-4 py-2 rounded-xl border border-[#D48C2C] text-[#D48C2C] font-bold text-[14px] bg-white hover:bg-[#FDF3E7] cursor-pointer transition-colors">
+          Mark as Sold
+        </button>
+        
+        <div class="flex gap-3">
+          <button (click)="isEditModalOpen = false" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-500 font-semibold text-[14px] hover:bg-gray-100 cursor-pointer transition-colors">
+            Cancel
+          </button>
+          <button (click)="saveProductEdits()" class="px-5 py-2 rounded-xl text-white font-semibold text-[14px] cursor-pointer transition-opacity hover:opacity-90" style="background-color: #26C0AB;">
+            Save Changes
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="isDeletePopupOpen" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-[1000] flex items-center justify-center p-4" style="font-family: 'Inter', sans-serif;">
+    <div class="bg-white rounded-[24px] w-full max-w-[380px] p-6 shadow-2xl text-center space-y-6 animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="mx-auto w-14 h-14 bg-[#FFC9C9] rounded-full flex items-center justify-center text-[#FB2C36]">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+        </svg>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-[20px] font-extrabold text-black tracking-tight">Are you sure?</h3>
+        <p class="text-gray-500 text-[14px] font-medium leading-relaxed">
+          Do you really want to permanently delete <span class="font-bold text-gray-800">"{{ productPendingDelete?.title }}"</span>? This action cannot be undone.
+        </p>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button (click)="isDeletePopupOpen = false" class="flex-1 py-3 rounded-xl border border-gray-200 text-gray-500 font-bold text-[14px] hover:bg-gray-50 transition-colors cursor-pointer">
+          Cancel
+        </button>
+        <button (click)="confirmDeleteProduct()" class="flex-1 py-3 rounded-xl text-white font-bold text-[14px] bg-[#FB2C36] hover:bg-[#E0242C] transition-colors cursor-pointer shadow-md shadow-red-200">
+          Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
