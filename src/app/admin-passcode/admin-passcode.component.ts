@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-admin-passcode',
@@ -13,11 +13,18 @@ import { AuthService } from '../services/auth.service';
 })
 export class AdminPasscodeComponent {
   passcode1 = ''; passcode2 = ''; passcode3 = ''; passcode4 = ''; passcode5 = ''; passcode6 = '';
-  email = 'admin@campuscart.com';
+  email = (() => {
+    const emailStr = localStorage.getItem('email') || 'admin@campuscart.com';
+    const lower = emailStr.toLowerCase().trim();
+    if (lower === '24bcae05' || lower === '24bcae05@kristujayanti') {
+      return '24bcae05@kristujayanti.com';
+    }
+    return emailStr;
+  })();
   errorMessage = '';
   statusMessage = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private adminService: AdminService) {}
 
   moveNext(event: any, nextInput: any) {
     if (event.target.value.length === 1 && nextInput) {
@@ -35,21 +42,16 @@ export class AdminPasscodeComponent {
       return;
     }
 
-    this.authService.verifyOtp(this.email, passcode).subscribe({
+    this.adminService.login(this.email, passcode).subscribe({
       next: (res: any) => {
+        // Assume success response; store token if provided
+        if (typeof res === 'string') {
+          localStorage.setItem('adminToken', res);
+        }
         this.handleSuccess();
       },
       error: (err) => {
-        if (err.status === 200 || err.status === 201) {
-          this.handleSuccess();
-        } else {
-          // Bypass check for development and testing
-          if (passcode === '123456') {
-            this.handleSuccess();
-          } else {
-            this.errorMessage = 'Invalid Passcode. Please try again.';
-          }
-        }
+        this.errorMessage = err.error || 'Invalid Passcode. Please try again.';
       }
     });
   }

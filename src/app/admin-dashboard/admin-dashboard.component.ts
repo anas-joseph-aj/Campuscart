@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { AdminService } from '../services/admin.service';
 import { AdminUsersComponent } from '../admin-users/admin-users.component'; 
 
 @Component({
@@ -25,75 +26,82 @@ export class AdminDashboardComponent implements OnInit {
   selectedProduct: any = null;
 
   // 1. METRIC CARD DATA RESTORED COMPLETELY
-  metrics = [
-    { title: 'Total Users', value: '1,248', iconType: 'users', colorClass: 'border-teal-100' },
-    { title: 'Total Categories', value: '10', iconType: 'categories', colorClass: 'border-indigo-100' },
-    { title: 'Active Products', value: '482', iconType: 'products', colorClass: 'border-sky-100' },
-    { title: 'Spam Reports', value: '14', iconType: 'reports', colorClass: 'border-red-100' }
-  ];
+  metrics: any[] = [];
 
   // 2. POPULATE LATEST PRODUCTS TABLE ROW ITEMS (With Inactive sorting applied)
-  latestProducts = [
-    {
-      id: 1,
-      name: 'Engineering Physics Textbook',
-      category: 'Books',
-      seller: 'Rahul Sharma',
-      amount: '₹450',
-      status: 'Active',
-      imageUrl: 'assets/book-placeholder.png' 
-    },
-    {
-      id: 2,
-      name: 'Scientific Calculator fx-991EX',
-      category: 'Electronics',
-      seller: 'Anjali Priya',
-      amount: '₹999',
-      status: 'Active',
-      imageUrl: 'assets/calc-placeholder.png'
-    },
-    {
-      id: 3,
-      name: 'Badminton Racket Yonex',
-      category: 'Sports',
-      seller: 'Sneha K.',
-      amount: '₹1,200',
-      status: 'Inactive',
-      imageUrl: 'assets/sports-placeholder.png'
-    },
-    {
-      id: 4,
-      name: 'Lab Apron - Medium size',
-      category: 'Uniforms',
-      seller: 'Vikram Singh',
-      amount: '₹250',
-      status: 'Active',
-      imageUrl: 'assets/apron-placeholder.png'
-    }
-  ];
+  latestProducts: any[] = [];
 
   // 3. POPULATE CATEGORIES SIDEBAR PERCENTAGES 
-  categoriesOverview = [
-    { name: 'Books & Notes', percentage: 35, colorHex: '#26C0AB', barColorClass: 'bg-[#26C0AB]' },
-    { name: 'Electronics', percentage: 25, colorHex: '#4F46E5', barColorClass: 'bg-[#4F46E5]' },
-    { name: 'Sports Equipment', percentage: 18, colorHex: '#F59E0B', barColorClass: 'bg-[#F59E0B]' },
-    { name: 'Lab Uniforms', percentage: 14, colorHex: '#EF4444', barColorClass: 'bg-[#EF4444]' },
-    { name: 'Cycle & Transport', percentage: 8, colorHex: '#A855F7', barColorClass: 'bg-[#A855F7]' }
-  ];
+  categoriesOverview: any[] = [];
 
   // 4. POPULATE SPAM REPORTS DATA ITEMS
-  spamReports = [
-    { id: 101, userName: 'John Doe', avatarInitial: 'J', reason: 'Listing fake promotional item link.' },
-    { id: 102, userName: 'Amit Kumar', avatarInitial: 'A', reason: 'Selling defective item masquerading as new.' },
-    { id: 103, userName: 'Priya Nair', avatarInitial: 'P', reason: 'Harassment reported in direct seller messages.' }
-  ];
+  spamReports: any[] = [];
 
-  constructor() { }
+  constructor(private adminService: AdminService) { }
 
-  ngOnInit(): void { 
-    // Automatically sorts the items so 'Inactive' comes first when the dashboard loads
-    this.sortProductsByInactiveFirst();
-  }
+  ngOnInit(): void {
+  // Load dashboard data from backend
+  this.adminService.getDashboardCounts().subscribe(counts => {
+    this.metrics = [
+      { title: 'Total Users', value: counts.totalUsers.toString(), iconType: 'users', colorClass: 'border-teal-100' },
+      { title: 'Total Categories', value: counts.totalCategories.toString(), iconType: 'categories', colorClass: 'border-indigo-100' },
+      { title: 'Active Products', value: counts.totalProducts.toString(), iconType: 'products', colorClass: 'border-sky-100' },
+      { title: 'Spam Reports', value: counts.totalReports.toString(), iconType: 'reports', colorClass: 'border-red-100' }
+    ];
+  });
+    this.adminService.getLatestProducts().subscribe(products => {
+      this.latestProducts = products.map(p => {
+        // Map backend price to amount
+        const amount = p.price ?? p.amount ?? '';
+        
+        // Resolve seller name
+        const sellerInfo = p.seller || p.owner || p.user || p.sellerInfo;
+        let sellerName = '';
+        if (sellerInfo && typeof sellerInfo === 'object') {
+          sellerName = sellerInfo.name || sellerInfo.fullName || sellerInfo.displayName || sellerInfo.username || sellerInfo.userName || sellerInfo.email || '';
+        } else if (typeof sellerInfo === 'string') {
+          sellerName = sellerInfo;
+        }
+        if (!sellerName && p.sellerName) {
+          sellerName = p.sellerName;
+        }
+        if (!sellerName && p.sellerEmail) {
+          sellerName = p.sellerEmail.split('@')[0];
+        }
+        if (!sellerName) {
+          sellerName = 'Unknown';
+        }
+
+        // Normalize image URL
+        let imgUrl = p.image || p.imageUrl || '';
+        if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('assets/')) {
+          imgUrl = imgUrl.startsWith('/') ? `http://10.204.205.47:8080${imgUrl}` : `http://10.204.205.47:8080/${imgUrl}`;
+        }
+        if (!imgUrl) {
+          imgUrl = 'assets/placeholder.png';
+        }
+
+        return {
+          ...p,
+          amount,
+          seller: sellerName,
+          imageUrl: imgUrl
+        };
+      });
+      this.sortProductsByInactiveFirst();
+    });
+  this.adminService.getCategorySummary().subscribe(categories => {
+    this.categoriesOverview = categories.map(c => ({
+      name: c.category,
+      percentage: c.count,
+      colorHex: '#'+((Math.random()*0xFFFFFF<<0).toString(16)),
+      barColorClass: 'bg-[#'+((Math.random()*0xFFFFFF<<0).toString(16))+']'
+    }));
+  });
+  this.adminService.getLatestReports().subscribe(reports => {
+    this.spamReports = reports;
+  });
+}
 
   // Sorting utility logic
   sortProductsByInactiveFirst(): void {
