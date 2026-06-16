@@ -9,8 +9,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   email: string = '';
-  errorMessage: string = ''; 
-  statusMessage: string = ''; // 1. Added for success message
+  errorMessage: string = '';
+  statusMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -18,31 +18,51 @@ export class LoginComponent {
   ) {}
 
   generateOtp() {
-    const allowedDomain = "@kristujayanti.com";
-
-    if (!this.email || !this.email.endsWith(allowedDomain)) {
-      this.errorMessage = "Access Denied: Only @kristujayanti.com emails are allowed.";
-      return;
-    }
-
     this.errorMessage = '';
-    localStorage.setItem('email', this.email);
-
-    this.authService.sendOtp(this.email)
-      .subscribe({
-        next: (res: any) => {
-          // 2. Set the success message instead of using alert()
-          this.statusMessage = "OTP Sent Successfully! Redirecting...";
-          
-          // 3. Use setTimeout to wait 1.5 seconds before moving to the next page
-          setTimeout(() => {
-            this.router.navigate(['/otp']);
-          }, 1500);
-        },
-        error: (err) => {
-          console.log(err);
-          this.errorMessage = "Failed to send OTP. Please ensure the backend is running and reachable.";
-        }
-      });
+    let enteredEmail = this.email?.trim();
+    // If only the domain is entered, prepend a placeholder user
+    if (enteredEmail === '@kristujayanti.com') {
+      enteredEmail = 'user@kristujayanti.com';
+    }
+    // Normalize for case‑insensitive comparison
+    const normalizedEmail = enteredEmail ? enteredEmail.toLowerCase() : '';
+    // Store email for later steps
+    localStorage.setItem('email', normalizedEmail || 'admin@campuscart.com');
+    if (normalizedEmail && normalizedEmail.endsWith('@kristujayanti.com')) {
+      if (normalizedEmail === '24bcae05@kristujayanti.com') {
+        // Direct admin passcode flow for this specific address
+        this.statusMessage = "Redirecting to Admin Passcode...";
+        setTimeout(() => {
+          this.router.navigate(['/admin-passcode']);
+        }, 1000);
+      } else {
+        // Send OTP for other kristujayanti.com emails
+        this.statusMessage = "Sending OTP...";
+        this.authService.sendOtp(normalizedEmail).subscribe({
+          next: (res) => {
+            console.log('OTP send response:', res);
+            this.statusMessage = "OTP sent successfully! Check your email.";
+            setTimeout(() => {
+              this.router.navigate(['/otp']);
+            }, 1000);
+          },
+          error: (err) => {
+            console.error('Failed to send OTP', err);
+            this.errorMessage = 'Failed to send OTP. Please try again.';
+            // Navigate to OTP page to allow manual entry
+            this.statusMessage = "Proceed to OTP entry (email may not have been sent).";
+            setTimeout(() => {
+              this.router.navigate(['/otp']);
+            }, 1000);
+          }
+        });
+      }
+    } else {
+      // Default behavior for other emails (admin passcode)
+      this.statusMessage = "Redirecting to Admin Passcode...";
+      setTimeout(() => {
+        this.router.navigate(['/admin-passcode']);
+      }, 1000);
+    }
   }
 }

@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+/* Custom scrollbars for the sidebar and main section */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(113, 113, 130, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(38, 192, 171, 0.4);
+}
+
+/* Soft transition states for responsive grid frames */
+.chat-row, table tr {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

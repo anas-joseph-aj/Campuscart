@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-6" style="font-family: 'IBM Plex Serif', serif;">
+  <div class="w-full flex items-center justify-between gap-12">
+
+    <!-- Left: Image -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="w-full max-w-[520px]">
+        <img src="assets/login.png" alt="Login Illustration" class="w-full h-auto object-contain" />
+      </div>
+    </div>
+
+    <!-- Right: Admin Passcode Form -->
+    <div class="flex-1 flex flex-col items-center justify-center">
+
+      <h1 class="text-[40px] font-semibold leading-tight text-[#1A202C] text-center">
+        Enter Admin Passcode
+      </h1>
+
+      <p class="mt-4 max-w-[420px] text-center text-[16px] leading-relaxed text-[#9CA3AF]">
+        Enter 6 digit admin passcode
+        <br>
+        <span class="text-[#1A202C] font-semibold">{{ email }}</span>
+      </p>
+
+      <!-- Passcode Boxes -->
+      <div class="flex gap-3 mt-10">
+        <input #passInput1 type="text" maxlength="1" [(ngModel)]="passcode1"
+          (input)="moveNext($event, passInput2)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #passInput2 type="text" maxlength="1" [(ngModel)]="passcode2"
+          (input)="moveNext($event, passInput3)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #passInput3 type="text" maxlength="1" [(ngModel)]="passcode3"
+          (input)="moveNext($event, passInput4)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #passInput4 type="text" maxlength="1" [(ngModel)]="passcode4"
+          (input)="moveNext($event, passInput5)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #passInput5 type="text" maxlength="1" [(ngModel)]="passcode5"
+          (input)="moveNext($event, passInput6)"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+
+        <input #passInput6 type="text" maxlength="1" [(ngModel)]="passcode6"
+          (keydown.enter)="login()"
+          class="w-[52px] h-[60px] rounded-[12px] border border-[#8FD6D0] bg-[#F0FDF9] text-center text-xl font-semibold text-[#1A202C] outline-none focus:ring-2 focus:ring-[#2FA084]/30 focus:border-[#2FA084] transition-all" />
+      </div>
+
+      <!-- Error / Status Messages -->
+      <div *ngIf="errorMessage" class="text-red-500 mt-3 text-[14px] text-center">{{ errorMessage }}</div>
+      <div *ngIf="statusMessage" class="text-[#2FA084] mt-3 text-[15px] font-medium text-center">{{ statusMessage }}</div>
+
+      <!-- Login Button -->
+      <button (click)="login()" class="mt-8 w-[320px] h-[56px] rounded-[14px] bg-[#2FA084] text-white text-[17px] font-semibold transition-all duration-300 hover:bg-[#268E74] hover:shadow-lg active:scale-[0.98]">Login</button>
+
+    </div>
+
+  </div>
+</div>
