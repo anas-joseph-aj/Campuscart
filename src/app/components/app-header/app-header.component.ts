@@ -8,7 +8,13 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./app-header.component.css']
 })
 export class AppHeaderComponent {
+  isMobileMenuOpen: boolean = false;
+
   constructor(private router: Router, private apiService: ApiService) {}
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 
   onChat() { this.router.navigate(['/chat']); }
   onSell() { 
