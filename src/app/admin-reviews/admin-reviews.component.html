@@ -1,0 +1,257 @@
+<app-header></app-header>
+<div class="admin-page">
+  <div class="admin-layout">
+    <aside
+      class="group w-[76px] hover:w-[260px] h-full p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden z-20"
+      style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
+
+      <div class="pt-2">
+        <a routerLink="/admin-dashboard" (click)="setActiveMenu('Dashboard')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Dashboard', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Dashboard'
+            }"
+          class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap border-none outline-none no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
+                    'text-[#2BAE96]': activeMenu === 'Dashboard', 
+                    'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Dashboard'
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
+              <path d="M9 21V12h6v9" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Dashboard</span>
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MAIN</span>
+
+        <a routerLink="/admin-users" (click)="setActiveMenu('Users')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Users', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Users'
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
+                    'text-[#2BAE96]': activeMenu === 'Users', 
+                    'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Users'
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8.5" cy="7" r="3.5" />
+              <path d="M1 20v-1a4 4 0 0 1 4-4h7a4 4 0 0 1 4 4v1" />
+              <path d="M15.5 4.5a3.5 3.5 0 0 1 0 5" />
+              <path d="M19 15a4 4 0 0 1 2 2v3" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Users</span>
+        </a>
+
+        <a routerLink="/admin-categories" (click)="setActiveMenu('Categories')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Categories', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Categories'
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[20px] h-[20px] fill-none stroke-current transition-colors" [ngClass]="{
+                    'text-[#2BAE96]': activeMenu === 'Categories', 
+                    'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Categories'
+                  }" stroke-width="1.8" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Categories</span>
+        </a>
+
+        <a routerLink="/admin-products" (click)="setActiveMenu('Products')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Products', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Products'
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
+                    'text-[#2BAE96]': activeMenu === 'Products', 
+                    'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Products'
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 8h16l-1.5 12H5.5L4 8z" />
+              <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+              <path d="M8 12a4 4 0 0 0 8 0" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Products</span>
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">CONTENT</span>
+
+        <a routerLink="/admin-reviews" (click)="setActiveMenu('Reviews')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Reviews', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Reviews'
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[24px] h-[24px] relative flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <div class="w-[22px] h-[22px] relative">
+              <svg class="w-[14px] h-[14px] absolute bottom-0 left-0 fill-none stroke-current transition-colors"
+                [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
+                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+              </svg>
+              <svg class="w-[14px] h-[14px] absolute top-0 right-0 fill-none stroke-current transition-colors"
+                [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
+                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
+              </svg>
+            </div>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Reviews</span>
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MODERATION</span>
+
+        <a routerLink="/admin-analytics" (click)="setActiveMenu('Analytics')" [ngClass]="{
+              'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Analytics', 
+              'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Analytics'
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
+                    'text-[#2BAE96]': activeMenu === 'Analytics', 
+                    'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Analytics'
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18" />
+              <path d="M7 16v-4" />
+              <path d="M12 16V9" />
+              <path d="M17 16V6" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Analytics</span>
+        </a>
+      </div>
+    </aside>
+    <div class="admin-main">
+
+      <!-- HEADER -->
+      <div class="reviews-header">
+
+        <div>
+          <h1>Admin Panel (⭐ Reviews)</h1>
+          <p class="total-reviews">
+            {{ reviews.length }} Total Reviews
+          </p>
+        </div>
+
+        <div class="review-stats">
+          <span class="approved-badge">
+            {{ approvedCount }} Approved
+          </span>
+
+          <span class="pending-badge">
+            {{ pendingCount }} Pending
+          </span>
+
+          <span class="deleted-badge">
+            {{ deletedCount }} Deleted
+          </span>
+        </div>
+
+      </div>
+
+      <!-- REVIEW LIST -->
+      <div class="review-card" *ngFor="let review of reviews; let i = index">
+
+        <div class="review-left">
+
+          <div class="avatar">
+            {{ review.name.charAt(0) }}
+          </div>
+
+          <div class="review-content">
+
+            <h3>{{ review.name }}</h3>
+
+            <div class="stars">
+              <span *ngFor="let star of getStars(review.rating)">
+                {{ star }}
+              </span>
+            </div>
+
+            <p class="comment">
+              "{{ review.comment }}"
+            </p>
+
+            <small>{{ review.date }}</small>
+
+          </div>
+
+        </div>
+
+        <div class="review-right">
+
+          <span class="status approved" *ngIf="review.status === 'Approved'">
+            Approved
+          </span>
+
+          <span class="status pending" *ngIf="review.status === 'Pending'">
+            Pending
+          </span>
+
+          <span class="status deleted" *ngIf="review.status === 'Deleted'">
+            Deleted
+          </span>
+
+          <!-- ACTION BUTTONS -->
+
+          <button class="approve-btn" *ngIf="review.status !== 'Approved'" (click)="approveReview(i)">
+            Approve
+          </button>
+
+          <button class="pending-btn" *ngIf="review.status !== 'Pending'" (click)="markPending(i)">
+            Pending
+          </button>
+
+          <button class="delete-btn" (click)="deleteReview(i)" title="Delete Review">
+
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+              <path d="M3.5 7H24.5" stroke="#FF6467" stroke-width="1.16667" stroke-linecap="round"
+                stroke-linejoin="round" />
+
+              <path
+                d="M22.1654 7V23.3333C22.1654 24.5 20.9987 25.6667 19.832 25.6667H8.16536C6.9987 25.6667 5.83203 24.5 5.83203 23.3333V7"
+                stroke="#FF6467" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
+
+              <path
+                d="M9.33203 7.00004V4.66671C9.33203 3.50004 10.4987 2.33337 11.6654 2.33337H16.332C17.4987 2.33337 18.6654 3.50004 18.6654 4.66671V7.00004"
+                stroke="#FF6467" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
+
+              <path d="M11.668 12.8334V19.8334" stroke="#FF6467" stroke-width="1.16667" stroke-linecap="round"
+                stroke-linejoin="round" />
+
+              <path d="M16.332 12.8334V19.8334" stroke="#FF6467" stroke-width="1.16667" stroke-linecap="round"
+                stroke-linejoin="round" />
+
+            </svg>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>

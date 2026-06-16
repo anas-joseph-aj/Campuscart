@@ -1,0 +1,306 @@
+.admin-page {
+  padding-top: 77px;
+  min-height: 100vh;
+  background: #f8f8f8;
+}
+
+.admin-layout {
+  display: flex;
+  width: 100%;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 35px;
+  overflow-y: auto;
+}
+
+/* ==========================
+   HEADER
+   ========================== */
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.reviews-header h1 {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #25233A;
+  margin: 0;
+}
+
+.total-reviews {
+  font-size: 14px;
+  color: #777;
+  margin-top: 6px;
+}
+
+/* ==========================
+   STATS
+   ========================== */
+
+.review-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.review-stats span {
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.approved-badge {
+  background: #2BAE96;
+}
+
+.deleted-badge {
+  background: #ef4444;
+}
+
+.pending-badge {
+  background: #f5b23d;
+}
+
+/* ==========================
+   REVIEW CARD
+   ========================== */
+
+.review-card {
+  background: #ffffff;
+  border: 1px solid #2BAE96;
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* ==========================
+   LEFT SECTION
+   ========================== */
+
+.review-left {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #d9f3ee;
+  color: #2BAE96;
+  font-weight: 700;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-left h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #25233A;
+}
+
+.stars {
+  color: #f5b23d;
+  margin: 4px 0;
+  font-size: 15px;
+}
+
+.comment {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.review-left small {
+  color: #999;
+  font-size: 13px;
+}
+
+/* ==========================
+   RIGHT SECTION
+   ========================== */
+
+.review-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==========================
+   STATUS BADGES
+   ========================== */
+
+.status {
+  color: white;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status.approved {
+  background: #2BAE96;
+}
+
+.status.pending {
+  background: #f5b23d;
+}
+
+.status.deleted {
+  background: #ef4444;
+}
+
+/* ==========================
+   APPROVE BUTTON
+   ========================== */
+
+.approve-btn {
+  border: 1px solid #2BAE96;
+  background: white;
+  color: #2BAE96;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.approve-btn:hover {
+  background: #2BAE96;
+  color: white;
+}
+
+/* ==========================
+   PENDING BUTTON
+   ========================== */
+
+.pending-btn {
+  border: 1px solid #f5b23d;
+  background: white;
+  color: #f5b23d;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pending-btn:hover {
+  background: #f5b23d;
+  color: white;
+}
+
+/* ==========================
+   DELETE BUTTON
+   ========================== */
+
+.delete-btn {
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #fff0f0;
+  color: #ef4444;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* ==========================
+   RESPONSIVE
+   ========================== */
+
+@media (max-width: 900px) {
+
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .review-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .review-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.delete-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+/* Fixed sidebar */
+.admin-layout aside {
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 92px);
+  overflow-y: hidden;
+}
+
+
+.delete-btn svg {
+  width: 28px;
+  height: 28px;
+}

@@ -1,0 +1,477 @@
+.admin-page {
+  padding-top: 77px;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* ==========================
+   LAYOUT
+========================== */
+
+.admin-layout {
+  display: flex;
+  width: 100%;
+
+}
+
+.admin-main {
+  flex: 1;
+  padding: 26px 38px;
+}
+
+/* ==========================
+   PAGE TITLE
+========================== */
+
+.admin-topbar {
+  margin-bottom: 36px;
+}
+
+.admin-topbar h1 {
+  margin: 0;
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #25233a;
+  line-height: 1.1;
+}
+
+/* ==========================
+   SEARCH + BUTTON
+========================== */
+
+.toolbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin-bottom: 55px;
+}
+
+.search-row {
+  width: auto;
+}
+
+.search-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 160px;
+  height: 36px;
+
+  padding: 0 12px;
+
+  border: 1px solid #26c0ab;
+  border-radius: 10px;
+
+  background: #ffffff;
+}
+
+.search-card svg {
+  width: 16px;
+  height: 16px;
+  color: #222;
+}
+
+.search-card input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: 12px;
+  color: #111827;
+}
+
+/* ==========================
+   ADD CATEGORY BUTTON
+========================== */
+
+.btn-primary {
+  width: 110px;
+  height: 36px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2fa084;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #23866f;
+}
+
+/* ==========================
+   CATEGORY GRID
+========================== */
+
+.category-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  column-gap: 26px;
+  row-gap: 28px;
+
+  justify-content: start;
+}
+
+/* ==========================
+   CATEGORY CARD
+========================== */
+
+.category-card {
+  width: 100%;
+  height: 170px;
+
+  border: 0.8px solid #26c0ab;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 12px 14px;
+
+  transition: 0.25s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(38, 192, 171, 0.15);
+}
+
+/* ==========================
+   ICON
+========================== */
+
+.category-icon-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.category-icon {
+  width: 54px;
+  height: 54px;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(38, 192, 171, 0.12);
+
+  font-size: 24px;
+}
+
+/* ==========================
+   CARD TITLE
+========================== */
+
+.category-card h2 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  text-align: center;
+  color: #111827;
+}
+
+/* ==========================
+   ACTION BUTTONS
+========================== */
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  width: 58px;
+  height: 28px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.btn-edit {
+  border: 1px solid #26c0ab;
+  background: #effdf8;
+  color: #26c0ab;
+}
+
+.btn-edit:hover {
+  background: #26c0ab;
+  color: #ffffff;
+}
+
+.btn-delete {
+  border: none;
+  background: #ffb9bd;
+  color: #9e2530;
+}
+
+.btn-delete:hover {
+  background: #ff9fa6;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 1200px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .toolbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-main {
+    padding: 20px;
+  }
+
+  .admin-topbar h1 {
+    font-size: 26px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.modal-box {
+  width: 420px;
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input {
+  height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save-btn {
+  background: #2BAE96;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+/* ==========================
+   ACTION BUTTONS
+========================== */
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  width: 58px;
+  height: 28px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* EDIT */
+
+.btn-edit {
+  border: 1px solid #26c0ab;
+  background: #effdf8;
+  color: #26c0ab;
+}
+
+.btn-edit:hover {
+  background: #26c0ab;
+  color: #ffffff;
+}
+
+/* DELETE */
+
+.btn-delete {
+  border: 1px solid #fca5a5;
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   DELETE ICON BUTTON
+   (For Reviews Page)
+========================== */
+
+.delete-btn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #fef2f2;
+  color: #dc2626;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* Fixed sidebar */
+.admin-layout aside {
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 92px);
+  overflow-y: hidden;
+}
+
+
+/* ==========================
+   EMOJI SUGGESTIONS
+========================== */
+.emoji-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  max-height: 110px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.emoji-item {
+  font-size: 22px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+}
+
+.emoji-item:hover {
+  background: #e5e7eb;
+  transform: scale(1.15);
+}
+
+.emoji-item.selected {
+  border-color: #2BAE96;
+  background: #e6fffb;
+}

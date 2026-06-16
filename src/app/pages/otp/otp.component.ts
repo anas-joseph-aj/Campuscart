@@ -16,11 +16,11 @@ export class OtpComponent implements OnInit {
   email = localStorage.getItem('email') || '';
   timer = 120;
   interval: any;
-  
+
   statusMessage: string = ''; // Added for feedback
   errorMessage: string = '';  // Added for error feedback
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void { this.startTimer(); }
 

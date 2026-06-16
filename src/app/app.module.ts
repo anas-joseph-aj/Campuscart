@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { LoginComponent } from './pages/login/login.component';
 import { VerificationComponent } from './pages/verification/verification.component';
-// Removed ProductComponent import (handled via lazy-loaded component)
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SellComponent } from './sell/sell.component';
 
@@ -17,7 +16,6 @@ import { SellComponent } from './sell/sell.component';
     AppComponent,
     LoginComponent,
     VerificationComponent,
-    // ProductComponent removed; uses lazy-loaded ProductPageComponent
     SellComponent
   ],
   imports: [
@@ -27,7 +25,7 @@ import { SellComponent } from './sell/sell.component';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
-    ProfileComponent // Import standalone component here
+    ProfileComponent
   ],
   bootstrap: [AppComponent]
 })

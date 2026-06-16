@@ -16,10 +16,26 @@ import { ProductListingComponent } from './pages/product-listing/product-listing
 // Import the guard
 import { authGuard } from './auth.guard';
 
+// Import Admin Components
+import { AdminAnalyticsComponent } from './admin-analytics/admin-analytics.component';
+import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminPasscodeComponent } from './admin-passcode/admin-passcode.component';
+import { AdminProductsComponent } from './admin-products/admin-products.component';
+import { AdminReviewsComponent } from './admin-reviews/admin-reviews.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
+
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'otp', component: OtpComponent },
   { path: 'home', component: HomeComponent}, 
+  { path: 'admin-passcode', component: AdminPasscodeComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'admin-analytics', component: AdminAnalyticsComponent },
+  { path: 'admin-categories', component: AdminCategoriesComponent },
+  { path: 'admin-products', component: AdminProductsComponent },
+  { path: 'admin-reviews', component: AdminReviewsComponent },
+  { path: 'admin-users', component: AdminUsersComponent },
   { path: 'search', component: SearchComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [authGuard] },
