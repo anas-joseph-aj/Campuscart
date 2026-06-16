@@ -1,8 +1,13 @@
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght=400;500;600;700&family=Inter:wght=400;500;600&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght=400;500;600;700&family=Inter:wght=400;500;600&display=swap"
+  rel="stylesheet">
 
-<div class="h-screen w-full bg-white flex flex-col select-none overflow-hidden" style="font-family: 'IBM Plex Serif', serif;">
-  
-  <header class="w-full h-[77px] px-12 flex items-center justify-between border-b-2 border-[#E5E7EB] bg-white z-20 shrink-0" style="font-family: 'Inter', sans-serif;">
+<div class="h-screen w-full bg-white flex flex-col select-none overflow-hidden"
+  style="font-family: 'IBM Plex Serif', serif;">
+
+  <header
+    class="w-full h-[77px] px-12 flex items-center justify-between border-b-2 border-[#E5E7EB] bg-white z-20 shrink-0"
+    style="font-family: 'Inter', sans-serif;">
     <div class="flex items-center">
       <img src="assets/logo.png" alt="CampusCart Logo" class="h-[50px] w-auto">
     </div>
@@ -14,437 +19,486 @@
     </nav>
 
     <div class="flex items-center gap-6">
-      <button class="flex items-center gap-2 rounded-[6px] px-6 py-2 text-white font-medium hover:bg-[#1fa391] transition-colors" style="background-color: #26C0AB;">
-        <span class="text-[18px]">+ Sell</span>
-      </button>
-      
+
       <div class="flex items-center gap-4 text-[#6C757D]">
-        <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+
+        <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
+          </path>
         </svg>
-        <svg class="w-6 h-6 hover:text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-        <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
       </div>
 
-      <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors" style="background-color: #FFC9C9; color: #FB2C36;">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+      <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors"
+        style="background-color: #FFC9C9; color: #FB2C36;">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
         <span class="font-semibold text-[14px]">Logout</span>
       </button>
     </div>
   </header>
 
   <div class="flex-1 w-full flex bg-[#F9FAFB] overflow-hidden">
-    
-    <aside class="group w-[76px] hover:w-[260px] h-full p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden z-20" 
-           style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
-       
-       <div class="pt-2">
-         <a routerLink="/admin-dashboard"
-            (click)="setActiveMenu('Dashboard')" 
-            [ngClass]="{
+
+    <aside
+      class="group w-[76px] hover:w-[260px] h-full p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden z-20"
+      style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
+
+      <div class="pt-2">
+        <a routerLink="/admin-dashboard" (click)="setActiveMenu('Dashboard')" [ngClass]="{
               'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Dashboard', 
               'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Dashboard'
             }"
-            class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap border-none outline-none no-underline group/btn">
-           <div class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" 
-                  [ngClass]="{
+          class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap border-none outline-none no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
                     'text-[#2BAE96]': activeMenu === 'Dashboard', 
                     'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Dashboard'
-                  }"
-                  stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-               <path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
-               <path d="M9 21V12h6v9" />
-             </svg>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Dashboard</span>
-         </a>
-       </div>
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
+              <path d="M9 21V12h6v9" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Dashboard</span>
+        </a>
+      </div>
 
-       <div class="flex flex-col gap-2">
-         <span class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MAIN</span>
-         
-         <a routerLink="/admin-users"
-            (click)="setActiveMenu('Users')" 
-            [ngClass]="{
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MAIN</span>
+
+        <a routerLink="/admin-users" (click)="setActiveMenu('Users')" [ngClass]="{
               'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Users', 
               'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Users'
-            }" 
-            class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
-           <div class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" 
-                  [ngClass]="{
+            }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
                     'text-[#2BAE96]': activeMenu === 'Users', 
                     'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Users'
-                  }"
-                  stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-               <circle cx="8.5" cy="7" r="3.5" />
-               <path d="M1 20v-1a4 4 0 0 1 4-4h7a4 4 0 0 1 4 4v1" />
-               <path d="M15.5 4.5a3.5 3.5 0 0 1 0 5" />
-               <path d="M19 15a4 4 0 0 1 2 2v3" />
-             </svg>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Users</span>
-         </a>
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8.5" cy="7" r="3.5" />
+              <path d="M1 20v-1a4 4 0 0 1 4-4h7a4 4 0 0 1 4 4v1" />
+              <path d="M15.5 4.5a3.5 3.5 0 0 1 0 5" />
+              <path d="M19 15a4 4 0 0 1 2 2v3" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Users</span>
+        </a>
 
-         <a routerLink="/admin-categories"
-                 (click)="setActiveMenu('Categories')" 
-                 [ngClass]="{
+        <a routerLink="/admin-categories" (click)="setActiveMenu('Categories')" [ngClass]="{
                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Categories', 
                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Categories'
-                 }" 
-                 class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
-           <div class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <svg class="w-[20px] h-[20px] fill-none stroke-current transition-colors" 
-                  [ngClass]="{
+                 }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[20px] h-[20px] fill-none stroke-current transition-colors" [ngClass]="{
                     'text-[#2BAE96]': activeMenu === 'Categories', 
                     'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Categories'
-                  }"
-                  stroke-width="1.8" viewBox="0 0 24 24">
-               <rect x="3" y="3" width="7" height="7" />
-               <rect x="14" y="3" width="7" height="7" />
-               <rect x="3" y="14" width="7" height="7" />
-               <rect x="14" y="14" width="7" height="7" />
-             </svg>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Categories</span>
-         </a>
+                  }" stroke-width="1.8" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Categories</span>
+        </a>
 
-         <a routerLink="/admin-products"
-                 (click)="setActiveMenu('Products')" 
-                 [ngClass]="{
+        <a routerLink="/admin-products" (click)="setActiveMenu('Products')" [ngClass]="{
                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Products', 
                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Products'
-                 }" 
-                 class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
-           <div class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" 
-                  [ngClass]="{
+                 }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
                     'text-[#2BAE96]': activeMenu === 'Products', 
                     'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Products'
-                  }"
-                  stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-               <path d="M4 8h16l-1.5 12H5.5L4 8z" />
-               <path d="M9 8V6a3 3 0 0 1 6 0v2" />
-               <path d="M8 12a4 4 0 0 0 8 0" />
-             </svg>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Products</span>
-         </a>
-       </div>
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 8h16l-1.5 12H5.5L4 8z" />
+              <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+              <path d="M8 12a4 4 0 0 0 8 0" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Products</span>
+        </a>
+      </div>
 
-       <div class="flex flex-col gap-2">
-         <span class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">CONTENT</span>
-         
-         <a routerLink="/admin-reviews"
-                 (click)="setActiveMenu('Reviews')" 
-                 [ngClass]="{
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">CONTENT</span>
+
+        <a routerLink="/admin-reviews" (click)="setActiveMenu('Reviews')" [ngClass]="{
                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Reviews', 
                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Reviews'
-                 }" 
-                 class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
-           <div class="shrink-0 w-[24px] h-[24px] relative flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <div class="w-[22px] h-[22px] relative">
-               <svg class="w-[14px] h-[14px] absolute bottom-0 left-0 fill-none stroke-current transition-colors" 
-                    [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
-                    stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                 <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-               </svg>
-               <svg class="w-[14px] h-[14px] absolute top-0 right-0 fill-none stroke-current transition-colors" 
-                    [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
-                    stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                 <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
-               </svg>
-             </div>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Reviews</span>
-         </a>
-       </div>
+                 }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+          <div
+            class="shrink-0 w-[24px] h-[24px] relative flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <div class="w-[22px] h-[22px] relative">
+              <svg class="w-[14px] h-[14px] absolute bottom-0 left-0 fill-none stroke-current transition-colors"
+                [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
+                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+              </svg>
+              <svg class="w-[14px] h-[14px] absolute top-0 right-0 fill-none stroke-current transition-colors"
+                [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }"
+                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
+              </svg>
+            </div>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Reviews</span>
+        </a>
+      </div>
 
-       <div class="flex flex-col gap-2">
-         <span class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MODERATION</span>
-         
-         <a routerLink="/admin-analytics"
-                 (click)="setActiveMenu('Analytics')" 
-                 [ngClass]="{
+      <div class="flex flex-col gap-2">
+        <span
+          class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MODERATION</span>
+
+        <a routerLink="/admin-analytics" (click)="setActiveMenu('Analytics')" [ngClass]="{
                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Analytics', 
                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Analytics'
-                 }" 
-                 class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
-           <div class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-             <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" 
-                  [ngClass]="{
+                 }"
+          class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+          <div
+            class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors" [ngClass]="{
                     'text-[#2BAE96]': activeMenu === 'Analytics', 
                     'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Analytics'
-                  }"
-                  stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-               <path d="M3 3v18h18" />
-               <path d="M7 16v-4" />
-               <path d="M12 16V9" />
-               <path d="M17 16V6" />
-             </svg>
-           </div>
-           <span class="hidden group-hover:block transition-all duration-200">Analytics</span>
-         </a>
-       </div>
-    </aside>
-<main class="flex-1 h-full pt-2 px-8 pb-8 overflow-y-auto bg-white">
-          
-  <ng-container *ngIf="currentView === 'dashboard'">
-    <div class="w-full flex items-center justify-between mb-6 mt-5">
-      <h1 class="text-[34px] font-bold text-[#0F172A] tracking-tight">Admin Panel</h1>
-      
-      <div class="relative w-[320px] h-[44px] border border-gray-300 rounded-xl bg-white flex items-center px-4 shadow-sm focus-within:border-[#26C0AB] transition-colors">
-        <input type="text" 
-               [(ngModel)]="searchQuery" 
-               (input)="onGlobalSearch()" 
-               placeholder="Search products, users..." 
-               class="w-full bg-transparent text-[15px] text-black font-normal placeholder-gray-400 outline-none border-none">
-        <svg class="w-4 h-4 text-gray-400 ml-2 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
+                  }" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18" />
+              <path d="M7 16v-4" />
+              <path d="M12 16V9" />
+              <path d="M17 16V6" />
+            </svg>
+          </div>
+          <span class="hidden group-hover:block transition-all duration-200">Analytics</span>
+        </a>
       </div>
-    </div>
+    </aside>
+    <main class="flex-1 h-full pt-2 px-8 pb-8 overflow-y-auto bg-white">
 
-    <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" style="font-family: 'IBM Plex Serif', serif;">
-      <div *ngFor="let card of metrics" 
-           [class]="'h-[102px] border-2 rounded-[22px] px-6 bg-white flex items-center justify-between shadow-sm hover:shadow-md transition-all ' + card.colorClass">
-        <div class="flex flex-col justify-center">
-          <span class="text-[14px] font-semibold text-gray-500 tracking-wide">{{ card.title }}</span>
-          <span class="text-[38px] font-bold text-black leading-none mt-1">{{ card.value }}</span>
+      <ng-container *ngIf="currentView === 'dashboard'">
+        <div class="w-full flex items-center justify-between mb-6 mt-5">
+          <h1 class="text-[34px] font-bold text-[#0F172A] tracking-tight">Admin Panel</h1>
+
+          <div
+            class="relative w-[320px] h-[44px] border border-gray-300 rounded-xl bg-white flex items-center px-4 shadow-sm focus-within:border-[#26C0AB] transition-colors">
+            <input type="text" [(ngModel)]="searchQuery" (input)="onGlobalSearch()"
+              placeholder="Search products, users..."
+              class="w-full bg-transparent text-[15px] text-black font-normal placeholder-gray-400 outline-none border-none">
+            <svg class="w-4 h-4 text-gray-400 ml-2 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+              </path>
+            </svg>
+          </div>
         </div>
-        
-        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-inner shrink-0"
-             [ngClass]="{
+
+        <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          style="font-family: 'IBM Plex Serif', serif;">
+          <div *ngFor="let card of metrics"
+            [class]="'h-[102px] border-2 rounded-[22px] px-6 bg-white flex items-center justify-between shadow-sm hover:shadow-md transition-all ' + card.colorClass">
+            <div class="flex flex-col justify-center">
+              <span class="text-[14px] font-semibold text-gray-500 tracking-wide">{{ card.title }}</span>
+              <span class="text-[38px] font-bold text-black leading-none mt-1">{{ card.value }}</span>
+            </div>
+
+            <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-inner shrink-0" [ngClass]="{
                'bg-[#20bfa9]': card.iconType === 'users',
                'bg-[#ccf2e2]': card.iconType === 'categories',
                'bg-[#e0f2fe] text-[#0284c7]': card.iconType === 'products',
                'bg-[#fee2e2] text-[#ef4444]': card.iconType === 'reports'
              }">
-             
-          <svg *ngIf="card.iconType === 'users'" class="w-[24px] h-[24px] text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-          
-          <svg *ngIf="card.iconType === 'categories'" class="w-[22px] h-[22px] text-[#24bfa5]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="8" height="8" />
-            <rect x="14" y="2" width="8" height="8" />
-            <rect x="2" y="14" width="8" height="8" />
-            <rect x="14" y="14" width="8" height="8" />
-          </svg>
-          
-          <svg *ngIf="card.iconType === 'products'" class="w-[24px] h-[24px] current-color" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          
-          <svg *ngIf="card.iconType === 'reports'" class="w-[24px] h-[24px] current-color" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-            <line x1="12" y1="9" x2="12" y2="13"></line>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </ng-container>
 
-  <router-outlet></router-outlet>
-      
-  <ng-container *ngIf="currentView === 'dashboard'">
-    <div class="w-full space-y-8">
-      <div class="w-full grid grid-cols-1 xl:grid-cols-5 gap-8 items-stretch">
-        <div class="xl:col-span-3 border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm flex flex-col justify-between">
-          <div class="h-full flex flex-col justify-start">
-            <div class="flex items-center justify-between mb-5 shrink-0">
-              <h2 class="text-[22px] font-bold text-[#0F172A]">Latest Products</h2>
-              <button (click)="currentView = 'allProducts'" class="text-[14px] font-semibold text-[#26C0AB] hover:underline" style="font-family: 'IBM Plex Serif', serif;">View all</button>
-            </div>
+              <svg *ngIf="card.iconType === 'users'" class="w-[24px] h-[24px] text-white" fill="none"
+                stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
 
-            <div class="w-full flex-1 overflow-x-auto pr-1">
-              <table class="w-full text-left border-collapse table-fixed">
-                <thead>
-                  <tr class="border-b border-gray-100 text-[13px] font-bold text-gray-400 uppercase tracking-wider bg-white z-10" style="font-family: 'IBM Plex Serif', serif;">
-                    <th class="pb-3 font-bold w-[32%]">Product</th>
-                    <th class="pb-3 font-bold w-[18%]">Category</th>
-                    <th class="pb-3 font-bold w-[18%]">Seller</th>
-                    <th class="pb-3 font-bold w-[14%]">Amount</th>
-                    <th class="pb-3 font-bold w-[11%]">Status</th>
-                    <th class="pb-3 font-bold w-[7%] text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody class="text-[15px] font-medium text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
-                  <tr *ngFor="let product of latestProducts" class="border-b border-gray-50 group hover:bg-slate-50/50 transition-colors">
-                    <td class="py-3.5 flex items-center gap-3">
-                      <div class="w-9 h-9 bg-gray-50 rounded-lg p-1.5 flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden">
-                        <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-full object-contain">
-                      </div>
-                      <span class="font-bold text-gray-900 truncate">{{ product.name }}</span>
-                    </td>
-                    <td class="py-3.5 text-gray-500 font-medium">{{ product.category }}</td>
-                    <td class="py-3.5 text-gray-600 font-medium">{{ product.seller }}</td>
-                    <td class="py-3.5 font-bold text-gray-900">{{ product.amount }}</td>
-                    <td class="py-3.5">
-                      <span [ngClass]="product.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'" 
-                            class="px-2.5 py-0.5 rounded-full text-[12px] font-bold tracking-wide shadow-sm uppercase inline-block">
-                        {{ product.status }}
-                      </span>
-                    </td>
-                    <td class="py-3.5 text-right">
-                      <button (click)="selectedProduct = product; showEditModal = true" class="p-1.5 text-gray-400 hover:text-[#26C0AB] bg-gray-50 hover:bg-teal-50 rounded-lg transition-all border border-gray-200 shadow-xs inline-flex items-center justify-center">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                        </svg>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <svg *ngIf="card.iconType === 'categories'" class="w-[22px] h-[22px] text-[#24bfa5]" fill="none"
+                stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="2" width="8" height="8" />
+                <rect x="14" y="2" width="8" height="8" />
+                <rect x="2" y="14" width="8" height="8" />
+                <rect x="14" y="14" width="8" height="8" />
+              </svg>
+
+              <svg *ngIf="card.iconType === 'products'" class="w-[24px] h-[24px] current-color" fill="none"
+                stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+
+              <svg *ngIf="card.iconType === 'reports'" class="w-[24px] h-[24px] current-color" fill="none"
+                stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
             </div>
           </div>
         </div>
+      </ng-container>
 
-        <div class="xl:col-span-2 border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm flex flex-col items-center justify-between">
-          <div class="w-full flex items-center justify-start mb-4">
-            <h2 class="text-[22px] font-bold text-[#0F172A]">Categories Overview</h2>
-          </div>
+      <router-outlet></router-outlet>
 
-          <div class="relative w-[170px] h-[170px] rounded-full flex items-center justify-center mb-6 shadow-md shrink-0" 
-               style="background: conic-gradient(#26C0AB 0% 35%, #4F46E5 35% 60%, #F59E0B 60% 78%, #EF4444 78% 92%, #A855F7 92% 100%);">
-            <div class="w-[120px] h-[120px] rounded-full bg-white flex flex-col items-center justify-center shadow-inner">
-              <span class="text-[44px] font-bold text-[#0F172A] leading-none">10</span>
-            </div>
-          </div>
-
-          <div class="w-full space-y-3.5 pt-1" style="font-family: 'IBM Plex Serif', serif;">
-            <div *ngFor="let cat of categoriesOverview" class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <span class="w-3 h-3 rounded-full shrink-0" [style.background-color]="cat.colorHex"></span>
-                <span class="w-[110px] truncate text-[14px] font-medium text-[#6B7280] tracking-[0px]" style="text-transform: none;">{{ cat.name }}</span>
-              </div>
-              <div class="flex-1 max-w-[120px] h-2 bg-gray-100 rounded-full mx-4 overflow-hidden relative">
-                <div [class]="'h-full rounded-full ' + cat.barColorClass" [style.width.%]="cat.percentage"></div>
-              </div>
-              <span class="text-gray-900 font-bold text-[13px] text-right min-w-[32px]">{{ cat.percentage }}%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm">
-        <div class="w-full flex items-center justify-between mb-6">
-          <h2 class="text-[22px] font-bold text-[#0F172A]">Spam Reports</h2>
-          <button (click)="currentView = 'allReports'" class="text-[14px] font-semibold text-[#26C0AB] hover:underline" style="font-family: 'IBM Plex Serif', serif;">View all</button>
-        </div>
-
-        <div class="flex flex-col w-full divide-y divide-gray-100">
-          <div *ngFor="let report of spamReports" class="flex items-center justify-between py-4 first:pt-0 last:pb-0 group transition-all">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm border border-teal-100"
-                   style="background-color: rgba(224, 243, 240, 0.95);">
-                <span class="font-bold text-[18px] text-[#26C0AB]" style="font-family: 'IBM Plex Serif', serif;">{{ report.avatarInitial }}</span>
-              </div>
-              <div class="flex flex-col justify-center">
-                <span class="text-[18px] font-bold text-gray-900 leading-tight" style="font-family: 'IBM Plex Serif', serif;">{{ report.userName }}</span>
-                <span class="text-[14px] text-gray-400 font-normal mt-0.5" style="font-family: 'IBM Plex Serif', serif;">{{ report.reason }}</span>
-              </div>
-            </div>
-            <button (click)="removeReport(report.id)" class="h-[38px] px-5 bg-[#FF4D4F] hover:bg-red-600 text-white font-semibold rounded-lg text-[14px] shadow-sm transition-colors" style="font-family: 'IBM Plex Serif', serif;">Remove</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="currentView === 'allProducts'">
-    <div class="w-full flex flex-col mt-5">
-      <div class="flex items-center gap-4 mb-6">
-        <button (click)="currentView = 'dashboard'" class="w-10 h-10 rounded-xl bg-gray-50 hover:bg-teal-50 border border-gray-200 text-gray-600 hover:text-[#26C0AB] flex items-center justify-center shadow-sm transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
-          </svg>
-        </button>
-        <h1 class="text-[28px] font-bold text-[#0F172A]">All Products</h1>
-      </div>
-      
-      <div class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-gray-100 text-[13px] font-bold text-gray-400 uppercase tracking-wider" style="font-family: 'IBM Plex Serif', serif;">
-              <th class="pb-3 font-bold w-[30%]">Product</th>
-              <th class="pb-3 font-bold w-[20%]">Category</th>
-              <th class="pb-3 font-bold w-[20%]">Seller</th>
-              <th class="pb-3 font-bold w-[15%]">Amount</th>
-              <th class="pb-3 font-bold w-[10%]">Status</th>
-              <th class="pb-3 font-bold w-[5%] text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody class="text-[15px] font-medium text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
-            <tr *ngFor="let product of latestProducts" class="border-b border-gray-50 hover:bg-slate-50/50 transition-colors">
-              <td class="py-3.5 flex items-center gap-3">
-                <div class="w-9 h-9 bg-gray-50 rounded-lg p-1.5 flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden">
-                  <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-full object-contain">
+      <ng-container *ngIf="currentView === 'dashboard'">
+        <div class="w-full space-y-8">
+          <div class="w-full grid grid-cols-1 xl:grid-cols-5 gap-8 items-stretch">
+            <div
+              class="xl:col-span-3 border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm flex flex-col justify-between">
+              <div class="h-full flex flex-col justify-start">
+                <div class="flex items-center justify-between mb-5 shrink-0">
+                  <h2 class="text-[22px] font-bold text-[#0F172A]">Latest Products</h2>
+                  <button (click)="currentView = 'allProducts'"
+                    class="text-[14px] font-semibold text-[#26C0AB] hover:underline"
+                    style="font-family: 'IBM Plex Serif', serif;">View all</button>
                 </div>
-                <span class="font-bold text-gray-900">{{ product.name }}</span>
-              </td>
-              <td class="py-3.5 text-gray-500">{{ product.category }}</td>
-              <td class="py-3.5 text-gray-600">{{ product.seller }}</td>
-              <td class="py-3.5 font-bold text-gray-900">{{ product.amount }}</td>
-              <td class="py-3.5">
-                <span [ngClass]="product.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'" class="px-2.5 py-0.5 rounded-full text-[12px] font-bold tracking-wide uppercase inline-block">
-                  {{ product.status }}
-                </span>
-              </td>
-              <td class="py-3.5 text-right">
-                <button (click)="selectedProduct = product; showEditModal = true" class="p-1.5 text-gray-400 hover:text-[#26C0AB] bg-gray-50 hover:bg-teal-50 rounded-lg transition-all border border-gray-200 shadow-xs inline-flex items-center justify-center">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </ng-container>
 
-  <ng-container *ngIf="currentView === 'allReports'">
-    <div class="w-full flex flex-col mt-5">
-      <div class="flex items-center gap-4 mb-6">
-        <button (click)="currentView = 'dashboard'" class="w-10 h-10 rounded-xl bg-gray-50 hover:bg-teal-50 border border-gray-200 text-gray-600 hover:text-[#26C0AB] flex items-center justify-center shadow-sm transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
-          </svg>
-        </button>
-        <h1 class="text-[28px] font-bold text-[#0F172A]">All Spam Reports</h1>
-      </div>
-
-      <div class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm divide-y divide-gray-100">
-        <div *ngFor="let report of spamReports" class="flex items-center justify-between py-4 first:pt-0 last:pb-0">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm border border-teal-100" style="background-color: rgba(224, 243, 240, 0.95);">
-              <span class="font-bold text-[18px] text-[#26C0AB]" style="font-family: 'IBM Plex Serif', serif;">{{ report.avatarInitial }}</span>
+                <div class="w-full flex-1 overflow-x-auto pr-1">
+                  <table class="w-full text-left border-collapse table-fixed">
+                    <thead>
+                      <tr
+                        class="border-b border-gray-100 text-[13px] font-bold text-gray-400 uppercase tracking-wider bg-white z-10"
+                        style="font-family: 'IBM Plex Serif', serif;">
+                        <th class="pb-3 font-bold w-[32%]">Product</th>
+                        <th class="pb-3 font-bold w-[18%]">Category</th>
+                        <th class="pb-3 font-bold w-[18%]">Seller</th>
+                        <th class="pb-3 font-bold w-[14%]">Amount</th>
+                        <th class="pb-3 font-bold w-[11%]">Status</th>
+                        <th class="pb-3 font-bold w-[7%] text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-[15px] font-medium text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
+                      <tr *ngFor="let product of latestProducts"
+                        class="border-b border-gray-50 group hover:bg-slate-50/50 transition-colors">
+                        <td class="py-3.5 flex items-center gap-3">
+                          <div
+                            class="w-9 h-9 bg-gray-50 rounded-lg p-1.5 flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden">
+                            <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-full object-contain">
+                          </div>
+                          <span class="font-bold text-gray-900 truncate">{{ product.name }}</span>
+                        </td>
+                        <td class="py-3.5 text-gray-500 font-medium">{{ product.category }}</td>
+                        <td class="py-3.5 text-gray-600 font-medium">{{ product.seller }}</td>
+                        <td class="py-3.5 font-bold text-gray-900">{{ product.amount }}</td>
+                        <td class="py-3.5">
+                          <span
+                            [ngClass]="product.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'"
+                            class="px-2.5 py-0.5 rounded-full text-[12px] font-bold tracking-wide shadow-sm uppercase inline-block">
+                            {{ product.status }}
+                          </span>
+                        </td>
+                        <td class="py-3.5 text-right">
+                          <button (click)="selectedProduct = product; showEditModal = true"
+                            class="p-1.5 text-gray-400 hover:text-[#26C0AB] bg-gray-50 hover:bg-teal-50 rounded-lg transition-all border border-gray-200 shadow-xs inline-flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                              viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                              </path>
+                            </svg>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div class="flex flex-col justify-center">
-              <span class="text-[18px] font-bold text-gray-900 leading-tight" style="font-family: 'IBM Plex Serif', serif;">{{ report.userName }}</span>
-              <span class="text-[14px] text-gray-400 font-normal mt-0.5" style="font-family: 'IBM Plex Serif', serif;">{{ report.reason }}</span>
+
+            <div
+              class="xl:col-span-2 border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm flex flex-col items-center justify-between">
+              <div class="w-full flex items-center justify-start mb-4">
+                <h2 class="text-[22px] font-bold text-[#0F172A]">Categories Overview</h2>
+              </div>
+
+              <div
+                class="relative w-[170px] h-[170px] rounded-full flex items-center justify-center mb-6 shadow-md shrink-0"
+                style="background: conic-gradient(#26C0AB 0% 35%, #4F46E5 35% 60%, #F59E0B 60% 78%, #EF4444 78% 92%, #A855F7 92% 100%);">
+                <div
+                  class="w-[120px] h-[120px] rounded-full bg-white flex flex-col items-center justify-center shadow-inner">
+                  <span class="text-[44px] font-bold text-[#0F172A] leading-none">10</span>
+                </div>
+              </div>
+
+              <div class="w-full space-y-3.5 pt-1" style="font-family: 'IBM Plex Serif', serif;">
+                <div *ngFor="let cat of categoriesOverview" class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-3 h-3 rounded-full shrink-0" [style.background-color]="cat.colorHex"></span>
+                    <span class="w-[110px] truncate text-[14px] font-medium text-[#6B7280] tracking-[0px]"
+                      style="text-transform: none;">{{ cat.name }}</span>
+                  </div>
+                  <div class="flex-1 max-w-[120px] h-2 bg-gray-100 rounded-full mx-4 overflow-hidden relative">
+                    <div [class]="'h-full rounded-full ' + cat.barColorClass" [style.width.%]="cat.percentage"></div>
+                  </div>
+                  <span class="text-gray-900 font-bold text-[13px] text-right min-w-[32px]">{{ cat.percentage }}%</span>
+                </div>
+              </div>
             </div>
           </div>
-          <button (click)="removeReport(report.id)" class="h-[38px] px-5 bg-[#FF4D4F] hover:bg-red-600 text-white font-semibold rounded-lg text-[14px] shadow-sm transition-colors" style="font-family: 'IBM Plex Serif', serif;">Remove</button>
-        </div>
-      </div>
-    </div>
-  </ng-container>
 
-</main>
+          <div class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm">
+            <div class="w-full flex items-center justify-between mb-6">
+              <h2 class="text-[22px] font-bold text-[#0F172A]">Spam Reports</h2>
+              <button (click)="currentView = 'allReports'"
+                class="text-[14px] font-semibold text-[#26C0AB] hover:underline"
+                style="font-family: 'IBM Plex Serif', serif;">View all</button>
+            </div>
+
+            <div class="flex flex-col w-full divide-y divide-gray-100">
+              <div *ngFor="let report of spamReports"
+                class="flex items-center justify-between py-4 first:pt-0 last:pb-0 group transition-all">
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm border border-teal-100"
+                    style="background-color: rgba(224, 243, 240, 0.95);">
+                    <span class="font-bold text-[18px] text-[#26C0AB]" style="font-family: 'IBM Plex Serif', serif;">{{
+                      report.avatarInitial }}</span>
+                  </div>
+                  <div class="flex flex-col justify-center">
+                    <span class="text-[18px] font-bold text-gray-900 leading-tight"
+                      style="font-family: 'IBM Plex Serif', serif;">{{ report.userName }}</span>
+                    <span class="text-[14px] text-gray-400 font-normal mt-0.5"
+                      style="font-family: 'IBM Plex Serif', serif;">{{ report.reason }}</span>
+                  </div>
+                </div>
+                <button (click)="removeReport(report.id)"
+                  class="h-[38px] px-5 bg-[#FF4D4F] hover:bg-red-600 text-white font-semibold rounded-lg text-[14px] shadow-sm transition-colors"
+                  style="font-family: 'IBM Plex Serif', serif;">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="currentView === 'allProducts'">
+        <div class="w-full flex flex-col mt-5">
+          <div class="flex items-center gap-4 mb-6">
+            <button (click)="currentView = 'dashboard'"
+              class="w-10 h-10 rounded-xl bg-gray-50 hover:bg-teal-50 border border-gray-200 text-gray-600 hover:text-[#26C0AB] flex items-center justify-center shadow-sm transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="text-[28px] font-bold text-[#0F172A]">All Products</h1>
+          </div>
+
+          <div class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-gray-100 text-[13px] font-bold text-gray-400 uppercase tracking-wider"
+                  style="font-family: 'IBM Plex Serif', serif;">
+                  <th class="pb-3 font-bold w-[30%]">Product</th>
+                  <th class="pb-3 font-bold w-[20%]">Category</th>
+                  <th class="pb-3 font-bold w-[20%]">Seller</th>
+                  <th class="pb-3 font-bold w-[15%]">Amount</th>
+                  <th class="pb-3 font-bold w-[10%]">Status</th>
+                  <th class="pb-3 font-bold w-[5%] text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="text-[15px] font-medium text-gray-800" style="font-family: 'IBM Plex Serif', serif;">
+                <tr *ngFor="let product of latestProducts"
+                  class="border-b border-gray-50 hover:bg-slate-50/50 transition-colors">
+                  <td class="py-3.5 flex items-center gap-3">
+                    <div
+                      class="w-9 h-9 bg-gray-50 rounded-lg p-1.5 flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden">
+                      <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-full object-contain">
+                    </div>
+                    <span class="font-bold text-gray-900">{{ product.name }}</span>
+                  </td>
+                  <td class="py-3.5 text-gray-500">{{ product.category }}</td>
+                  <td class="py-3.5 text-gray-600">{{ product.seller }}</td>
+                  <td class="py-3.5 font-bold text-gray-900">{{ product.amount }}</td>
+                  <td class="py-3.5">
+                    <span
+                      [ngClass]="product.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'"
+                      class="px-2.5 py-0.5 rounded-full text-[12px] font-bold tracking-wide uppercase inline-block">
+                      {{ product.status }}
+                    </span>
+                  </td>
+                  <td class="py-3.5 text-right">
+                    <button (click)="selectedProduct = product; showEditModal = true"
+                      class="p-1.5 text-gray-400 hover:text-[#26C0AB] bg-gray-50 hover:bg-teal-50 rounded-lg transition-all border border-gray-200 shadow-xs inline-flex items-center justify-center">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                        </path>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="currentView === 'allReports'">
+        <div class="w-full flex flex-col mt-5">
+          <div class="flex items-center gap-4 mb-6">
+            <button (click)="currentView = 'dashboard'"
+              class="w-10 h-10 rounded-xl bg-gray-50 hover:bg-teal-50 border border-gray-200 text-gray-600 hover:text-[#26C0AB] flex items-center justify-center shadow-sm transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="text-[28px] font-bold text-[#0F172A]">All Spam Reports</h1>
+          </div>
+
+          <div
+            class="w-full border-2 border-[#6FCF97]/60 rounded-[22px] p-6 bg-white shadow-sm divide-y divide-gray-100">
+            <div *ngFor="let report of spamReports" class="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm border border-teal-100"
+                  style="background-color: rgba(224, 243, 240, 0.95);">
+                  <span class="font-bold text-[18px] text-[#26C0AB]" style="font-family: 'IBM Plex Serif', serif;">{{
+                    report.avatarInitial }}</span>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <span class="text-[18px] font-bold text-gray-900 leading-tight"
+                    style="font-family: 'IBM Plex Serif', serif;">{{ report.userName }}</span>
+                  <span class="text-[14px] text-gray-400 font-normal mt-0.5"
+                    style="font-family: 'IBM Plex Serif', serif;">{{ report.reason }}</span>
+                </div>
+              </div>
+              <button (click)="removeReport(report.id)"
+                class="h-[38px] px-5 bg-[#FF4D4F] hover:bg-red-600 text-white font-semibold rounded-lg text-[14px] shadow-sm transition-colors"
+                style="font-family: 'IBM Plex Serif', serif;">Remove</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </main>
   </div>
 
-  <div *ngIf="showEditModal && selectedProduct" class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50" style="font-family: 'Inter', sans-serif;">
-    <div class="bg-white rounded-2xl border-2 border-gray-100 shadow-xl w-[400px] p-6 transform scale-100 transition-all">
+  <div *ngIf="showEditModal && selectedProduct"
+    class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50"
+    style="font-family: 'Inter', sans-serif;">
+    <div
+      class="bg-white rounded-2xl border-2 border-gray-100 shadow-xl w-[400px] p-6 transform scale-100 transition-all">
       <div class="flex items-center justify-between border-b border-gray-100 pb-3">
         <h3 class="text-[18px] font-bold text-gray-900">Update Product Status</h3>
         <button (click)="showEditModal = false" class="text-gray-400 hover:text-gray-600">
@@ -455,32 +509,38 @@
       </div>
 
       <div class="py-5 space-y-4">
-        <p class="text-[14px] text-gray-500">Change item status for <strong class="text-gray-800">{{selectedProduct.name}}</strong>.</p>
-        
+        <p class="text-[14px] text-gray-500">Change item status for <strong
+            class="text-gray-800">{{selectedProduct.name}}</strong>.</p>
+
         <div class="flex flex-col gap-2">
           <label class="flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all"
-                 [ngClass]="selectedProduct.status === 'Active' ? 'border-[#26C0AB] bg-teal-50/40' : 'border-gray-100 hover:border-gray-200'">
+            [ngClass]="selectedProduct.status === 'Active' ? 'border-[#26C0AB] bg-teal-50/40' : 'border-gray-100 hover:border-gray-200'">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
               <span class="text-[15px] font-bold text-gray-800">Active</span>
             </div>
-            <input type="radio" name="statusOption" value="Active" [(ngModel)]="selectedProduct.status" class="w-4 h-4 text-[#26C0AB] focus:ring-[#26C0AB]">
+            <input type="radio" name="statusOption" value="Active" [(ngModel)]="selectedProduct.status"
+              class="w-4 h-4 text-[#26C0AB] focus:ring-[#26C0AB]">
           </label>
 
           <label class="flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all"
-                 [ngClass]="selectedProduct.status === 'Inactive' ? 'border-red-400 bg-red-50/30' : 'border-gray-100 hover:border-gray-200'">
+            [ngClass]="selectedProduct.status === 'Inactive' ? 'border-red-400 bg-red-50/30' : 'border-gray-100 hover:border-gray-200'">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
               <span class="text-[15px] font-bold text-gray-800">Inactive</span>
             </div>
-            <input type="radio" name="statusOption" value="Inactive" [(ngModel)]="selectedProduct.status" class="w-4 h-4 text-red-500 focus:ring-red-400">
+            <input type="radio" name="statusOption" value="Inactive" [(ngModel)]="selectedProduct.status"
+              class="w-4 h-4 text-red-500 focus:ring-red-400">
           </label>
         </div>
       </div>
 
       <div class="flex items-center gap-3 pt-2 border-t border-gray-100">
-        <button (click)="showEditModal = false" class="flex-1 h-[42px] border-2 border-gray-200 text-gray-600 rounded-xl font-semibold text-[14px] hover:bg-gray-50 transition-colors">Cancel</button>
-        <button (click)="saveProductStatus()" class="flex-1 h-[42px] text-white rounded-xl font-semibold text-[14px] hover:bg-[#1fa391] transition-colors" style="background-color: #26C0AB;">Save Changes</button>
+        <button (click)="showEditModal = false"
+          class="flex-1 h-[42px] border-2 border-gray-200 text-gray-600 rounded-xl font-semibold text-[14px] hover:bg-gray-50 transition-colors">Cancel</button>
+        <button (click)="saveProductStatus()"
+          class="flex-1 h-[42px] text-white rounded-xl font-semibold text-[14px] hover:bg-[#1fa391] transition-colors"
+          style="background-color: #26C0AB;">Save Changes</button>
       </div>
     </div>
   </div>

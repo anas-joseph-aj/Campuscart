@@ -47,7 +47,7 @@
             style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
 
             <div class="pt-2">
-                <a (click)="navigateToSummary()"
+                <a routerLink="/admin-dashboard"
                     class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap no-underline border-none outline-none text-white hover:bg-white hover:text-[#2BAE96] font-normal group/btn cursor-pointer">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
@@ -1051,7 +1051,7 @@
 
                                 <button type="button" (click)="isDropdownOpen = !isDropdownOpen"
                                     class="w-full bg-white border border-[#2BAE96] text-gray-700 rounded-xl h-[44px] px-4 flex items-center justify-between text-[14px] font-semibold transition focus:outline-none shadow-2xs">
-                                    <span class="font-serif">{{ selectedReportItem?.status }}</span>
+                                    <span class="font-serif">{{ selectedReportItem.status }}</span>
                                     <svg class="w-4 h-4 text-[#2BAE96] transition-transform duration-200"
                                         [ngClass]="{'rotate-180': isDropdownOpen}" fill="none" stroke="currentColor"
                                         stroke-width="2.5" viewBox="0 0 24 24">
@@ -1065,19 +1065,19 @@
 
                                     <div class="flex flex-col py-1">
                                         <button type="button" (click)="selectStatusOption('Pending')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem?.status === 'Pending'}"
+                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Pending'}"
                                             class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
                                             Pending
                                         </button>
 
                                         <button type="button" (click)="selectStatusOption('Resolved')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem?.status === 'Resolved'}"
+                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Resolved'}"
                                             class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
                                             Resolved
                                         </button>
 
                                         <button type="button" (click)="selectStatusOption('Rejected')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem?.status === 'Rejected'}"
+                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Rejected'}"
                                             class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
                                             Rejected
                                         </button>

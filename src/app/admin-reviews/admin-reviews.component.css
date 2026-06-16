@@ -1,23 +1,34 @@
 .admin-page {
+  box-sizing: border-box;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  /* Removes the browser's default window scrollbar */
   padding-top: 77px;
-  min-height: 100vh;
   background: #f8f8f8;
 }
+
+/* ==========================
+   LAYOUT
+========================== */
 
 .admin-layout {
   display: flex;
   width: 100%;
+  height: 100%;
 }
 
 .admin-main {
   flex: 1;
-  padding: 35px;
+  height: 100%;
   overflow-y: auto;
+  /* Only the reviews content block will scroll */
+  padding: 35px;
 }
 
 /* ==========================
    HEADER
-   ========================== */
+========================== */
 
 .reviews-header {
   display: flex;
@@ -42,7 +53,7 @@
 
 /* ==========================
    STATS
-   ========================== */
+========================== */
 
 .review-stats {
   display: flex;
@@ -71,7 +82,7 @@
 
 /* ==========================
    REVIEW CARD
-   ========================== */
+========================== */
 
 .review-card {
   background: #ffffff;
@@ -89,12 +100,12 @@
 
 .review-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 /* ==========================
    LEFT SECTION
-   ========================== */
+========================== */
 
 .review-left {
   display: flex;
@@ -143,7 +154,7 @@
 
 /* ==========================
    RIGHT SECTION
-   ========================== */
+========================== */
 
 .review-right {
   display: flex;
@@ -153,7 +164,7 @@
 
 /* ==========================
    STATUS BADGES
-   ========================== */
+========================== */
 
 .status {
   color: white;
@@ -177,7 +188,7 @@
 
 /* ==========================
    APPROVE BUTTON
-   ========================== */
+========================== */
 
 .approve-btn {
   border: 1px solid #2BAE96;
@@ -198,7 +209,7 @@
 
 /* ==========================
    PENDING BUTTON
-   ========================== */
+========================== */
 
 .pending-btn {
   border: 1px solid #f5b23d;
@@ -218,57 +229,8 @@
 }
 
 /* ==========================
-   DELETE BUTTON
-   ========================== */
-
-.delete-btn {
-  width: 38px;
-  height: 38px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #fff0f0;
-  color: #ef4444;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  cursor: pointer;
-
-  transition: 0.3s ease;
-}
-
-.delete-btn:hover {
-  background: #ef4444;
-  color: #ffffff;
-}
-
-/* ==========================
-   RESPONSIVE
-   ========================== */
-
-@media (max-width: 900px) {
-
-  .reviews-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .review-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .review-right {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-}
+   DELETE ICON BUTTON
+========================== */
 
 .delete-btn {
   width: 38px;
@@ -291,16 +253,54 @@
 .delete-btn:active {
   transform: scale(0.95);
 }
-/* Fixed sidebar */
-.admin-layout aside {
-  position: sticky;
-  top: 0;
-  height: calc(100vh - 92px);
-  overflow-y: hidden;
-}
-
 
 .delete-btn svg {
   width: 28px;
   height: 28px;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 900px) {
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .review-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .review-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* ==========================
+   FIXED SIDEBAR (Scrollbars Completely Hidden)
+========================== */
+.admin-layout aside {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  /* Enables inner scrolling mechanics safely if needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Hides scrollbar on Firefox */
+  scrollbar-width: none;
+  /* Hides scrollbar on IE/Edge */
+  -ms-overflow-style: none;
+}
+
+/* Hides scrollbar on Chrome, Safari, and Opera */
+.admin-layout aside::-webkit-scrollbar {
+  display: none;
 }
