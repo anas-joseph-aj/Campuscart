@@ -31,13 +31,13 @@ export class AdminDashboardComponent implements OnInit {
   // 2. POPULATE LATEST PRODUCTS TABLE ROW ITEMS (With Inactive sorting applied)
   latestProducts: any[] = [];
 
-  // 3. POPULATE CATEGORIES SIDEBAR PERCENTAGES 
+  pieGradient: string = '';
   categoriesOverview: any[] = [];
 
   // 4. POPULATE SPAM REPORTS DATA ITEMS
   spamReports: any[] = [];
 
-  constructor(private adminService: AdminService) { }
+  constructor(public adminService: AdminService) { }
 
   ngOnInit(): void {
   // Load dashboard data from backend
@@ -50,54 +50,71 @@ export class AdminDashboardComponent implements OnInit {
     ];
   });
     this.adminService.getLatestProducts().subscribe(products => {
-      this.latestProducts = products.map(p => {
-        // Map backend price to amount
-        const amount = p.price ?? p.amount ?? '';
-        
-        // Resolve seller name
-        const sellerInfo = p.seller || p.owner || p.user || p.sellerInfo;
-        let sellerName = '';
-        if (sellerInfo && typeof sellerInfo === 'object') {
-          sellerName = sellerInfo.name || sellerInfo.fullName || sellerInfo.displayName || sellerInfo.username || sellerInfo.userName || sellerInfo.email || '';
-        } else if (typeof sellerInfo === 'string') {
-          sellerName = sellerInfo;
-        }
-        if (!sellerName && p.sellerName) {
-          sellerName = p.sellerName;
-        }
-        if (!sellerName && p.sellerEmail) {
-          sellerName = p.sellerEmail.split('@')[0];
-        }
-        if (!sellerName) {
-          sellerName = 'Unknown';
-        }
+        this.latestProducts = products.map(p => {
+          // Map backend price to amount
+          const amount = p.price ?? p.amount ?? '';
 
-        // Normalize image URL
-        let imgUrl = p.image || p.imageUrl || '';
-        if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('assets/')) {
-          imgUrl = imgUrl.startsWith('/') ? `http://10.204.205.47:8080${imgUrl}` : `http://10.204.205.47:8080/${imgUrl}`;
-        }
-        if (!imgUrl) {
-          imgUrl = 'assets/placeholder.png';
-        }
+          // Resolve seller name directly from API
+          const sellerName = p.sellerName ?? 'Unknown';
+          // Resolve image URL from images array
+          let imgUrl = this.adminService.buildImageUrl((p.images && p.images.length > 0) ? p.images[0] : p.image);
 
-        return {
-          ...p,
-          amount,
-          seller: sellerName,
-          imageUrl: imgUrl
-        };
+          return {
+            ...p,
+            amount,
+            statusDisplay: p.status,
+            sellerName,
+            imageUrl: imgUrl
+          } as any;
+        });
       });
       this.sortProductsByInactiveFirst();
-    });
-  this.adminService.getCategorySummary().subscribe(categories => {
-    this.categoriesOverview = categories.map(c => ({
-      name: c.category,
-      percentage: c.count,
-      colorHex: '#'+((Math.random()*0xFFFFFF<<0).toString(16)),
-      barColorClass: 'bg-[#'+((Math.random()*0xFFFFFF<<0).toString(16))+']'
-    }));
-  });
+    this.adminService.getCategorySummary().subscribe(categories => {
+        // Ensure 'Donation' category exists, add with count 0 if missing
+        const donationExists = categories.some(c => c.category.toLowerCase() === 'donation');
+        if (!donationExists) {
+          categories.push({ category: 'Donation', count: 0 });
+        }
+        // Total number of products across all categories (for percentages)
+        const totalProducts = categories.reduce((sum, c) => sum + (c.count || 0), 0) || 1;
+        // Number of distinct categories (for Total Categories metric)
+        const categoryCount = categories.length;
+        // Professional colour palette (10 distinct colours)
+        const palette = [
+          '#4A90E2', // blue
+          '#50E3C2', // teal
+          '#B8E986', // lime
+          '#F5A623', // orange
+          '#D0021B', // red
+          '#9013FE', // purple
+          '#8B572A', // brown
+          '#7ED321', // green
+          '#417505', // dark green
+          '#BD10E0'  // magenta
+        ];
+        this.categoriesOverview = categories.map((c, i) => {
+          const hex = palette[i % palette.length];
+          const perc = Math.round(((c.count || 0) / totalProducts) * 100);
+          return {
+            name: c.category,
+            percentage: perc,
+            colorHex: hex,
+            barColorClass: ''
+          } as any;
+        });
+        // Build CSS conic-gradient string for pie chart using same colours
+        const gradientParts = this.categoriesOverview.map(cat => `${cat.colorHex} ${cat.percentage}%`).join(', ');
+        this.pieGradient = `conic-gradient(${gradientParts})`;
+        // Debug logs
+        console.log('Categories Overview:', this.categoriesOverview);
+        console.log('Total products count:', totalProducts);
+        // Update total categories metric to reflect number of distinct categories
+        const totalCategoriesMetric = this.metrics.find(m => m.title === 'Total Categories');
+        if (totalCategoriesMetric) {
+          totalCategoriesMetric.value = categoryCount.toString();
+        }
+
+      });
   this.adminService.getLatestReports().subscribe(reports => {
     this.spamReports = reports;
   });

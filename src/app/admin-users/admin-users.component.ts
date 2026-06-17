@@ -79,7 +79,7 @@ export class AdminUsersComponent implements OnInit {
       const name = user.name || '';
       const email = user.email || '';
       const matchesSearch = name.toLowerCase().includes(query) || email.toLowerCase().includes(query);
-      const matchesStatus = this.selectedStatusFilter === 'All' || user.status === this.selectedStatusFilter;
+      const matchesStatus = this.selectedStatusFilter === 'All' || (user.status && user.status.toLowerCase() === this.selectedStatusFilter.toLowerCase());
       return matchesSearch && matchesStatus;
     });
     // Force Inactive on top

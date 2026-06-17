@@ -249,7 +249,7 @@
                   </td>
                   <td class="py-4">
                     <span
-                      [ngClass]="user.status === 'Active' ? 'bg-[#D1FAE5] text-[#065F46] shadow-[0_2px_8px_rgba(52,211,153,0.15)]' : 'bg-[#FEE2E2] text-[#991B1B] shadow-[0_2px_8px_rgba(248,113,113,0.15)]'"
+                          [ngClass]="user.status?.toLowerCase() === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'"
                       class="px-4 py-1.5 rounded-full text-[13px] font-bold tracking-wider uppercase inline-block text-center min-w-[90px]"
                       style="font-family: 'IBM Plex Serif', serif;">
                       {{ user.status }}

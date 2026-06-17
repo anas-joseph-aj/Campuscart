@@ -153,21 +153,21 @@
         <div>
           <h1 class="text-[34px] font-bold text-[#0F172A] tracking-tight">Admin Panel</h1>
 
-          <p class="total-reviews">
-            {{ reviews.length }} Total Reviews
+          <p class="total-reviews" (click)="filterReviews('ALL')" style="cursor: pointer;" title="Show all reviews">
+            {{ allReviews.length }} Total Reviews
           </p>
         </div>
 
         <div class="review-stats">
-          <span class="approved-badge">
+          <span class="approved-badge" (click)="filterReviews('Approved')" style="cursor: pointer;" [style.opacity]="filterStatus === 'ALL' || filterStatus === 'Approved' ? '1' : '0.5'">
             {{ approvedCount }} Approved
           </span>
 
-          <span class="pending-badge">
+          <span class="pending-badge" (click)="filterReviews('Pending')" style="cursor: pointer;" [style.opacity]="filterStatus === 'ALL' || filterStatus === 'Pending' ? '1' : '0.5'">
             {{ pendingCount }} Pending
           </span>
 
-          <span class="deleted-badge">
+          <span class="deleted-badge" (click)="filterReviews('Deleted')" style="cursor: pointer;" [style.opacity]="filterStatus === 'ALL' || filterStatus === 'Deleted' ? '1' : '0.5'">
             {{ deletedCount }} Deleted
           </span>
         </div>

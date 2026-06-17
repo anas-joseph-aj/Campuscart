@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="admin-page">
   <aside
     class="group w-[76px] hover:w-[260px] h-screen fixed top-0 left-0 p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden overflow-y-auto z-20"
@@ -289,7 +290,7 @@
 
             </svg>
 
-            <input type="text" [(ngModel)]="searchText" placeholder="Search Categories">
+            <input type="text" [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" placeholder="Search Categories">
 
           </div>
 
@@ -307,11 +308,12 @@
         <article *ngFor="let c of filteredCategories; let i = index" class="category-card">
 
           <div class="category-icon-wrap">
-
-            <div class="category-icon">
-              {{ c.icon }}
-            </div>
-
+            <ng-container *ngIf="c.icon?.includes('/')">
+              <img [src]="c.icon" alt="{{c.name}}" class="category-icon-img" />
+            </ng-container>
+            <ng-container *ngIf="!c.icon?.includes('/')">
+              <div class="category-icon">{{ c.icon }}</div>
+            </ng-container>
           </div>
 
           <h2>{{ c.name }}</h2>
@@ -403,11 +405,11 @@
 
           <div class="modal-actions">
 
-            <button class="cancel-btn" type="button" (click)="confirmDelete()">
+            <button class="save-btn" type="button" (click)="confirmDelete()">
               Delete
             </button>
 
-            <button class="save-btn" type="button" (click)="closeDeleteModal()">
+            <button class="cancel-btn" type="button" (click)="closeDeleteModal()">
               Cancel
             </button>
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { ProductService } from '../product.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-admin-categories',
@@ -14,176 +14,234 @@ import { ProductService } from '../product.service';
 })
 export class AdminCategoriesComponent implements OnInit {
 
+  // Search & navigation
   searchText = '';
   activeMenu = 'Categories';
 
-  /* ===== MODAL VARIABLES ===== */
+  setActiveMenu(menu: string): void {
+    this.activeMenu = menu;
+  }
 
+  // ==== MODAL STATE ==== 
   showModal = false;
   showDeleteModal = false;
   isEditMode = false;
 
   selectedCategoryIndex = -1;
   selectedDeleteIndex = -1;
+  selectedCategoryId: string | null = null;
 
+  // Form model
   categoryForm = {
     name: '',
     icon: ''
   };
 
+  // Emoji palette (icons are stored as emojis in admin-categories.ts)
   suggestedEmojis = [
-    '📚', '🪑', '💻', '👗', '🐾', '🍳', '🚗', '⚽', '📦', '🎁', 
+    '📚', '🪑', '💻', '👗', '🐾', '🍳', '🚗', '⚽', '📦', '🎁',
     '🧸', '🍔', '🛠️', '🌿', '🏠', '✈️', '🛒', '📱', '🚲', '🍕'
   ];
 
-  /* ===== CATEGORY DATA ===== */
+  // Categories loaded from the backend. Each object includes an `id` field.
+  categories: any[] = [];
 
-  categories = [
-    { icon: '📚', name: 'Books', key: 'Books', count: 0 },
-    { icon: '🪑', name: 'Furniture', key: 'Furniture', count: 0 },
-    { icon: '💻', name: 'Electronics', key: 'Electronics', count: 0 },
-    { icon: '👗', name: 'Fashion', key: 'Fashion', count: 0 },
-    { icon: '🐾', name: 'Pets', key: 'Pets', count: 0 },
-    { icon: '🍳', name: 'Kitchen', key: 'Kitchen', count: 0 },
-    { icon: '🚗', name: 'Vehicle', key: 'Vehicles', count: 0 },
-    { icon: '⚽', name: 'Sports', key: 'Sports', count: 0 },
-    { icon: '📦', name: 'Miscellaneous', key: 'Miscellaneous', count: 0 },
-    { icon: '🎁', name: 'Donation', key: 'Donation', count: 0 }
-  ];
-
-  constructor(private productService: ProductService) {}
+  constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-
-    const counts: Record<string, number> = {};
-
-    this.productService.getProducts().forEach(product => {
-
-      const category = product.category || 'Miscellaneous';
-
-      counts[category] = (counts[category] || 0) + 1;
-
-    });
-
-    this.categories = this.categories.map(category => ({
-      ...category,
-      count: counts[category.key] || 0
-    }));
+    this.loadCategories();
   }
 
-  setActiveMenu(menu: string): void {
-    this.activeMenu = menu;
+  /** Load the list of categories from the server */
+  loadCategories(): void {
+    if (this.searchText && this.searchText.trim().length > 0) {
+      this.adminService.searchCategories(this.searchText.trim()).subscribe(
+        (data) => {
+          this.categories = (data || []).map((cat: any) => ({
+            ...cat,
+            icon: this.getDisplayIcon(cat)
+          }));
+        },
+        (error) => {
+          console.error('Search categories failed', error);
+          alert('Unable to search categories. Check console for details.');
+        }
+      );
+    } else {
+      this.adminService.getCategories().subscribe(
+        (data) => {
+          this.categories = (data || []).map((cat: any) => ({
+            ...cat,
+            icon: this.getDisplayIcon(cat)
+          }));
+        },
+        (error) => {
+          console.error('Failed to load categories', error);
+          alert('Unable to load categories. Check console for details.');
+        }
+      );
+    }
   }
 
-  /* ===== SEARCH ===== */
-
-  get filteredCategories() {
-    return this.categories.filter(category =>
-      category.name
-        .toLowerCase()
-        .includes(this.searchText.toLowerCase())
-    );
+  /** Gets display icon from category object, with mapping fallback */
+  getDisplayIcon(cat: any): string {
+    if (cat && cat.icon) {
+      const iconStr = cat.icon.trim();
+      if (iconStr.length <= 4 || !/[a-zA-Z0-9]/.test(iconStr)) {
+        return iconStr;
+      }
+      const match = iconStr.match(/^([^.]+)\.[^.]+$/);
+      if (match) {
+        const base = match[1];
+        const emoji = this.getIcon(base);
+        if (emoji !== '❓') {
+          return emoji;
+        }
+      }
+      if (iconStr.includes('/')) {
+        return iconStr;
+      }
+    }
+    return this.getIcon(cat ? cat.name : '');
   }
 
-  /* ===== ADD CATEGORY ===== */
+  /** Triggered when the search term changes */
+  onSearchChange(): void {
+    this.loadCategories();
+  }
 
-  openAddModal(): void {
-
-    this.isEditMode = false;
-
-    this.categoryForm = {
-      name: '',
-      icon: ''
+  /** Returns an emoji/icon based on the category name */
+  private getIcon(name: string): string {
+    const map: { [key: string]: string } = {
+      electronics: '💻',
+      books: '📚',
+      pets: '🐾',
+      kitchen: '🍳',
+      fashion: '👗',
+      furniture: '🪑',
+      vehicles: '🚗',
+      sports: '⚽',
+      miscellaneous: '📦',
+      donation: '🎁'
     };
-
-    this.showModal = true;
+    const key = name.toLowerCase();
+    return map[key] || '❓';
   }
 
-  /* ===== EDIT CATEGORY ===== */
-
+  /** Open the modal to edit an existing category */
   openEditModal(index: number): void {
-
     this.isEditMode = true;
-
     this.selectedCategoryIndex = index;
-
-    this.categoryForm = {
-      name: this.filteredCategories[index].name,
-      icon: this.filteredCategories[index].icon
-    };
-
+    const cat = this.filteredCategories[index];
+    this.selectedCategoryId = cat.id || null;
+    this.categoryForm = { name: cat.name, icon: cat.icon };
     this.showModal = true;
   }
 
-  /* ===== SAVE CATEGORY ===== */
+  /** Open the modal to add a new category */
+  openAddModal(): void {
+    this.isEditMode = false;
+    this.selectedCategoryId = null;
+    this.categoryForm = { name: '', icon: '' };
+    this.showModal = true;
+  }
 
+  /** Close the add/edit modal */
+  closeModal(): void {
+    this.showModal = false;
+    this.isEditMode = false;
+    this.categoryForm = { name: '', icon: '' };
+  }
+
+  /** Alias for deletion modal trigger used in template */
+  deleteCategory(index: number): void {
+    this.openDeleteModal(index);
+  }
+
+  // Save – either create a new category or update an existing one
   saveCategory(): void {
-
-    if (!this.categoryForm.name.trim()) {
-
-      alert('Please enter category name');
+    const name = this.categoryForm.name?.trim();
+    if (!name) {
+      alert('Category name cannot be empty');
       return;
     }
-
+    // Build payload based on operation mode
+    const payload: any = { name };
     if (this.isEditMode) {
-
-      const category = this.filteredCategories[this.selectedCategoryIndex];
-      if (category) {
-        category.name = this.categoryForm.name.trim();
-        category.icon = this.categoryForm.icon.trim() || '📦';
-        this.categories = [...this.categories];
+      const iconTrimmed = this.categoryForm.icon?.trim();
+      if (iconTrimmed) {
+        payload.icon = iconTrimmed;
       }
-
-    } else {
-
-      this.categories.push({
-        icon: this.categoryForm.icon.trim() || '📦',
-        name: this.categoryForm.name.trim(),
-        key: this.categoryForm.name.trim(),
-        count: 0
-      });
-      this.categories = [...this.categories];
-
     }
-
-    this.closeModal();
+    console.log('Attempting to add/update category with payload:', payload);
+    if (this.isEditMode && this.selectedCategoryId) {
+      // Update existing category
+      this.adminService.updateCategory(this.selectedCategoryId, payload).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category updated successfully');
+        },
+        (error) => {
+          console.error('Update failed', error);
+          alert('Failed to update category: ' + (error?.error?.message || error.message || 'Unknown error'));
+        }
+      );
+    } else {
+      // Create new category (expects only name)
+      this.adminService.addCategory(payload).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category added successfully');
+        },
+        (error) => {
+          console.error('Add failed', error);
+          alert('Failed to add category: ' + (error?.error?.message || error.message || 'Unknown error'));
+        }
+      );
+    }
+    this.showModal = false;
   }
 
-  /* ===== DELETE CATEGORY ===== */
 
-  deleteCategory(index: number): void {
+
+  /** Prompt deletion of a category */
+  openDeleteModal(index: number): void {
     this.selectedDeleteIndex = index;
     this.showDeleteModal = true;
   }
 
+
+
+  /** Confirm deletion */
   confirmDelete(): void {
-    if (this.selectedDeleteIndex !== -1) {
-      const category = this.filteredCategories[this.selectedDeleteIndex];
-      if (category) {
-        this.categories = this.categories.filter(
-          c => c !== category
-        );
-      }
+    const cat = this.filteredCategories[this.selectedDeleteIndex];
+    if (cat && cat.id) {
+      this.adminService.deleteCategory(cat.id).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category deleted successfully');
+        },
+        (error) => {
+          console.error('Delete failed', error);
+          alert('Failed to delete category');
+        }
+      );
     }
     this.closeDeleteModal();
   }
 
+  /** Close the delete confirmation modal */
   closeDeleteModal(): void {
     this.showDeleteModal = false;
     this.selectedDeleteIndex = -1;
   }
 
-  /* ===== CLOSE MODAL ===== */
-
-  closeModal(): void {
-
-    this.showModal = false;
-
-    this.categoryForm = {
-      name: '',
-      icon: ''
-    };
-
-    this.selectedCategoryIndex = -1;
+  /** Compute the filtered list based on the search box */
+  get filteredCategories(): any[] {
+    if (!this.searchText) {
+      return this.categories;
+    }
+    const lower = this.searchText.toLowerCase();
+    return this.categories.filter(c => c.name.toLowerCase().includes(lower));
   }
 }

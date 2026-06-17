@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router'; // <--- 1. ADD THIS IMPORT
+import { RouterModule } from '@angular/router';
+import { AdminService } from '../services/admin.service';
 
 interface Product {
-  id: number;
+  id: any;
   name: string;
-  price: string;
+  price: any;
   uploadedBy: string;
   image: string;
   liked: boolean;
+  rawProduct?: any;
 }
 
 interface StatCard {
@@ -36,7 +38,34 @@ interface ReportRow {
   templateUrl: './admin-products.component.html',
   styleUrls: ['./admin-products.component.css']
 })
-export class AdminProductsComponent {
+export class AdminProductsComponent implements OnInit {
+  constructor(private adminService: AdminService) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  /** Load products from backend */
+  loadProducts(): void {
+    this.adminService.getAllProducts().subscribe(
+      (data: any[]) => {
+        // Map backend fields to component fields
+        this.adminProducts = (data || []).map((p: any) => ({
+          id: p.id || p._id,
+          name: p.name,
+          price: p.price,
+          uploadedBy: p.sellerName || p.uploadedBy || '',
+          image: this.adminService.buildImageUrl((p.images && p.images.length > 0) ? p.images[0] : p.image),
+          liked: false,
+          rawProduct: p
+        }));
+      },
+      (error: any) => {
+        console.error('Failed to load admin products', error);
+        alert('Unable to load products. Check console for details.');
+      }
+    );
+  }
   activeMenu: string = 'Products';
 
   // Modal display toggles
@@ -45,32 +74,10 @@ export class AdminProductsComponent {
 
   // Context trackers
   targetProduct!: Product;
-  tempProduct: Product = { id: 0, name: '', price: '', uploadedBy: '', image: '', liked: false };
+  tempProduct: Product = { id: '', name: '', price: '', uploadedBy: '', image: '', liked: false };
+  selectedFile: File | null = null;
 
-  adminProducts: Product[] = [
-    { id: 1, name: 'Dell Laptop', price: '₹37,000', uploadedBy: 'Jacob Thomas', image: 'assets/delllaptop.png', liked: false },
-    { id: 2, name: 'Fairy Lights', price: '₹100', uploadedBy: 'Anjali Sharma', image: 'assets/fairylights.png', liked: false },
-    { id: 3, name: 'Fish', price: '₹50', uploadedBy: 'Rohit Verma', image: 'assets/fish.png', liked: false },
-    { id: 4, name: 'Flower Pot', price: '₹70', uploadedBy: 'Sneha Reddy', image: 'assets/flowerpot.png', liked: false },
-    { id: 5, name: 'Forensic Science in Criminal Investigation', price: '₹490', uploadedBy: 'Dr. Amit', image: 'assets/forensicscience.png', liked: false },
-    { id: 6, name: 'Samsung Fridge', price: '₹2,500', uploadedBy: 'Vikram Singh', image: 'assets/fridge.png', liked: false },
-    { id: 7, name: 'Hero Xtreme 160R 4V', price: '₹45,000', uploadedBy: 'Rajesh Kumar', image: 'assets/herobike.png', liked: false },
-    { id: 8, name: 'Prestige Induction Cooktop', price: '₹2,200', uploadedBy: 'Pooja Hegde', image: 'assets/inductioncooktopprestige.png', liked: false },
-    { id: 9, name: 'Apple iPhone 11', price: '₹27,100', uploadedBy: 'Rahul Mathew', image: 'assets/iphone11.png', liked: false },
-    { id: 10, name: 'iPhone 16', price: '₹69,900', uploadedBy: 'Rohit Sharma', image: 'assets/iphone16.png', liked: false },
-    { id: 11, name: 'Apple iPhone 17 Pro', price: '₹70,000', uploadedBy: 'Arjun Malhotra', image: 'assets/iphone17.png', liked: false },
-    { id: 12, name: 'MacBook Air M2', price: '₹72,500', uploadedBy: 'Meera Nair', image: 'assets/macbook.png', liked: false },
-    { id: 13, name: 'Electric Kettle', price: '₹1,500', uploadedBy: 'Suresh Raina', image: 'assets/kettle.png', liked: false },
-    { id: 14, name: 'MRF Cricket Bat', price: '₹3,200', uploadedBy: 'Virat K', image: 'assets/mrfcricketbat.png', liked: false },
-    { id: 15, name: 'Prestige Pressure Cooker', price: '₹2,200', uploadedBy: 'Karan Johar', image: 'assets/prestigecooker.png', liked: false },
-    { id: 16, name: 'The Price of Freedom Book', price: '₹340', uploadedBy: 'Prof. Das', image: 'assets/priceoffreedom.png', liked: false },
-    { id: 17, name: 'Running Shoes', price: '₹1,200', uploadedBy: 'Jacob Thomas', image: 'assets/shoes.png', liked: false },
-    { id: 18, name: '32 inch Smart TV', price: '₹11,200', uploadedBy: 'Abhishek B', image: 'assets/smarttv.png', liked: false },
-    { id: 19, name: 'Smart Watch', price: '₹5,500', uploadedBy: 'Rahul Verma', image: 'assets/smartwatch.png', liked: false },
-    { id: 20, name: 'Study Table', price: '₹1,400', uploadedBy: 'Verma Ji', image: 'assets/studytable.png', liked: false },
-    { id: 21, name: 'Wooden Cot', price: '₹2,800', uploadedBy: 'Arjun M', image: 'assets/woodencot.png', liked: false },
-    { id: 22, name: 'Siberian Cat', price: '₹2,200', uploadedBy: 'Aisha Malik', image: 'assets/cat.png', liked: false }
-  ];
+  adminProducts: Product[] = [];
 
   stats: StatCard[] = [
     { title: 'Total Reports', count: 152, iconType: 'total', colorClass: 'text-[#2BAE96]', bgClass: 'bg-[#EAF7F5]', borderClass: 'border-[#2BAE96]/30' },
@@ -98,6 +105,7 @@ export class AdminProductsComponent {
 
   onEditProduct(product: Product, event: Event): void {
     event.stopPropagation();
+    this.selectedFile = null;
     this.targetProduct = product;
     this.tempProduct = { ...product };
     this.showEditModal = true;
@@ -113,6 +121,7 @@ export class AdminProductsComponent {
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
         this.tempProduct.image = reader.result as string;
@@ -127,15 +136,65 @@ export class AdminProductsComponent {
   }
 
   saveProductDetails(): void {
-    const idx = this.adminProducts.findIndex(p => p.id === this.targetProduct.id);
-    if (idx !== -1) {
-      this.adminProducts[idx] = { ...this.tempProduct };
+    if (!this.targetProduct) return;
+
+    const updateRequest = (imagePaths: string[]) => {
+      const raw = this.tempProduct.rawProduct || {};
+      const productImages = imagePaths.length > 0 ? imagePaths : (raw.images || []);
+
+      const payload = {
+        name: this.tempProduct.name,
+        companyName: raw.companyName || 'CampusCart',
+        description: raw.description || 'No description provided.',
+        price: parseFloat(this.tempProduct.price.toString().replace(/[^0-9.]/g, '')) || 0,
+        negotiable: raw.negotiable !== undefined ? raw.negotiable : true,
+        images: productImages,
+        category: raw.category || 'Electronics',
+        status: raw.status || 'AVAILABLE',
+        sellerEmail: raw.sellerEmail || raw.seller || 'admin@campuscart.com',
+        sellerName: this.tempProduct.uploadedBy || raw.sellerName || 'Admin'
+      };
+
+      this.adminService.updateProduct(this.targetProduct.id.toString(), payload).subscribe(
+        () => {
+          this.loadProducts();
+          this.closeModals();
+        },
+        (error: any) => {
+          console.error('Update product failed', error);
+          alert('Failed to update product');
+        }
+      );
+    };
+
+    if (this.selectedFile) {
+      this.adminService.uploadImages([this.selectedFile]).subscribe(
+        (res: any) => {
+          const imagePaths = Array.isArray(res) ? res : (res.imageUrls || []);
+          updateRequest(imagePaths);
+        },
+        (error: any) => {
+          console.error('Image upload failed', error);
+          alert('Failed to upload image during update');
+        }
+      );
+    } else {
+      updateRequest([]);
     }
-    this.closeModals();
   }
 
   confirmDeleteProduct(): void {
-    this.adminProducts = this.adminProducts.filter(p => p.id !== this.targetProduct.id);
-    this.closeModals();
+    if (this.targetProduct && this.targetProduct.id) {
+      this.adminService.deleteProduct(this.targetProduct.id.toString()).subscribe(
+        () => {
+          this.adminProducts = this.adminProducts.filter(p => p.id !== this.targetProduct.id);
+          this.closeModals();
+        },
+        (error: any) => {
+          console.error('Delete product failed', error);
+          alert('Failed to delete product');
+        }
+      );
+    }
   }
 }

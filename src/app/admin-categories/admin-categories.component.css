@@ -189,6 +189,15 @@
   font-size: 24px;
 }
 
+.category-icon-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(38, 192, 171, 0.12);
+  object-fit: cover;
+}
+
+
 /* ==========================
    CARD TITLE
 ========================== */
