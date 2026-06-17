@@ -27,6 +27,13 @@ export interface Report {
   reportNumber: string;
   reason: string;
   status: string;
+  // Backend fields (optional)
+  reportedBy?: string; // reporter email
+  reportedUserName?: string; // name of reported user
+  screenshot?: string; // profile image path of reporter
+  // UI-friendly fields
+  userName?: string;
+  userImage?: string;
 }
 
 @Injectable({
@@ -35,13 +42,13 @@ export interface Report {
 export class AdminService {
   private baseUrl = 'http://10.204.205.47:8080';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // ---------- Authentication ----------
   login(email: string, passcode: string): Observable<string> {
-    const body = { email, passcode };
+    const payload: any = { email, passcode };
     // Assuming backend returns plain text message on success/failure
-    return this.http.post(`${this.baseUrl}/admin/login`, body, { responseType: 'text' });
+    return this.http.post(`${this.baseUrl}/admin/login`, payload, { responseType: 'text' });
   }
 
   getProfile(): Observable<AdminProfile> {
@@ -73,12 +80,24 @@ export class AdminService {
     return this.http.get<any[]>(`${this.baseUrl}/admin/products/latest`);
   }
 
+  /** Search products by keyword (admin) */
+  searchProducts(keyword: string): Observable<any[]> {
+    const encoded = encodeURIComponent(keyword);
+    return this.http.get<any[]>(`${this.baseUrl}/admin/search/${encoded}`);
+  }
+
   getCategorySummary(): Observable<CategorySummary[]> {
     return this.http.get<CategorySummary[]>(`${this.baseUrl}/admin/categories/summary`);
   }
 
-  getLatestReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(`${this.baseUrl}/admin/reports/latest`);
+  getLatestReports(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/latest`).pipe(
+      map(reports => reports.map(r => ({
+        userName: r.reportedUserName ?? r.reportedBy ?? '',
+        reason: r.reason,
+        userImage: r.screenshot ?? ''
+      })))
+    );
   }
 
   // ---------- Management ----------
@@ -86,8 +105,36 @@ export class AdminService {
     return this.http.get<any[]>(`${this.baseUrl}/admin/products`);
   }
 
+
+
   getAllReports(): Observable<Report[]> {
     return this.http.get<Report[]>(`${this.baseUrl}/admin/reports/status/PENDING`);
+  }
+
+  // ---------- Review Management ----------
+  // Get all reviews (admin)
+  getReviews(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reviews`);
+  }
+
+  // Get pending reviews
+  getPendingReviews(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reviews/pending`);
+  }
+
+  // Get reviews by status (APPROVED, DELETED, PENDING)
+  getReviewsByStatus(status: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reviews/status/${status}`);
+  }
+
+  // Approve a review
+  approveReview(id: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/review/approve/${id}`, null);
+  }
+
+  // Delete (reject) a review
+  deleteReview(id: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/review/delete/${id}`, null);
   }
 
   // User management
@@ -122,5 +169,65 @@ export class AdminService {
 
   deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/admin/user/${id}`);
+  }
+  // ---------- Category Management ----------
+  getCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/categories`);
+  }
+
+  addCategory(category: { name: string }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/categories/add`, category);
+  }
+
+  updateCategory(id: string, category: { name: string; icon?: string }): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/categories/${id}`, category);
+  }
+
+  deleteCategory(id: string): Observable<string> {
+    return this.http.delete(`${this.baseUrl}/categories/${id}`, { responseType: 'text' });
+  }
+
+  // Utility method to build full image URL
+  public buildImageUrl(path: string): string {
+    if (!path) {
+      return 'assets/empty.png';
+    }
+    if (path.startsWith('http') || path.startsWith('assets/')) {
+      return path;
+    }
+    let cleanedPath = path.replace(/^[\\/]+/, '');
+    if (!cleanedPath.includes('uploads/')) {
+      cleanedPath = 'uploads/' + cleanedPath;
+    }
+    return `${this.baseUrl}/${cleanedPath}`;
+  }
+
+  // ---------- Search Category ----------
+  searchCategories(keyword: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/categories/search/${keyword}`);
+  }
+
+  // ---------- Admin Product Management ----------
+  getAdminProducts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/products`, { withCredentials: true });
+  }
+  // Delete a product (admin)
+  deleteProduct(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/admin/product/${id}`, { withCredentials: true });
+  }
+
+  // Update a product (admin)
+  updateProduct(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/product/${id}`, data, { withCredentials: true });
+  }
+
+  // Upload product images (admin)
+  uploadImages(files: File[], email: string = 'admin@campuscart.com'): Observable<string[]> {
+    const formData = new FormData();
+    formData.append('userEmail', email);
+    files.forEach(file => {
+      formData.append('images', file, file.name);
+    });
+    return this.http.post<string[]>(`${this.baseUrl}/api/products/upload-images`, formData);
   }
 }
