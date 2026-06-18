@@ -233,19 +233,12 @@
                         <div class="mb-4">
                             <h3 class="text-[20px] font-bold text-slate-800">User Growth</h3>
                         </div>
-                        <div class="w-full relative h-[180px] flex gap-3">
+                        <div class="w-full relative h-[180px] flex gap-3 overflow-hidden">
                             <div
                                 class="flex flex-col justify-between text-[11px] text-gray-400 h-full pb-2 shrink-0 text-right w-8 select-none">
                                 <span>1400</span><span>1050</span><span>700</span><span>350</span><span>0</span>
                             </div>
-                            <div class="flex-1 relative h-full">
-                                <svg class="w-full h-full" viewBox="0 0 700 180" preserveAspectRatio="none">
-                                    <defs>
-                                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#2BAE96" stop-opacity="0.15" />
-                                            <stop offset="100%" stop-color="#2BAE96" stop-opacity="0.0" />
-                                        </linearGradient>
-                                    </defs>
+                            <div class="flex-1 relative h-full"><svg class="absolute inset-0 w-full h-full" viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
                                     <line x1="0" y1="5" x2="700" y2="5" stroke="#F3F4F6" stroke-width="1.5"
                                         stroke-dasharray="4 4" />
                                     <line x1="0" y1="48" x2="700" y2="48" stroke="#F3F4F6" stroke-width="1.5"
@@ -255,33 +248,13 @@
                                     <line x1="0" y1="133" x2="700" y2="133" stroke="#F3F4F6" stroke-width="1.5"
                                         stroke-dasharray="4 4" />
                                     <line x1="0" y1="175" x2="700" y2="175" stroke="#E5E7EB" stroke-width="1.5" />
-                                    <path d="M0,120 L100,110 L200,105 L300,92 L400,83 L500,75 L600,68 L700,52"
-                                        fill="none" stroke="#5F63F2" stroke-width="3" stroke-linecap="round"></path>
-                                    <path
-                                        d="M0,120 L100,110 L200,105 L300,92 L400,83 L500,75 L600,68 L700,52 L700,175 L0,175 Z"
-                                        fill="url(#chartGrad)"></path>
-                                    <circle cx="0" cy="120" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="100" cy="110" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="200" cy="105" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="300" cy="92" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="400" cy="83" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="500" cy="75" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="600" cy="68" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
-                                    <circle cx="700" cy="52" r="5" fill="#5F63F2" stroke="#4F46E5" stroke-width="1">
-                                    </circle>
+                                    <path [attr.d]="growthPath" stroke="#3B82F6" stroke-width="2" fill="none"></path>
+                                    <path [attr.d]="growthFillPath" fill="rgba(59,130,246,0.2)"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div
-                            class="flex justify-between items-center text-xs text-gray-400 font-sans pt-3 border-t border-gray-100 mt-2 pl-12 pr-1">
-                            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+                        <div class="flex justify-between items-center text-xs text-gray-400 font-sans pt-3 border-t border-gray-100 mt-2 pl-12 pr-1">
+                            <span *ngFor="let g of growth">{{ g.month }}</span>
                         </div>
                     </div>
 
@@ -295,19 +268,13 @@
                                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                                     <circle cx="18" cy="18" r="15.915" fill="none" stroke="#E5E7EB" stroke-width="3.5">
                                     </circle>
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#26C0AB" stroke-width="3.5"
-                                        stroke-dasharray="42 58" stroke-dashoffset="0"></circle>
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#3B82F6" stroke-width="3.5"
-                                        stroke-dasharray="24 76" stroke-dashoffset="-42"></circle>
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#F59E0B" stroke-width="3.5"
-                                        stroke-dasharray="18 82" stroke-dashoffset="-66"></circle>
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#A78BFA" stroke-width="3.5"
-                                        stroke-dasharray="10 90" stroke-dashoffset="-84"></circle>
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#6B7280" stroke-width="3.5"
-                                        stroke-dasharray="6 94" stroke-dashoffset="-94"></circle>
+                                    <circle *ngFor="let item of pieCategories" cx="18" cy="18" r="15.915" fill="none"
+                                        [attr.stroke]="item.color" stroke-width="3.5"
+                                        [attr.stroke-dasharray]="item.dasharray"
+                                        [attr.stroke-dashoffset]="item.dashoffset"></circle>
                                 </svg>
                                 <div class="absolute flex flex-col items-center justify-center text-center">
-                                    <span class="text-2xl font-bold text-gray-800 leading-none">152</span>
+                                    <span class="text-2xl font-bold text-gray-800 leading-none">{{ (stats[0]?.count ?? 0) }}</span>
                                     <span class="text-[11px] text-gray-400 mt-0.5 font-medium">Total</span>
                                 </div>
                             </div>
@@ -348,17 +315,8 @@
                                     class="hover:bg-gray-50/50 transition duration-150">
                                     <td
                                         class="py-4 px-6 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap">
-                                        <svg *ngIf="row.iconPath === 'spam'" class="w-6 h-6 shrink-0"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                                                stroke="#26C0AB" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M12 8V13" stroke="#26C0AB" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M12 16.01H12.01" stroke="#26C0AB" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+
+
                                         <svg *ngIf="row.iconPath === 'fake'" class="w-6 h-6 shrink-0"
                                             viewBox="0 0 24 24" fill="none">
                                             <path
@@ -413,11 +371,11 @@
                             <tfoot>
                                 <tr class="bg-gray-50/40 border-t-2 border-gray-100 text-gray-900 font-bold">
                                     <td class="py-4 px-6 text-[16px]">Total</td>
-                                    <td class="py-4 px-4 text-center text-base">152</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#E28743]">24</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#20963E]">112</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#FB2C36]">16</td>
-                                    <td></td>
+                                    <td class="py-4 px-4 text-center text-base">{{ getTotalReports() }}</td>
+                                    <td class="py-4 px-4 text-center text-base text-[#E28743]">{{ stats[1]?.count ?? 0 }}</td>
+                                    <td class="py-4 px-4 text-center text-base text-[#20963E]">{{ stats[2]?.count ?? 0 }}</td>
+                                    <td class="py-4 px-4 text-center text-base text-[#FB2C36]">{{ stats[3]?.count ?? 0 }}</td>
+                                                                          <td class="py-4 pr-10 text-center whitespace-nowrap"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -441,12 +399,6 @@
                             </button>
 
                             <span class="inline-flex items-center justify-center mr-3">
-                                <!-- Spam Reports Icon -->
-                                <svg *ngIf="selectedCategoryName === 'Spam Reports'" class="w-8 h-8 text-[#26C0AB]"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
 
                                 <!-- Fake Accounts Icon -->
                                 <svg *ngIf="selectedCategoryName === 'Fake Accounts'" class="w-8 h-8 text-[#3B82F6]"
@@ -632,32 +584,38 @@
 
                                     <td class="py-4 px-6 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-9 h-9 rounded-full bg-[#E6F7F4] text-[#2BAE96] font-bold text-sm flex items-center justify-center border border-[#2BAE96]/10 shadow-3xs uppercase">
-                                                {{ item.reportedUser.name.charAt(0) }}
-                                            </div>
+                                            <ng-container *ngIf="item.reportedUserImage; else userInitial">
+                                                <img [src]="item.reportedUserImage" alt="User" class="w-9 h-9 rounded-full object-cover border border-[#2BAE96]/10 shadow-3xs" />
+                                            </ng-container>
+                                            <ng-template #userInitial>
+                                                <div class="w-9 h-9 rounded-full bg-[#E6F7F4] text-[#2BAE96] font-bold text-sm flex items-center justify-center border border-[#2BAE96]/10 shadow-3xs uppercase">
+                                                    {{ item.reportedUser.name.charAt(0) }}
+                                                </div>
+                                            </ng-template>
                                             <div class="flex flex-col">
-                                                <span class="text-gray-900"
-                                                    style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">{{
-                                                    item.reportedUser.name }}</span>
-                                                <span class="text-xs text-gray-400 tracking-tight mt-1">{{
-                                                    item.reportedUser.email.split('@')[0] }}@kristujayanti.com</span>
+                                                <span class="text-gray-900" style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">
+                                                    {{ item.reportedUser.name }}
+                                                </span>
+                                                <span class="text-xs text-gray-400 tracking-tight mt-1">
+                                                    {{ item.reportedUser.email.split('@')[0] }}@kristujayanti.com
+                                                </span>
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="py-4 px-6 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 font-bold text-sm flex items-center justify-center border border-blue-100 shadow-3xs uppercase">
-                                                {{ item.reportedBy.name.charAt(0) }}
-                                            </div>
+                                            <ng-container *ngIf="item.reportedByImage; else reporterInitial">
+                                                <img [src]="item.reportedByImage" alt="Reporter" class="w-9 h-9 rounded-full object-cover border border-[#2BAE96]/10 shadow-3xs" />
+                                            </ng-container>
+                                            <ng-template #reporterInitial>
+                                                <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 font-bold text-sm flex items-center justify-center border border-blue-100 shadow-3xs uppercase">
+                                                    {{ item.reportedBy.name.charAt(0) }}
+                                                </div>
+                                            </ng-template>
                                             <div class="flex flex-col">
-                                                <span class="text-gray-900"
-                                                    style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">{{
-                                                    item.reportedBy.name }}</span>
-                                                <span class="text-xs text-gray-400 tracking-tight mt-1">{{
-                                                    item.reportedBy.email.split('@')[0] }}@kristujayanti.com</span>
+                                                <span class="text-gray-900" style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">{{ item.reportedBy.name }}</span>
+                                                <span class="text-xs text-gray-400 tracking-tight mt-1">{{ item.reportedBy.email.split('@')[0] }}@kristujayanti.com</span>
                                             </div>
                                         </div>
                                     </td>
@@ -771,10 +729,13 @@
                                 <h2 class="text-[15px] font-bold text-[#0F172A] mb-5 tracking-tight">Reported User
                                     Information</h2>
                                 <div class="flex items-start gap-4">
-                                    <div
+                                    <div *ngIf="!selectedReportItem.reportedUserImage"
                                         class="w-12 h-12 rounded-full bg-[#F0EEFD] text-[#6366F1] font-bold flex items-center justify-center text-[15px] shrink-0">
                                         {{ selectedReportItem.reportedUser.name.substring(0, 2).toUpperCase() }}
                                     </div>
+                                    <img *ngIf="selectedReportItem.reportedUserImage"
+                                        [src]="selectedReportItem.reportedUserImage" alt="Profile"
+                                        class="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100">
 
                                     <div class="space-y-1 min-w-0">
                                         <div class="flex items-center gap-2 flex-wrap">
@@ -805,11 +766,8 @@
                             <div class="mt-8 pt-4 border-t border-gray-100 space-y-2.5 text-[14px]">
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 font-medium">Joined on</span>
-                                    <span class="text-[#1E293B] font-semibold">12 Jan 2025</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-medium">Last Active</span>
-                                    <span class="text-[#1E293B] font-semibold">12 May 2026, 09:20 AM</span>
+                                    <span class="text-[#1E293B] font-semibold">{{ selectedReportItem.date | date:'dd MMM
+                                        yyyy' }}</span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 font-medium">Account Status</span>
@@ -844,20 +802,24 @@
                                         <span
                                             class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Report
                                             Date</span>
-                                        <span class="text-[14px] font-bold text-[#1E293B] block mt-0.5">12 May 2026,
-                                            10:30 AM</span>
+                                        <span class="text-[14px] font-bold text-[#1E293B] block mt-0.5">{{
+                                            selectedReportItem.date | date:'dd MMM yyyy, hh:mm a' }}</span>
                                     </div>
 
                                     <div>
                                         <span
                                             class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Reported
                                             By</span>
-                                        <div class="mt-0.5">
-                                            <span class="text-[14px] font-bold text-[#1E293B] block">{{
-                                                selectedReportItem.reportedBy.name }}</span>
-                                            <span class="text-xs font-medium text-gray-400 block">{{
-                                                selectedReportItem.reportedBy.email }}</span>
-                                        </div>
+                                            <div class="mt-0.5 flex items-center gap-4">
+                                                <div *ngIf="!selectedReportItem.reportedByImage" class="w-12 h-12 rounded-full bg-[#F0EEFD] text-[#6366F1] font-bold flex items-center justify-center text-[15px] shrink-0">
+                                                  {{ selectedReportItem.reportedBy.name.substring(0,2).toUpperCase() }}
+                                                </div>
+                                                <img *ngIf="selectedReportItem.reportedByImage" [src]="selectedReportItem.reportedByImage" alt="Reporter" class="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100"/>
+                                                <div class="flex flex-col">
+                                                  <span class="text-[14px] font-bold text-[#1E293B] block">{{ selectedReportItem.reportedBy.name }}</span>
+                                                  <span class="text-xs font-medium text-gray-400 block">{{ selectedReportItem.reportedBy.email }}</span>
+                                                </div>
+                                              </div>
                                     </div>
                                 </div>
                             </div>
@@ -869,7 +831,7 @@
                                 <div class="bg-[#F8FAFC] rounded-xl p-4 border border-gray-100">
                                     <p
                                         class="text-[13px] text-gray-600 italic font-medium leading-relaxed border-l-2 border-gray-300 pl-3">
-                                        " This user repeatedly sends unwanted promotional messages and random links. "
+                                        " {{ selectedReportItem.details || 'No description provided.' }} "
                                     </p>
                                 </div>
                             </div>
@@ -877,169 +839,15 @@
 
                     </div>
 
-                    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm space-y-4">
-                        <h2 class="text-[15px] font-bold text-[#0F172A] tracking-tight">Evidence / Screenshots (3)</h2>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                            <div
-                                class="bg-[#F8FAFC] border border-gray-200 rounded-xl p-4 flex flex-col justify-between">
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-full bg-gray-300 shrink-0"></div>
-                                            <div>
-                                                <div class="text-[12px] font-bold text-[#1E293B]">{{
-                                                    selectedReportItem.reportedUser.name }}</div>
-                                                <div class="text-[10px] text-gray-400 font-medium leading-none">Online
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="space-y-3 text-[12px]">
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Hey! I have a special offer for you
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Check this out: www.best-deals.com
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Limited time offer!!
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:13 AM</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-0.5 mt-3">
-                                    <div
-                                        class="bg-[#DCFCE7] text-[#15803D] rounded-lg p-2.5 max-w-[85%] ml-auto text-right font-semibold text-[12px]">
-                                        Please stop contacting me...
-                                    </div>
-                                    <div class="text-[10px] text-gray-400 text-right pr-1">10:13 AM</div>
-                                </div>
-                            </div>
-
-                            <div
-                                class="bg-[#F8FAFC] border border-gray-200 rounded-xl p-4 flex flex-col justify-between">
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-full bg-gray-300 shrink-0"></div>
-                                            <div>
-                                                <div class="text-[12px] font-bold text-[#1E293B]">{{
-                                                    selectedReportItem.reportedUser.name }}</div>
-                                                <div class="text-[10px] text-gray-400 font-medium leading-none">Online
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="space-y-3 text-[12px]">
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Huge discount on fashion!
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Visit now: www.best-deals.com
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Don't miss this deal.
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-0.5 mt-3">
-                                    <div
-                                        class="bg-[#DCFCE7] text-[#15803D] rounded-lg p-2.5 max-w-[85%] ml-auto text-right font-semibold text-[12px]">
-                                        I'm not interested!
-                                    </div>
-                                    <div class="text-[10px] text-gray-400 text-right pr-1">10:14 AM</div>
-                                </div>
-                            </div>
-
-                            <div
-                                class="bg-[#F8FAFC] border border-gray-200 rounded-xl p-4 flex flex-col justify-between">
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-full bg-gray-300 shrink-0"></div>
-                                            <div>
-                                                <div class="text-[12px] font-bold text-[#1E293B]">{{
-                                                    selectedReportItem.reportedUser.name }}</div>
-                                                <div class="text-[10px] text-gray-400 font-medium leading-none">Online
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="space-y-3 text-[12px]">
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Today only! 80% off on all items
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Order now and get extra 20% discount
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-
-                                        <div class="space-y-0.5">
-                                            <div
-                                                class="bg-white border border-gray-100 rounded-lg p-2.5 shadow-2xs text-gray-700 max-w-[85%] font-medium">
-                                                Hurry up!!
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 pl-1">10:12 AM</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-0.5 mt-3">
-                                    <div
-                                        class="bg-[#DCFCE7] text-[#15803D] rounded-lg p-2.5 max-w-[85%] ml-auto text-right font-semibold text-[12px]">
-                                        Stop spamming me.
-                                    </div>
-                                    <div class="text-[10px] text-gray-400 text-right pr-1">10:15 AM</div>
-                                </div>
-                            </div>
-
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm space-y-4"
+                        *ngIf="selectedReportItem.screenshot">
+                        <h2 class="text-[15px] font-bold text-[#0F172A] tracking-tight">Evidence / Screenshot</h2>
+                        <div class="flex justify-center bg-[#F8FAFC] border border-gray-200 rounded-xl p-4">
+                            <img [src]="getScreenshotUrl(selectedReportItem.screenshot)" alt="Evidence"
+                                class="max-w-full max-h-[400px] object-contain rounded-lg shadow-sm">
                         </div>
-                        <p class="text-[12px] text-gray-400 font-medium pt-1">Note: Screenshots are provided by the
-                            reporter as evidence.</p>
+                        <p class="text-[12px] text-gray-400 font-medium pt-1">Note: Screenshot provided by the reporter
+                            as evidence.</p>
                     </div>
 
                     <div class="bg-white p-6 rounded-lg border border-gray-200">

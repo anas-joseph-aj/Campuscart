@@ -503,22 +503,22 @@
 
         <div class="flex flex-col gap-2">
           <label class="flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all"
-            [ngClass]="selectedProduct.status === 'Active' ? 'border-[#26C0AB] bg-teal-50/40' : 'border-gray-100 hover:border-gray-200'">
+            [ngClass]="selectedProduct.status === 'Available' ? 'border-[#26C0AB] bg-teal-50/40' : 'border-gray-100 hover:border-gray-200'">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span class="text-[15px] font-bold text-gray-800">Active</span>
+              <span class="text-[15px] font-bold text-gray-800">Available</span>
             </div>
-            <input type="radio" name="statusOption" value="Active" [(ngModel)]="selectedProduct.status"
+            <input type="radio" name="statusOption" value="Available" [(ngModel)]="selectedProduct.status"
               class="w-4 h-4 text-[#26C0AB] focus:ring-[#26C0AB]">
           </label>
 
           <label class="flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all"
-            [ngClass]="selectedProduct.status === 'Inactive' ? 'border-red-400 bg-red-50/30' : 'border-gray-100 hover:border-gray-200'">
+            [ngClass]="selectedProduct.status === 'Sold' ? 'border-red-400 bg-red-50/30' : 'border-gray-100 hover:border-gray-200'">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-              <span class="text-[15px] font-bold text-gray-800">Inactive</span>
+              <span class="text-[15px] font-bold text-gray-800">Sold</span>
             </div>
-            <input type="radio" name="statusOption" value="Inactive" [(ngModel)]="selectedProduct.status"
+            <input type="radio" name="statusOption" value="Sold" [(ngModel)]="selectedProduct.status"
               class="w-4 h-4 text-red-500 focus:ring-red-400">
           </label>
         </div>

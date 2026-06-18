@@ -45,7 +45,7 @@ export class AdminDashboardComponent implements OnInit {
     this.metrics = [
       { title: 'Total Users', value: counts.totalUsers.toString(), iconType: 'users', colorClass: 'border-teal-100' },
       { title: 'Total Categories', value: counts.totalCategories.toString(), iconType: 'categories', colorClass: 'border-indigo-100' },
-      { title: 'Active Products', value: counts.totalProducts.toString(), iconType: 'products', colorClass: 'border-sky-100' },
+      { title: 'Available Products', value: counts.totalProducts.toString(), iconType: 'products', colorClass: 'border-sky-100' },
       { title: 'Spam Reports', value: counts.totalReports.toString(), iconType: 'reports', colorClass: 'border-red-100' }
     ];
   });
@@ -62,13 +62,15 @@ export class AdminDashboardComponent implements OnInit {
           return {
             ...p,
             amount,
-            statusDisplay: p.status,
+            status: p.status,
+            // Provide UI-friendly status for display
+            statusDisplay: p.status === 'Active' ? 'Available' : (p.status === 'Inactive' ? 'Sold' : (p.status || '')),
             sellerName,
             imageUrl: imgUrl
           } as any;
         });
       });
-      this.sortProductsByInactiveFirst();
+      this.sortProductsBySoldFirst();
     this.adminService.getCategorySummary().subscribe(categories => {
         // Ensure 'Donation' category exists, add with count 0 if missing
         const donationExists = categories.some(c => c.category.toLowerCase() === 'donation');
@@ -102,9 +104,8 @@ export class AdminDashboardComponent implements OnInit {
             barColorClass: ''
           } as any;
         });
-        // Build CSS conic-gradient string for pie chart using same colours
-        const gradientParts = this.categoriesOverview.map(cat => `${cat.colorHex} ${cat.percentage}%`).join(', ');
-        this.pieGradient = `conic-gradient(${gradientParts})`;
+        // Compute pie gradient using same colours and percentages
+        this.updatePieGradient();
         // Debug logs
         console.log('Categories Overview:', this.categoriesOverview);
         console.log('Total products count:', totalProducts);
@@ -115,16 +116,22 @@ export class AdminDashboardComponent implements OnInit {
         }
 
       });
-  this.adminService.getLatestReports().subscribe(reports => {
+    this.adminService.getLatestReports().subscribe((reports: any[]) => {
     this.spamReports = reports;
   });
 }
 
   // Sorting utility logic
-  sortProductsByInactiveFirst(): void {
+
+  // Compute pie gradient based on categories overview colors and percentages
+  private updatePieGradient(): void {
+    const gradientParts = this.categoriesOverview.map(cat => `${cat.colorHex} ${cat.percentage}%`).join(', ');
+    this.pieGradient = `conic-gradient(${gradientParts})`;
+  }
+  sortProductsBySoldFirst(): void {
     this.latestProducts.sort((a, b) => {
-      if (a.status === 'Inactive' && b.status !== 'Inactive') return -1;
-      if (a.status !== 'Inactive' && b.status === 'Inactive') return 1;
+      if (a.status === 'Sold' && b.status !== 'Sold') return -1;
+      if (a.status !== 'Sold' && b.status === 'Sold') return 1;
       return 0;
     });
   }
@@ -153,7 +160,23 @@ export class AdminDashboardComponent implements OnInit {
     this.showEditModal = false;
     if (this.selectedProduct) {
       console.log('Updated state for:', this.selectedProduct.name, 'Status:', this.selectedProduct.status);
-      this.sortProductsByInactiveFirst();
+      // Translate UI status back to backend values
+      const backendStatus = this.selectedProduct.status === 'Available' ? 'Active' : 'Inactive';
+      // Persist status change via service
+      this.adminService.updateProduct(this.selectedProduct.id, { status: backendStatus })
+        .subscribe({
+          next: () => {
+            // Reload latest products to reflect updated status
+            this.adminService.getLatestProducts().subscribe(products => {
+              this.latestProducts = products.map(p => ({
+                ...p,
+                 displayStatus: p.status === 'Active' ? 'Available' : (p.status === 'Inactive' ? 'Sold' : (p.status || ''))
+              }));
+              this.sortProductsBySoldFirst();
+            });
+          },
+          error: err => console.error('Failed to update product status', err)
+        });
     }
   }
 }

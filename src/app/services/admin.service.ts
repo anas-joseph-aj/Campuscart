@@ -71,6 +71,76 @@ export class AdminService {
     return this.http.get<DashboardCounts>(`${this.baseUrl}/admin/dashboard`);
   }
 
+  // New: Fetch analytics summary cards for admin-analytics page
+  getAnalyticsCards(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/admin/analytics/report-cards`);
+  }
+
+  // New: User growth analytics
+  getUserGrowth(): Observable<{month:string, count:number}[]> {
+    return this.http.get<{month:string, count:number}[]>(`${this.baseUrl}/admin/analytics/user-growth`);
+  }
+
+  // New: Report summary for pie chart
+  getReportSummary(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/analytics/report-summary`);
+  }
+
+  // New: Get reports by status (PENDING, RESOLVED, REJECTED)
+  getReportsByStatus(status: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/status/${status}`);
+  }
+
+  // New: Search reports by keyword
+  searchReports(keyword: string): Observable<any[]> {
+    const encoded = encodeURIComponent(keyword);
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/search/${encoded}`);
+  }
+
+  // New: Filter reports by reason
+  getReportsByReason(reason: string): Observable<any[]> {
+    const encoded = encodeURIComponent(reason);
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/reason/${encoded}`).pipe(
+      map(reports => reports.map(r => ({ ...r, status: this.normalizeStatus(r.status) })))
+    );
+  }
+
+  // New: Get report details
+  getReportDetails(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/admin/report/${id}`);
+  }
+
+  // Normalize backend status values to UI-friendly strings
+  private normalizeStatus(status: string): string {
+    if (!status) return status;
+    const map: {[key: string]: string} = {
+      'inactive': 'sold',
+      'active': 'available'
+    };
+    return map[status.toLowerCase()] || status;
+  }
+
+  // New: Update report status
+  updateReportStatus(id: string, status: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/report/status/${id}`, { status });
+  }
+
+  // Fetch latest reports (e.g., spam reports) and normalize status for UI
+  getLatestReports(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/latest`).pipe(
+      map(reports => reports.map(r => ({
+        ...r,
+        // Map backend status to UI-friendly status
+        displayStatus: this.normalizeStatus(r.status)
+      })))
+    );
+  }
+
+  // New: Add admin notes to report
+  updateReportNotes(id: string, notes: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/admin/report/notes/${id}`, { adminNotes: notes });
+  }
+
   globalSearch(keyword: string): Observable<any> {
     const encoded = encodeURIComponent(keyword);
     return this.http.get<any>(`${this.baseUrl}/admin/search/${encoded}`);
@@ -88,16 +158,6 @@ export class AdminService {
 
   getCategorySummary(): Observable<CategorySummary[]> {
     return this.http.get<CategorySummary[]>(`${this.baseUrl}/admin/categories/summary`);
-  }
-
-  getLatestReports(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/admin/reports/latest`).pipe(
-      map(reports => reports.map(r => ({
-        userName: r.reportedUserName ?? r.reportedBy ?? '',
-        reason: r.reason,
-        userImage: r.screenshot ?? ''
-      })))
-    );
   }
 
   // ---------- Management ----------
@@ -170,6 +230,13 @@ export class AdminService {
   deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/admin/user/${id}`);
   }
+
+  // Get user profile
+  getUserProfile(email: string): Observable<any> {
+    const encoded = encodeURIComponent(email);
+    return this.http.get<any>(`${this.baseUrl}/user/profile/${encoded}`);
+  }
+
   // ---------- Category Management ----------
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/categories`);
