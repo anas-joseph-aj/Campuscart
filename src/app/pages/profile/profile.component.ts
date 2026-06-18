@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { ApiService } from '../../services/api.service';
@@ -22,7 +22,8 @@ export class ProfileComponent implements OnInit {
   userEmail: string = '';
   userJoinedDate: string = '';
 
-  profileImageUrl: string | null = null;
+  profileImageUrl: string = '';
+
   selectedImageFile: File | null = null; // Store the actual file for upload
 
   message: string = '';
@@ -37,11 +38,35 @@ export class ProfileComponent implements OnInit {
   wishlistItems: number = 0;
   recentProducts: SellerProduct[] = [];
 
+  private initialLoadDone = false;
   isOwnProfile: boolean = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private apiService: ApiService, private wishlistService: WishlistService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private apiService: ApiService, private wishlistService: WishlistService) {
+    // Refresh product stats whenever we navigate back to the profile page
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && event.urlAfterRedirects.includes('/profile')) {
+        // Avoid duplicate call on initial load (ngOnInit will also call loadSellerData)
+        if (!this.initialLoadDone) {
+          this.initialLoadDone = true;
+          return;
+        }
+        this.loadSellerData();
+      }
+    });
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Load cached profile if present to avoid unnecessary create-profile UI
+    const cachedProfile = localStorage.getItem('profile');
+    if (cachedProfile) {
+      const profile = JSON.parse(cachedProfile);
+      this.userName = profile.name || profile.userName || '';
+      this.userDept = profile.department || profile.userDept || '';
+      this.userRole = profile.role || profile.userRole || '';
+      this.profileImageUrl = this.apiService.normalizeImageUrl(profile.profileImage || profile.profile_image) || '';
+      this.isEditMode = false; // Existing user
+    }
+
     this.route.queryParams.subscribe(params => {
       const loggedInEmail = localStorage.getItem('email') || '';
       const targetEmail = params['email'] || loggedInEmail || 'student@kristujayanti.com';
@@ -52,6 +77,9 @@ export class ProfileComponent implements OnInit {
         this.userJoinedDate = 'Loading...';
         
         this.apiService.getSellerProfile(this.userEmail).subscribe(profile => {
+          if (profile) {
+            localStorage.setItem('profile', JSON.stringify(profile));
+          }
           this.userName = profile.name || '';
           this.userDept = profile.department || '';
           this.userRole = profile.role || '';
@@ -61,15 +89,13 @@ export class ProfileComponent implements OnInit {
           if (normalizedProfileImage) {
             this.profileImageUrl = normalizedProfileImage;
           } else {
-            this.profileImageUrl = null;
+            this.profileImageUrl = '';
           }
           
-          if (this.userName && this.userDept && this.userRole) {
-            this.isEditMode = false;
-          } else {
-            this.isEditMode = true;
-          }
+          this.isEditMode = false; // Existing user profile loaded
           this.loadSellerData();
+          // Mark initial load as done to allow navigation refreshes
+          this.initialLoadDone = true;
         }, err => {
           console.error('Failed to load own profile from API', err);
           this.isEditMode = true;
@@ -87,18 +113,33 @@ export class ProfileComponent implements OnInit {
           if (normalizedProfileImage) {
             this.profileImageUrl = normalizedProfileImage;
           } else {
-            this.profileImageUrl = null;
+            this.profileImageUrl = '';
           }
           this.loadSellerData();
+          // Mark initial load as done for other profiles as well
+          this.initialLoadDone = true;
         }, err => {
           console.error('Failed to load user profile', err);
           this.userName = 'Unknown Seller';
           this.userDept = '';
           this.userRole = '';
           this.userJoinedDate = '';
-          this.profileImageUrl = null;
+          this.profileImageUrl = '';
           this.loadSellerData();
         });
+      }
+    });
+  }
+
+  // Refresh profile data from backend
+  refreshProfile() {
+    this.apiService.getSellerProfile(this.userEmail).subscribe(profile => {
+      if (profile) {
+        localStorage.setItem('profile', JSON.stringify(profile));
+        this.userName = profile.name || '';
+        this.userDept = profile.department || '';
+        this.userRole = profile.role || '';
+        this.profileImageUrl = this.apiService.normalizeImageUrl(profile.profileImage || profile.profile_image) || '';
       }
     });
   }
@@ -168,7 +209,7 @@ export class ProfileComponent implements OnInit {
 
   removePicture() {
     this.closeImageMenu();
-    this.profileImageUrl = null;
+    this.profileImageUrl = '';
     this.selectedImageFile = null;
   }
 
@@ -250,9 +291,13 @@ export class ProfileComponent implements OnInit {
           this.apiService.saveUserProfile(profileData).subscribe({
             next: response => {
               console.log('Profile saved successfully to backend:', response);
+              localStorage.setItem('profile', JSON.stringify(profileData));
 
-              this.message = 'Profile Saved Successfully !';
+             // After successful save (no image), refresh profile data
+          this.refreshProfile();
               this.selectedImageFile = null;
+              // Refresh product stats after saving profile
+              this.loadSellerData();
               setTimeout(() => {
                 this.message = '';
                 this.isEditMode = false;
@@ -290,8 +335,13 @@ export class ProfileComponent implements OnInit {
       this.apiService.saveUserProfile(profileData).subscribe({
         next: response => {
           console.log('Profile saved successfully to backend:', response);
+          localStorage.setItem('profile', JSON.stringify(profileData));
 
+          // After successful save, refresh profile data from backend
+          this.refreshProfile();
           this.message = 'Profile Saved Successfully !';
+          // Refresh product stats after saving profile locally
+          this.loadSellerData();
           setTimeout(() => {
             this.message = '';
             this.isEditMode = false;
@@ -345,6 +395,8 @@ export class ProfileComponent implements OnInit {
       }
       // Reload data from API to ensure accuracy
       this.loadSellerData();
+      // Notify other components about product changes
+      this.apiService.triggerProductRefresh();
     }, err => {
       console.error('Failed to delete product', err);
       alert('Failed to delete product. Please try again.');

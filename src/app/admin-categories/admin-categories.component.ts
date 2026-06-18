@@ -165,14 +165,14 @@ export class AdminCategoriesComponent implements OnInit {
       alert('Category name cannot be empty');
       return;
     }
-    // Build payload based on operation mode
+
+    // Always include the icon if one is selected (for both add and edit)
+    const iconTrimmed = this.categoryForm.icon?.trim();
     const payload: any = { name };
-    if (this.isEditMode) {
-      const iconTrimmed = this.categoryForm.icon?.trim();
-      if (iconTrimmed) {
-        payload.icon = iconTrimmed;
-      }
+    if (iconTrimmed) {
+      payload.icon = iconTrimmed;
     }
+
     console.log('Attempting to add/update category with payload:', payload);
     if (this.isEditMode && this.selectedCategoryId) {
       // Update existing category
@@ -187,7 +187,7 @@ export class AdminCategoriesComponent implements OnInit {
         }
       );
     } else {
-      // Create new category (expects only name)
+      // Create new category
       this.adminService.addCategory(payload).subscribe(
         () => {
           this.loadCategories();

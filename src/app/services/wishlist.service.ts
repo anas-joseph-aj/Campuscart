@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../product.service';
 import { ApiService } from './api.service';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WishlistService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {
+    this.loadWishlistFromBackend();
+  }
 
   private getEmail(): string {
     return localStorage.getItem('email') || 'default_user';
@@ -14,6 +18,43 @@ export class WishlistService {
 
   private getWishlistKey(): string {
     return `wishlist_${this.getEmail()}`;
+  }
+
+  /** Fetch wishlist mappings from backend and load product details to localStorage */
+  loadWishlistFromBackend(): void {
+    const email = this.getEmail();
+    if (!email || email === 'default_user') return;
+
+    this.apiService.getWishlist(email).subscribe({
+      next: (mappings: any[]) => {
+        if (!mappings || mappings.length === 0) {
+          localStorage.setItem(this.getWishlistKey(), JSON.stringify([]));
+          return;
+        }
+
+        const observables = mappings.map(m => 
+          this.apiService.getProductById(m.productId).pipe(
+            catchError(err => {
+              console.error(`Failed to fetch product ${m.productId} for wishlist`, err);
+              return of(null);
+            })
+          )
+        );
+
+        forkJoin(observables).subscribe({
+          next: (products: any[]) => {
+            const validProducts = products.filter(p => p !== null);
+            localStorage.setItem(this.getWishlistKey(), JSON.stringify(validProducts));
+          },
+          error: (err) => {
+            console.error('Failed to resolve wishlist products', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to load wishlist mappings from backend', err);
+      }
+    });
   }
 
   /** Toggle product in wishlist (local + backend) */

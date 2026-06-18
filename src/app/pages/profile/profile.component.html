@@ -15,9 +15,7 @@
       <div class="w-[320px] h-[320px] relative shrink-0 flex items-center justify-center">
         <div
           class="w-full h-full bg-[#FDEEED] rounded-full overflow-hidden flex items-center justify-center relative border-2 border-[#2FA08420]">
-          <img *ngIf="profileImageUrl" [src]="profileImageUrl" class="w-full h-full object-cover">
-          <img *ngIf="!profileImageUrl" src="assets/profile.png" class="w-full h-full object-cover"
-            style="transform: scale(1.1) translateY(12px);" alt="Profile Default">
+          <img [src]="profileImageUrl || 'assets/profile.png'" class="w-full h-full object-cover rounded-full" alt="Profile Image">
         </div>
 
         <button type="button" (click)="toggleImageMenu($event)"

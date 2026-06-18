@@ -20,7 +20,7 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit(): void {
     const profile = JSON.parse(localStorage.getItem('profile') || '{}');
-    this.currentUserEmail = profile.email || '';
+    this.currentUserEmail = profile.email || localStorage.getItem('email') || '';
     if (this.currentUserEmail) {
       this.api.getUserChats(this.currentUserEmail).subscribe((data: any) => {
         this.chats = data.map((c: any) => ({

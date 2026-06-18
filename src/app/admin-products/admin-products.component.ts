@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -39,7 +40,7 @@ interface ReportRow {
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit {
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -159,6 +160,8 @@ export class AdminProductsComponent implements OnInit {
         () => {
           this.loadProducts();
           this.closeModals();
+          // Notify other components about product changes
+          this.apiService.triggerProductRefresh();
         },
         (error: any) => {
           console.error('Update product failed', error);
@@ -189,6 +192,8 @@ export class AdminProductsComponent implements OnInit {
         () => {
           this.adminProducts = this.adminProducts.filter(p => p.id !== this.targetProduct.id);
           this.closeModals();
+          // Notify other components about product deletion
+          this.apiService.triggerProductRefresh();
         },
         (error: any) => {
           console.error('Delete product failed', error);

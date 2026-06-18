@@ -53,6 +53,7 @@ export class ProductPageComponent implements OnInit {
     ).subscribe(query => {
       this.applyFilters();
     });
+    this.apiService.productRefresh$.subscribe(() => this.reloadProducts());
   }
 
   categories: { name: string; icon: string }[] = [
@@ -144,4 +145,15 @@ export class ProductPageComponent implements OnInit {
   onWishlist() { alert('Loading favorite wishlist items...'); }
   onProfile() { alert('Opening account settings dashboard...'); }
   onLogout() { alert('Logging out securely...'); }
+
+  // Refresh product list when changes occur elsewhere
+  private reloadProducts(): void {
+    this.apiService.getAllProducts().subscribe(products => {
+      this.allProductsMaster = products.filter(p => !p.sold);
+      this.allProductsMaster.forEach(p => {
+        p.liked = this.wishlistService.isProductInWishlist(p.id);
+      });
+      this.applyFilters();
+    });
+  }
 }

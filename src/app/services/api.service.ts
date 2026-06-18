@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { Observable, throwError, Subject } from 'rxjs';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 import { Product } from '../product.service';
 
 @Injectable({
@@ -10,7 +10,27 @@ import { Product } from '../product.service';
 export class ApiService {
   private baseUrl = 'http://10.204.205.47:8080';
 
+  // Subject to notify components when product data changes
+  private productRefreshSubject = new Subject<void>();
+  // Observable for external subscription
+  productRefresh$ = this.productRefreshSubject.asObservable();
+
+  // Subject to notify components when profile data changes
+  private profileRefreshSubject = new Subject<void>();
+  // Observable for external subscription
+  profileRefresh$ = this.profileRefreshSubject.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  // Call this after any product mutation (add, update, delete) to trigger a refresh
+  triggerProductRefresh(): void {
+    this.productRefreshSubject.next();
+  }
+
+  // Call this after any profile mutation (update) to trigger a refresh
+  triggerProfileRefresh(): void {
+    this.profileRefreshSubject.next();
+  }
 
   getBaseUrl(): string {
     return this.baseUrl;
@@ -141,7 +161,9 @@ export class ApiService {
 
   /** Save/Update user profile */
   saveUserProfile(profileData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/user/save`, profileData);
+    return this.http.post<any>(`${this.baseUrl}/user/save`, profileData).pipe(
+      tap(() => this.triggerProfileRefresh())
+    );
   }
 
   /** Upload profile image and return the saved path */

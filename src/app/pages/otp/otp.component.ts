@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { ApiService } from '../../services/api.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-otp',
@@ -20,7 +22,12 @@ export class OtpComponent implements OnInit {
   statusMessage: string = ''; // Added for feedback
   errorMessage: string = '';  // Added for error feedback
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private apiService: ApiService,
+    private wishlistService: WishlistService
+  ) { }
 
   ngOnInit(): void { this.startTimer(); }
 
@@ -106,8 +113,19 @@ export class OtpComponent implements OnInit {
 
   private handleSuccess() {
     this.statusMessage = 'Login Successful! Redirecting...';
-    setTimeout(() => {
-      this.router.navigate(['/home']);
-    }, 1500);
+    if (this.email) {
+      this.apiService.getSellerProfile(this.email).subscribe({
+        next: (profile) => {
+          if (profile) {
+            localStorage.setItem('profile', JSON.stringify(profile));
+          }
+        },
+        error: (err) => console.error('Failed to pre-fetch profile on login', err)
+      });
+      this.wishlistService.loadWishlistFromBackend();
+        // Store email for later use
+        localStorage.setItem('email', this.email);
+        setTimeout(() => this.router.navigate(['/home']), 1500);
+    }
   }
 }
