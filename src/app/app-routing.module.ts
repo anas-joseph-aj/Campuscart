@@ -24,6 +24,7 @@ import { AdminPasscodeComponent } from './admin-passcode/admin-passcode.componen
 import { AdminProductsComponent } from './admin-products/admin-products.component';
 import { AdminReviewsComponent } from './admin-reviews/admin-reviews.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'admin-products', component: AdminProductsComponent },
   { path: 'admin-reviews', component: AdminReviewsComponent },
   { path: 'admin-users', component: AdminUsersComponent },
+  { path: 'admin-profile', component: AdminProfileComponent },
   { path: 'search', component: SearchComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [authGuard] },
