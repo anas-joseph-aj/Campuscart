@@ -15,16 +15,16 @@
     <!-- Desktop Actions -->
     <div class="hidden md:flex items-center gap-6">
       
-      <button routerLink="/sell" class="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-white font-semibold cursor-pointer hover:bg-[#20a896] transition-all" style="background-color: #26C0AB;">
+      <button *ngIf="!isAdminRoute" routerLink="/sell" class="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-white font-semibold cursor-pointer hover:bg-[#20a896] transition-all" style="background-color: #26C0AB;">
         <span>+</span> Sell
       </button>
       
       <div class="flex items-center gap-5 text-[#717182]">
-        <button (click)="onChat()" class="cursor-pointer hover:text-[#26C0AB] transition-colors">
+        <button *ngIf="!isAdminRoute" (click)="onChat()" class="cursor-pointer hover:text-[#26C0AB] transition-colors">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
         </button>
 
-        <a routerLink="/wishlist" class="cursor-pointer hover:text-[#26C0AB] transition-colors">
+        <a *ngIf="!isAdminRoute" routerLink="/wishlist" class="cursor-pointer hover:text-[#26C0AB] transition-colors">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
         </a>
 
@@ -55,10 +55,10 @@
     <a routerLink="/products" routerLinkActive="text-[#26C0AB]" (click)="toggleMobileMenu()" class="text-[#717182] font-medium text-[16px] hover:text-[#26C0AB] transition-colors">All Products</a>
     
     <div class="flex items-center gap-6 mt-2 text-[#717182]">
-      <button (click)="onChat(); toggleMobileMenu()" class="hover:text-[#26C0AB] transition-colors">
+      <button *ngIf="!isAdminRoute" (click)="onChat(); toggleMobileMenu()" class="hover:text-[#26C0AB] transition-colors">
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
       </button>
-      <a routerLink="/wishlist" (click)="toggleMobileMenu()" class="hover:text-[#26C0AB] transition-colors">
+      <a *ngIf="!isAdminRoute" routerLink="/wishlist" (click)="toggleMobileMenu()" class="hover:text-[#26C0AB] transition-colors">
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
       </a>
       <a routerLink="/profile" (click)="toggleMobileMenu()" class="hover:text-[#26C0AB] transition-colors">
@@ -66,7 +66,7 @@
       </a>
     </div>
 
-    <button routerLink="/sell" (click)="toggleMobileMenu()" class="mt-2 flex items-center justify-center gap-2 rounded-[8px] w-48 py-2.5 text-white font-semibold cursor-pointer hover:bg-[#20a896] transition-all" style="background-color: #26C0AB;">
+    <button *ngIf="!isAdminRoute" routerLink="/sell" (click)="toggleMobileMenu()" class="mt-2 flex items-center justify-center gap-2 rounded-[8px] w-48 py-2.5 text-white font-semibold cursor-pointer hover:bg-[#20a896] transition-all" style="background-color: #26C0AB;">
       <span>+</span> Sell
     </button>
     

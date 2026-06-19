@@ -13,6 +13,14 @@ export class AppHeaderComponent {
   isMobileMenuOpen = false;
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) { }
 
+  get isAdminRoute(): boolean {
+    try {
+      return this.router.url.startsWith('/admin');
+    } catch (_e) {
+      return false;
+    }
+  }
+
   onChat() { this.router.navigate(['/chat']); }
   onSell() {
     const email = localStorage.getItem('email');

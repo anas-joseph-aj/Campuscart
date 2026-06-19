@@ -30,10 +30,11 @@ export class ProductSoldComponent implements OnInit {
       if (email) {
         this.apiService.getSellerProducts(email).subscribe(products => {
           this.fallbackProducts = products.map((p: any) => {
+            const normalizedStatus = typeof p.status === 'string' ? p.status.toLowerCase() : '';
             const isSold = p.sold === true || 
-                           (typeof p.status === 'string' && ['SOLD', 'sold', 'Inactive'].includes(p.status)) ||
+                           ['sold', 'inactive'].includes(normalizedStatus) ||
                            p.sold === 'true';
-            const priceNumber = parseFloat(String(p.price).replace(/[\D]+/g, '')) || 0;
+            const priceNumber = parseFloat(String(p.price).replace(/[^\d.]+/g, '')) || 0;
             return {
               id: p.id,
               title: p.name || p.title || 'Product',
@@ -52,7 +53,7 @@ export class ProductSoldComponent implements OnInit {
 
   // Automatically read and filter only 'Inactive' products from the shared store
   get soldProducts(): Product[] {
-    const result = (this.fallbackProducts.length > 0 ? this.fallbackProducts : this.dataStore.products).filter(p => p.status === 'Inactive');
+    const result = (this.fallbackProducts.length > 0 ? this.fallbackProducts : this.dataStore.products).filter(p => p.status?.toLowerCase() === 'inactive');
 
     // Apply sorting logic dynamically on the filtered array
     if (this.selectedSortOption === 'low-high') {

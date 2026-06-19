@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { ApiService } from '../../services/api.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { Subscription } from 'rxjs';
 interface SellerProduct { id: number; title: string; price: number; priceDisplay: string; status: string; image: string; deactivateDate?: string; }
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,15 @@ interface SellerProduct { id: number; title: string; price: number; priceDisplay
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   isEditMode: boolean = true;
 
   userName: string = '';
   userDept: string = '';
   userRole: string = '';
+
+  private productRefreshSubscription: Subscription | null = null;
+  private routerSubscription: Subscription | null = null;
 
   userEmail: string = '';
   userJoinedDate: string = '';
@@ -43,7 +47,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private apiService: ApiService, private wishlistService: WishlistService) {
     // Refresh product stats whenever we navigate back to the profile page
-    this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd && event.urlAfterRedirects.includes('/profile')) {
         // Avoid duplicate call on initial load (ngOnInit will also call loadSellerData)
         if (!this.initialLoadDone) {
@@ -129,6 +133,17 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+
+    this.productRefreshSubscription = this.apiService.productRefresh$.subscribe(() => {
+      if (this.isOwnProfile) {
+        this.loadSellerData();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.productRefreshSubscription?.unsubscribe();
+    this.routerSubscription?.unsubscribe();
   }
 
   // Refresh profile data from backend
@@ -149,10 +164,14 @@ export class ProfileComponent implements OnInit {
 
     // Fetch products listed by seller
     this.apiService.getSellerProducts(this.userEmail).subscribe(products => {
+      try {
+        console.debug('loadSellerData: raw seller products', (products as any[]).map(p => ({ id: (p as any).id, image: (p as any).image, images: (p as any).images, sellerEmail: (p as any).sellerEmail, status: (p as any).status, sold: (p as any).sold })));
+      } catch (e) {}
       // Transform Product to SellerProduct
       const sellerProducts: SellerProduct[] = (products as any[]).map(p => {
+        const normalizedStatus = typeof p.status === 'string' ? p.status.toLowerCase() : '';
         const isSold = p.sold === true ||
-          (typeof p.status === 'string' && ['SOLD', 'sold', 'Inactive'].includes(p.status)) ||
+          ['sold', 'inactive'].includes(normalizedStatus) ||
           p.sold === 'true';
         return {
           id: p.id,
@@ -164,7 +183,7 @@ export class ProfileComponent implements OnInit {
         };
       });
       this.productsListed = sellerProducts.length;
-      this.productsSold = sellerProducts.filter(p => p.status === 'Inactive').length;
+      this.productsSold = sellerProducts.filter(p => p.status.toLowerCase() === 'inactive').length;
       // Sort newest first (assuming higher id = newer)
       const sorted = [...sellerProducts].sort((a, b) => b.id - a.id);
       this.recentProducts = sorted.slice(0, 3);
@@ -390,7 +409,7 @@ export class ProfileComponent implements OnInit {
       // Remove from local list immediately
       this.recentProducts = this.recentProducts.filter(p => p.id !== product.id);
       this.productsListed = Math.max(0, this.productsListed - 1);
-      if (product.status === 'Inactive') {
+      if (product.status?.toLowerCase() === 'inactive') {
         this.productsSold = Math.max(0, this.productsSold - 1);
       }
       // Reload data from API to ensure accuracy

@@ -274,48 +274,63 @@ export class ApiService {
 
   /** Transform product image URLs to absolute paths */
   private transformProduct(product: Product): Product {
-    // Handle main image
-    if (product.image && !product.image.startsWith('http')) {
-      // If the image is a local asset, keep it unchanged
-      if (product.image.startsWith('assets/')) {
-        // no change
-      } else {
-        product.image = `${this.baseUrl}${product.image}`;
-      }
+    // Debug: inspect incoming product before normalization
+    try {
+      console.debug('transformProduct IN', { id: (product as any).id, status: (product as any).status, sold: (product as any).sold, image: (product as any).image, images: (product as any).images });
+    } catch (e) {
+      // ignore debugging failure
     }
-    // Handle images array
+
+    // Helper to treat literal 'null'/'undefined' strings as empty values
+    const normalizeString = (val: any): string | null => {
+      if (val === null || val === undefined) return null;
+      const s = String(val).trim();
+      if (!s) return null;
+      const low = s.toLowerCase();
+      if (low === 'null' || low === 'undefined') return null;
+      return s;
+    };
+
+    // Handle main image (normalize and prepend baseUrl when needed)
+    const mainImageRaw = normalizeString((product as any).image);
+    if (mainImageRaw) {
+      if (mainImageRaw.startsWith('http') || mainImageRaw.startsWith('assets/') || mainImageRaw.startsWith('data:')) {
+        product.image = mainImageRaw;
+      } else {
+        product.image = `${this.baseUrl}${mainImageRaw}`;
+      }
+    } else {
+      product.image = 'assets/placeholder.png';
+    }
+
+    // Handle images array and ensure product.image is a valid value
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       // Ensure a primary image exists
-      if (!product.image) {
+      if (!product.image || product.image === 'assets/placeholder.png') {
         const firstImg = product.images[0];
         if (typeof firstImg === 'string') {
-          product.image = firstImg.startsWith('http') || firstImg.startsWith('assets/')
-            ? firstImg
-            : `${this.baseUrl}${firstImg}`;
+          const n = normalizeString(firstImg);
+          if (n) product.image = n.startsWith('http') || n.startsWith('assets/') || n.startsWith('data:') ? n : `${this.baseUrl}${n}`;
         } else if (firstImg && typeof firstImg === 'object') {
-          if ('path' in firstImg && typeof (firstImg as any).path === 'string') {
-            const p = (firstImg as any).path;
-            product.image = p.startsWith('http') || p.startsWith('assets/') ? p : `${this.baseUrl}${p}`;
-          } else if ('url' in firstImg && typeof (firstImg as any).url === 'string') {
-            product.image = (firstImg as any).url;
-          }
+          const path = (firstImg as any).path || (firstImg as any).url || (firstImg as any).image || (firstImg as any).src;
+          const n = normalizeString(path);
+          if (n) product.image = n.startsWith('http') || n.startsWith('assets/') ? n : `${this.baseUrl}${n}`;
         }
       }
-      // Transform each image in the array
+
+      // Normalize each image entry into absolute URLs when possible
       product.images = product.images.map(img => {
         if (typeof img === 'string') {
-          return img.startsWith('http') || img.startsWith('assets/') ? img : `${this.baseUrl}${img}`;
-        } else if (img && typeof img === 'object') {
-          if ('path' in img && typeof (img as any).path === 'string') {
-            const p = (img as any).path;
-            return p.startsWith('http') || p.startsWith('assets/') ? p : `${this.baseUrl}${p}`;
-          }
-          if ('url' in img && typeof (img as any).url === 'string') {
-            return (img as any).url;
-          }
+          const n = normalizeString(img);
+          return n ? (n.startsWith('http') || n.startsWith('assets/') || n.startsWith('data:') ? n : `${this.baseUrl}${n}`) : '';
+        }
+        if (img && typeof img === 'object') {
+          const path = (img as any).path || (img as any).url || (img as any).image || (img as any).src;
+          const n = normalizeString(path);
+          return n ? (n.startsWith('http') || n.startsWith('assets/') || n.startsWith('data:') ? n : `${this.baseUrl}${n}`) : '';
         }
         return '';
-      });
+      }).filter(Boolean);
     }
     if (!product.sellerEmail) {
       const productAny = product as any;
@@ -337,9 +352,15 @@ export class ApiService {
 
     // Handle sold status from various backend formats
     const anyProd = product as any;
-    product.sold = anyProd.sold === true || 
-                   (typeof anyProd.status === 'string' && ['SOLD', 'sold', 'Inactive'].includes(anyProd.status)) ||
+    const normalizedStatus = typeof anyProd.status === 'string' ? anyProd.status.toLowerCase() : '';
+    product.sold = anyProd.sold === true ||
+                   ['sold', 'inactive'].includes(normalizedStatus) ||
                    anyProd.sold === 'true';
+
+    // Debug: show result of normalization
+    try {
+      console.debug('transformProduct OUT', { id: (product as any).id, sold: product.sold, image: product.image, images: product.images });
+    } catch (e) {}
 
     return product;
   }
@@ -359,9 +380,9 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/api/products/category-stats`);
   }
 
-  /** Update an existing product (PUT) */
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/api/products/${id}`, product);
+  /** Update an existing product (PUT) - accepts flexible product payloads */
+  updateProduct(id: number, product: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/products/${id}`, product);
   }
 
   /** Mark a product as sold */

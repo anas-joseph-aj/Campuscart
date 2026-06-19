@@ -92,19 +92,36 @@ export class SellComponent {
     const input = event.target as HTMLInputElement;
     const file = input.files && input.files[0];
     if (file) {
+      // Validate file type (only images)
+      if (!file.type || !file.type.startsWith('image/')) {
+        this.formErrors.submit = 'Please upload image files only (PNG/JPG).';
+        input.value = '';
+        return;
+      }
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        this.formErrors.submit = 'Image size must be less than 5MB.';
+        input.value = '';
+        return;
+      }
+      // Enforce max 5 images
+      const nextIndex = this.productImages.findIndex(img => img === null);
+      if (nextIndex === -1) {
+        this.formErrors.submit = 'Maximum 5 images allowed.';
+        input.value = '';
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const index = this.productImages.findIndex(img => img === null);
-        if (index !== -1) {
-          this.productImages[index] = e.target.result;
-          this.cdr.detectChanges();
-        } else {
-          alert('Maximum 5 images allowed.');
-        }
+        this.productImages[nextIndex] = e.target.result;
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
       this.productFiles.push(file);
       input.value = '';
+      this.formErrors.submit = '';
     }
   }
 
@@ -162,6 +179,13 @@ export class SellComponent {
       this.apiService.addProduct(product).subscribe((savedProduct: any) =>{
           // Update local product list for seller profile and featured products
           this.productService.addProduct(savedProduct);
+
+          // Notify other parts of the app to reload product data from backend
+          try {
+            this.apiService.triggerProductRefresh();
+          } catch (e) {
+            console.error('Failed to trigger product refresh', e);
+          }
 
 
           this.isUploading = false;

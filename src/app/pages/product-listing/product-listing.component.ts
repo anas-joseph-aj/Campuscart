@@ -69,8 +69,9 @@ export class ProductListingComponent implements OnInit {
   private normalizeBackendProduct(product: any): Product {
     const priceText = product.price ? String(product.price) : '0';
     const priceNumber = parseFloat(priceText.replace(/[\D]+/g, '')) || 0;
+    const normalizedStatus = typeof product.status === 'string' ? product.status.toLowerCase() : '';
     const isSold = product.sold === true || 
-                   (typeof product.status === 'string' && ['SOLD', 'sold', 'Inactive'].includes(product.status)) ||
+                   ['sold', 'inactive'].includes(normalizedStatus) ||
                    product.sold === 'true';
     return {
       id: product.id,
@@ -226,8 +227,38 @@ export class ProductListingComponent implements OnInit {
     const index = this.myProducts.findIndex(p => p.id === this.editingProduct.id);
     if (index !== -1) {
       this.editingProduct.priceDisplay = '₹' + this.editingProduct.price.toLocaleString('en-IN');
+      // Optimistically update local UI
       this.myProducts[index] = { ...this.editingProduct };
       this.updateDataStore();
+      // Prepare backend-compatible payload (backend expects `name`, not `title`)
+      const payload: any = {
+        name: this.editingProduct.title,
+        price: this.editingProduct.price,
+        image: this.editingProduct.image,
+        // pass status as-is (backend mapping handles Active/Inactive)
+        status: this.editingProduct.status,
+        // ensure we preserve product ownership when updating
+        sellerEmail: (this.editingProduct as any).sellerEmail || this.loggedInEmail
+      };
+
+      // Debug log to help trace update issues
+      console.log('Saving product edits to backend', this.editingProduct.id, payload);
+
+      // Send update to backend and notify other components on success
+      this.apiService.updateProduct(this.editingProduct.id, payload).subscribe({
+        next: (updated) => {
+          // Ensure normalized product from backend replaces local copy
+          const normalized = this.normalizeBackendProduct(updated as any);
+          this.myProducts[index] = normalized;
+          this.updateDataStore();
+          this.apiService.triggerProductRefresh();
+        },
+        error: (err) => {
+          console.error('Failed to persist product edits to backend', err);
+          // Keep optimistic local changes but still notify other components to attempt consistency
+          this.apiService.triggerProductRefresh();
+        }
+      });
     }
     this.isEditModalOpen = false;
   }

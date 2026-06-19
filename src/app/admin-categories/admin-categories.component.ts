@@ -57,10 +57,13 @@ export class AdminCategoriesComponent implements OnInit {
     if (this.searchText && this.searchText.trim().length > 0) {
       this.adminService.searchCategories(this.searchText.trim()).subscribe(
         (data) => {
-          this.categories = (data || []).map((cat: any) => ({
-            ...cat,
-            icon: this.getDisplayIcon(cat)
-          }));
+            try {
+              console.debug('loadCategories: raw categories', (data || []).map((c: any) => ({ id: c.id, name: c.name, iconRaw: c.icon }))); 
+            } catch (e) {}
+            this.categories = (data || []).map((cat: any) => ({
+              ...cat,
+              icon: this.getDisplayIcon(cat)
+            }));
         },
         (error) => {
           console.error('Search categories failed', error);
@@ -70,6 +73,9 @@ export class AdminCategoriesComponent implements OnInit {
     } else {
       this.adminService.getCategories().subscribe(
         (data) => {
+          try {
+            console.debug('loadCategories (getCategories): raw categories', (data || []).map((c: any) => ({ id: c.id, name: c.name, iconRaw: c.icon })));
+          } catch (e) {}
           this.categories = (data || []).map((cat: any) => ({
             ...cat,
             icon: this.getDisplayIcon(cat)
@@ -84,10 +90,34 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   /** Gets display icon from category object, with mapping fallback */
+  private isEmojiString(s: string): boolean {
+    if (!s) return false;
+    // Try Unicode property regex first (may throw on older engines)
+    try {
+      const re = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
+      if (re.test(s)) return true;
+    } catch (e) {}
+    // Fallback: detect surrogate pairs or common emoji ranges
+    const surrogatePairRe = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+    if (surrogatePairRe.test(s)) return true;
+    // Common miscellaneous symbols and dingbats
+    const rangeRe = /[\u2600-\u27BF\u1F300-\u1F6FF\u1F900-\u1F9FF]/;
+    return rangeRe.test(s);
+  }
+
   getDisplayIcon(cat: any): string {
     if (cat && cat.icon) {
-      const iconStr = cat.icon.trim();
-      if (iconStr.length <= 4 || !/[a-zA-Z0-9]/.test(iconStr)) {
+      let iconStr = (cat.icon || '').toString().trim();
+      // If backend stored HTML-encoded entities (e.g. &#128214;), decode them to real emoji
+      if (iconStr.includes('&#') || iconStr.includes('&amp;#')) {
+        iconStr = this.decodeHtmlEntities(iconStr);
+      }
+      // If the string contains emoji characters, return as-is
+      if (this.isEmojiString(iconStr)) {
+        return iconStr;
+      }
+      // Short strings (likely emoji or simple icons) should be returned as-is
+      if (iconStr.length <= 4 && !/[a-zA-Z0-9]/.test(iconStr)) {
         return iconStr;
       }
       const match = iconStr.match(/^([^.]+)\.[^.]+$/);
@@ -102,7 +132,26 @@ export class AdminCategoriesComponent implements OnInit {
         return iconStr;
       }
     }
-    return this.getIcon(cat ? cat.name : '');
+    const fallback = this.getIcon(cat ? cat.name : '');
+    try {
+      console.debug('getDisplayIcon: fallback', { id: cat?.id, name: cat?.name, iconRaw: cat?.icon, resolved: fallback });
+    } catch (e) {}
+    return fallback;
+  }
+
+  // Called when an admin selects a suggested emoji from the UI
+  selectSuggestedEmoji(emoji: string): void {
+    this.categoryForm.icon = emoji;
+  }
+
+  /** Decode HTML numeric entities (decimal and hex) and basic amp-escaped forms */
+  private decodeHtmlEntities(input: string): string {
+    let s = input.replace(/&amp;#/g, '&#');
+    // Replace decimal entities
+    s = s.replace(/&#(\d+);/g, (_m, dec) => String.fromCodePoint(parseInt(dec, 10)));
+    // Replace hex entities
+    s = s.replace(/&#x([0-9a-fA-F]+);/g, (_m, hex) => String.fromCodePoint(parseInt(hex, 16)));
+    return s;
   }
 
   /** Triggered when the search term changes */
@@ -176,8 +225,10 @@ export class AdminCategoriesComponent implements OnInit {
     console.log('Attempting to add/update category with payload:', payload);
     if (this.isEditMode && this.selectedCategoryId) {
       // Update existing category
+      console.debug('updateCategory: sending payload', payload);
       this.adminService.updateCategory(this.selectedCategoryId, payload).subscribe(
-        () => {
+        (resp) => {
+          console.debug('updateCategory response', resp);
           this.loadCategories();
           alert('Category updated successfully');
         },
@@ -188,8 +239,10 @@ export class AdminCategoriesComponent implements OnInit {
       );
     } else {
       // Create new category
+      console.debug('addCategory: sending payload', payload);
       this.adminService.addCategory(payload).subscribe(
-        () => {
+        (resp) => {
+          console.debug('addCategory response', resp);
           this.loadCategories();
           alert('Category added successfully');
         },
