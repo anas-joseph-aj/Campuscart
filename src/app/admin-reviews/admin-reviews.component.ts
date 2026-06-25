@@ -1,168 +1,103 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
-import { AdminService } from '../services/admin.service';
-
-interface Review {
-  id?: string;
-  name: string;
-  rating: number;
-  comment: string;
-  date: string;
-  status: 'Approved' | 'Pending' | 'Deleted';
-  rawReview?: any;
-}
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-reviews',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    SharedModule
-  ],
+  imports: [CommonModule],
   templateUrl: './admin-reviews.component.html',
   styleUrls: ['./admin-reviews.component.css']
 })
-export class AdminReviewsComponent implements OnInit {
+export class AdminReviewsComponent {
 
   activeMenu = 'Reviews';
-  reviews: Review[] = [];
-  allReviews: Review[] = [];
-  filterStatus: 'Approved' | 'Pending' | 'Deleted' | 'ALL' = 'ALL';
 
-  constructor(private adminService: AdminService) {}
+  deletedCount = 0;
 
-  ngOnInit(): void {
-    this.loadReviews();
-  }
+  reviews = [
 
-  loadReviews(): void {
-    this.adminService.getReviews().subscribe(
-      (data) => {
-        this.allReviews = data.map((r: any) => this.mapBackendReview(r));
-        this.filterReviews(this.filterStatus);
-      },
-      (error) => {
-        console.error('Failed to load reviews', error);
-      }
-    );
-  }
+    {
+      name: 'Rohit Verma',
+      rating: 5,
+      text: 'Reliable seller, items always match description. Highly recommended!',
+      date: 'May 14, 2026',
+      avatar: 'R'
+    },
 
-  mapBackendReview(r: any): Review {
-    return {
-      id: r.id || r._id,
-      name: r.userEmail || 'Anonymous',
-      rating: r.rating || 5,
-      comment: r.comment || '',
-      date: r.date || r.createdAt ? new Date(r.createdAt || r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'June 17, 2026',
-      status: this.mapBackendStatus(r.status),
-      rawReview: r
-    };
-  }
+    {
+      name: 'Jacob Mathew',
+      rating: 4,
+      text: 'Quick responses and fair pricing. Had one minor delay but overall good experience.',
+      date: 'May 30, 2026',
+      avatar: 'J'
+    },
 
-  mapBackendStatus(status: string | null): 'Approved' | 'Pending' | 'Deleted' {
-    if (!status) return 'Pending';
-    const s = status.toUpperCase();
-    if (s === 'APPROVED') return 'Approved';
-    if (s === 'DELETED') return 'Deleted';
-    return 'Pending';
-  }
+    {
+      name: 'Rahul Madhav',
+      rating: 3,
+      text: 'Product was okay but communication could be better. Average experience.',
+      date: 'May 18, 2026',
+      avatar: 'R'
+    },
 
-  filterReviews(status: 'Approved' | 'Pending' | 'Deleted' | 'ALL'): void {
-    this.filterStatus = status;
-    if (status === 'ALL') {
-      this.reviews = [...this.allReviews];
-    } else if (status === 'Pending') {
-      this.adminService.getPendingReviews().subscribe(
-        (data) => {
-          this.reviews = data.map((r: any) => this.mapBackendReview(r));
-        },
-        (error) => {
-          console.error('Failed to load pending reviews', error);
-        }
-      );
-    } else {
-      const backendStatus = status === 'Approved' ? 'APPROVED' : 'DELETED';
-      this.adminService.getReviewsByStatus(backendStatus).subscribe(
-        (data) => {
-          this.reviews = data.map((r: any) => this.mapBackendReview(r));
-        },
-        (error) => {
-          console.error(`Failed to load ${status} reviews`, error);
-        }
-      );
+    {
+      name: 'Priya Singh',
+      rating: 5,
+      text: 'Excellent buyer! Payment was instant and very friendly to deal with.',
+      date: 'May 31, 2026',
+      avatar: 'P'
+    },
+
+    {
+      name: 'Ankit Gupta',
+      rating: 4,
+      text: 'Good seller, honest about product condition. Would buy again.',
+      date: 'June 1, 2026',
+      avatar: 'A'
+    },
+
+    {
+      name: 'Rahul Verma',
+      rating: 2,
+      text: 'Item not as described. Seller was unresponsive to concerns.',
+      date: 'June 2, 2026',
+      avatar: 'R'
     }
-  }
+
+  ];
 
   setActiveMenu(menu: string): void {
+
     this.activeMenu = menu;
+
   }
 
-  /* APPROVE REVIEW */
-  approveReview(index: number): void {
-    const review = this.reviews[index];
-    if (review && review.id) {
-      this.adminService.approveReview(review.id).subscribe(
-        () => {
-          review.status = 'Approved';
-          this.loadReviews();
-        },
-        (error) => {
-          console.error('Approve failed', error);
-          alert('Failed to approve review');
-        }
-      );
-    }
-  }
-
-  /* MARK AS PENDING */
-  markPending(index: number): void {
-    const review = this.reviews[index];
-    review.status = 'Pending';
-  }
-
-  /* DELETE REVIEW */
   deleteReview(index: number): void {
-    const review = this.reviews[index];
-    if (review && review.id) {
-      this.adminService.deleteReview(review.id).subscribe(
-        () => {
-          review.status = 'Deleted';
-          this.loadReviews();
-        },
-        (error) => {
-          console.error('Delete failed', error);
-          alert('Failed to delete review');
-        }
-      );
+
+    const confirmDelete = confirm(
+      'Are you sure you want to delete this review?'
+    );
+
+    if (confirmDelete) {
+
+      this.reviews.splice(index, 1);
+
+      this.deletedCount++;
+
     }
+
   }
 
-  /* COUNTERS */
-  get approvedCount(): number {
-    return this.allReviews.filter(
-      review => review.status === 'Approved'
-    ).length;
+  getStars(rating: number): number[] {
+
+    return Array(rating).fill(0);
+
   }
 
-  get pendingCount(): number {
-    return this.allReviews.filter(
-      review => review.status === 'Pending'
-    ).length;
+  getEmptyStars(rating: number): number[] {
+
+    return Array(5 - rating).fill(0);
+
   }
 
-  get deletedCount(): number {
-    return this.allReviews.filter(
-      review => review.status === 'Deleted'
-    ).length;
-  }
-
-  /* STARS */
-  getStars(rating: number): string[] {
-    return Array(rating).fill('★');
-  }
 }

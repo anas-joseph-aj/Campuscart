@@ -22,6 +22,7 @@
 }
 
 /* Soft transition states for responsive grid frames */
-.chat-row, table tr {
+.chat-row,
+table tr {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

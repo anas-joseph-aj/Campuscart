@@ -1,38 +1,31 @@
-<div class="h-screen w-full bg-white flex flex-col select-none overflow-hidden"
-    style="font-family: 'IBM Plex Serif', serif;">
+<div class="min-h-screen flex flex-col bg-slate-50 relative">
 
+    <!-- HEADER / TOP NAVBAR -->
     <header
-        class="fixed top-0 left-0 z-50 w-full h-[77px] px-6 sm:px-12 flex items-center justify-between border-b-2 border-[#E5E7EB] bg-white shrink-0"
+        class="fixed top-0 left-0 z-50 w-full h-[77px] px-12 flex items-center justify-between border-b border-slate-200 bg-white shrink-0"
         style="font-family: 'Inter', sans-serif;">
-
         <div class="flex items-center">
             <img src="assets/logo.png" alt="CampusCart" class="h-[50px] w-auto object-contain">
         </div>
+        <nav class="flex gap-8 text-slate-500 font-medium text-[14px]">
+            <a routerLink="/profile" class="hover:text-[#2BAE96] transition-colors">Home</a>
+            <a routerLink="/categories" class="hover:text-[#2BAE96] transition-colors">Categories</a>
+            <a routerLink="/products" class="hover:text-[#2BAE96] transition-colors">All Products</a>
 
-        <nav class="hidden md:flex gap-8 text-[#6C757D] font-medium text-[14px]">
-            <a routerLink="/home" class="hover:text-[#2BAE96] transition-colors cursor-pointer">Home</a>
-            <a routerLink="/categories" class="hover:text-[#2BAE96] transition-colors cursor-pointer">Categories</a>
-            <a routerLink="/products" class="hover:text-[#2BAE96] transition-colors cursor-pointer">All Products</a>
         </nav>
-
-        <div class="flex items-center gap-4 sm:gap-6">
-
-
-            <div class="flex items-center gap-3 sm:gap-4 text-[#6C757D]">
-
-                <a routerLink="/admin-profile"
-                    class="hover:text-gray-900 flex items-center transition-colors cursor-pointer">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 text-slate-500">
+                <button routerLink="/admin-profile"
+                    class="hover:text-gray-900 flex items-center transition-colors focus:outline-none">
                     <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
                         </path>
                     </svg>
-                </a>
+                </button>
             </div>
-
-            <button routerLink="/"
-                class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg hover:opacity-90 transition shrink-0 cursor-pointer"
+            <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:opacity-90 transition"
                 style="background-color: #FFC9C9; color: #FB2C36;">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -44,18 +37,28 @@
         </div>
         <div class="absolute bottom-0 left-0 w-full h-[2px] bg-[#2BAE96]"></div>
     </header>
-    <div class="w-full flex flex-1 min-h-0 mt-[77px] relative">
 
+    <!-- CONTENT WRAPPER -->
+    <!-- Removed pl-[76px] so the fluid sidebar handles the layout natively -->
+    <div class="w-full flex flex-1 min-h-0 mt-[77px]">
+
+        <!-- SIDEBAR (ASIDE) -->
+        <!-- Changed from 'fixed' to 'sticky' so it sits perfectly in the flex container and smoothly pushes the content -->
         <aside
-            class="group w-[76px] hover:w-[260px] min-h-[calc(100vh-77px)] p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden z-20"
+            class="sticky top-[77px] left-0 z-20 w-[76px] hover:w-[260px] h-[calc(100vh-77px)] p-4 pt-6 flex flex-col gap-6 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden shrink-0 group"
             style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
 
+            <!-- DASHBOARD SECTION -->
             <div class="pt-2">
-                <a routerLink="/admin-dashboard"
-                    class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap no-underline border-none outline-none text-white hover:bg-white hover:text-[#2BAE96] font-normal group/btn cursor-pointer">
+                <a routerLink="/admin-dashboard" (click)="setActiveMenu('Dashboard')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Dashboard', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Dashboard'
+                }"
+                    class="w-full h-[48px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] tracking-wide transition-all overflow-hidden whitespace-nowrap border-none outline-none no-underline group/btn">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <svg class="w-[22px] h-[22px] fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
+                        <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors"
+                            [ngClass]="{'text-[#2BAE96]': activeMenu === 'Dashboard', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Dashboard'}"
                             stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
                             <path d="M9 21V12h6v9" />
@@ -65,30 +68,41 @@
                 </a>
             </div>
 
+            <!-- MAIN MENU -->
             <div class="flex flex-col gap-2">
                 <span
                     class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MAIN</span>
 
-                <a routerLink="/admin-users"
-                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline text-white hover:bg-white hover:text-[#2BAE96] font-normal border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+                <!-- Users Link -->
+                <a routerLink="/admin-users" (click)="setActiveMenu('Users')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Users', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Users'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <svg class="w-[22px] h-[22px] fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
+                        <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors"
+                            [ngClass]="{'text-[#2BAE96]': activeMenu === 'Users', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Users'}"
                             stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="8.5" cy="7" r="3.5" />
-                            <path d="M1 20v-1a4 4 0 0 1 4-4h7a4 4 0 0 1 4 4v1" />
-                            <path d="M15.5 4.5a3.5 3.5 0 0 1 0 5" />
-                            <path d="M19 15a4 4 0 0 1 2 2v3" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                         </svg>
                     </div>
                     <span class="hidden group-hover:block transition-all duration-200">Users</span>
                 </a>
 
-                <a routerLink="/admin-categories"
-                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline text-white hover:bg-white hover:text-[#2BAE96] font-normal border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+                <!-- Categories Button -->
+                <a routerLink="/admin-categories" (click)="setActiveMenu('Categories')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Categories', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Categories'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <svg class="w-[20px] h-[20px] fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
+                        <svg class="w-[20px] h-[20px] fill-none stroke-current transition-colors"
+                            [ngClass]="{'text-[#2BAE96]': activeMenu === 'Categories', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Categories'}"
                             stroke-width="1.8" viewBox="0 0 24 24">
                             <rect x="3" y="3" width="7" height="7" />
                             <rect x="14" y="3" width="7" height="7" />
@@ -99,11 +113,16 @@
                     <span class="hidden group-hover:block transition-all duration-200">Categories</span>
                 </a>
 
-                <a routerLink="/admin-products"
-                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline text-white hover:bg-white hover:text-[#2BAE96] font-normal border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+                <!-- Products Link -->
+                <a routerLink="/admin-products" (click)="setActiveMenu('Products')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Products', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Products'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <svg class="w-[22px] h-[22px] fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
+                        <svg class="w-[22px] h-[22px] fill-none stroke-current transition-colors"
+                            [ngClass]="{'text-[#2BAE96]': activeMenu === 'Products', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Products'}"
                             stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 8h16l-1.5 12H5.5L4 8z" />
                             <path d="M9 8V6a3 3 0 0 1 6 0v2" />
@@ -114,40 +133,61 @@
                 </a>
             </div>
 
+            <!-- CONTENT MENU -->
             <div class="flex flex-col gap-2">
                 <span
                     class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">CONTENT</span>
 
-                <a routerLink="/admin-reviews"
-                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all no-underline text-white hover:bg-white hover:text-[#2BAE96] font-normal border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+                <!-- Feedback Button -->
+                <button (click)="setActiveMenu('Feedback')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Feedback', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Feedback'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
                     <div
-                        class="shrink-0 w-[24px] h-[24px] relative flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <div class="w-[22px] h-[22px] relative">
-                            <svg class="w-[14px] h-[14px] absolute bottom-0 left-0 fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
-                                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-                            </svg>
-                            <svg class="w-[14px] h-[14px] absolute top-0 right-0 fill-none stroke-current text-white group-hover/btn:text-[#2BAE96] transition-colors"
-                                stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
-                            </svg>
-                        </div>
+                        class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+                        <svg class="w-[20px] h-[20px] fill-none stroke-current" stroke-width="1.8" viewBox="0 0 24 24"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <span class="hidden group-hover:block transition-all duration-200">Feedback</span>
+                </button>
+
+                <!-- Reviews Button -->
+                <button (click)="setActiveMenu('Reviews')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Reviews', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Reviews'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap group/btn">
+                    <div
+                        class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+                        <svg class="w-[20px] h-[20px] fill-none stroke-current" stroke-width="1.8" viewBox="0 0 24 24"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                        </svg>
                     </div>
                     <span class="hidden group-hover:block transition-all duration-200">Reviews</span>
-                </a>
+                </button>
             </div>
 
+            <!-- MODERATION MENU -->
             <div class="flex flex-col gap-2">
                 <span
                     class="text-[14px] font-bold text-white/50 tracking-wider px-3 mb-1 hidden group-hover:block whitespace-nowrap">MODERATION</span>
 
-                <a (click)="navigateToSummary()"
-                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-white text-[#2BAE96] font-semibold shadow-sm no-underline border-none outline-none overflow-hidden whitespace-nowrap group/btn cursor-pointer">
+                <!-- Analytics Link -->
+                <a routerLink="/admin-analytics" (click)="setActiveMenu('Analytics')" [ngClass]="{
+                    'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Analytics', 
+                    'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Analytics'
+                }"
+                    class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
                     <div
                         class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
-                        <svg class="w-[22px] h-[22px] fill-none stroke-current text-[#2BAE96] transition-colors"
+                        <svg class="w-[22px] h-[22px] fill-none stroke-current"
+                            [ngClass]="{'text-[#2BAE96]': activeMenu === 'Analytics', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Analytics'}"
                             stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 3v18h18" />
                             <path d="M7 16v-4" />
@@ -159,785 +199,199 @@
                 </a>
             </div>
         </aside>
-        <main class="flex-1 bg-white flex flex-col overflow-y-auto h-full min-w-0 z-10">
 
-            <div *ngIf="currentView === 'summary'" class="w-full p-6 sm:p-10 flex flex-col gap-8 animate-fadeIn">
+        <!-- MAIN VIEW PANEL -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div *ngIf="currentView === 'summary'" class="max-w-[1400px] mx-auto space-y-8 font-sans">
 
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shrink-0">
-                    <h1 class="text-[28px] sm:text-[32px] font-bold text-[#1F2937] flex items-center gap-2">
-                        Admin Panel <span class="text-[20px] sm:text-[24px] text-gray-500 font-normal"></span>
-                    </h1>
-
-                    <div (click)="openRangePicker($event, startInput)"
-                        class="relative flex items-center gap-2 border border-[#6B7280] px-4 py-2 rounded-[14px] bg-white text-gray-800 shadow-xs hover:bg-gray-50 transition duration-150 cursor-pointer min-w-[260px] h-[46px]">
-                        <svg class="w-5 h-5 text-[#5A6376] shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                <!-- Breadcrumb & Header Title -->
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
+                        <span>Admin</span>
+                        <svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" stroke-width="2.5"
                             viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
-                        <div
-                            class="flex-1 flex items-center justify-center gap-1.5 text-[15px] font-medium tracking-wide text-black">
-                            <span>{{ startDate ? (startDate | date:'dd MMM yyyy') : '01 May 2026' }}</span>
-                            <span class="text-gray-400 font-normal">-</span>
-                            <span>{{ endDate ? (endDate | date:'dd MMM yyyy') : '13 May 2026' }}</span>
-                        </div>
-                        <svg class="w-4 h-4 text-black shrink-0 stroke-current" stroke-width="2.5" fill="none"
-                            viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                        <div class="absolute inset-0 opacity-0 pointer-events-none flex w-full h-full">
-                            <input #startInput type="date" [(ngModel)]="startDate"
-                                (change)="onStartDateSelected(endInput)" class="w-1/2 h-full">
-                            <input #endInput type="date" [(ngModel)]="endDate" (change)="onDateFilterChange()"
-                                class="w-1/2 h-full">
-                        </div>
+                        <span class="text-slate-600">Analytics</span>
                     </div>
+                    <h1 class="text-2xl font-bold text-[#1E293B] tracking-tight">Analytics</h1>
+                    <p class="text-xs text-slate-400 mt-1">Track platform performance and growth metrics.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div *ngFor="let stat of stats" [ngClass]="stat.borderClass + ' ' + stat.bgClass"
-                        class="border-2 p-5 rounded-[18px] flex items-center justify-between shadow-xs transition-transform hover:scale-[1.01]">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[14px] font-semibold text-gray-500 tracking-wide">{{ stat.title }}</span>
-                            <span class="text-[36px] font-bold text-gray-900 leading-tight">{{ stat.count }}</span>
-                        </div>
-                        <div [ngClass]="stat.colorClass"
-                            class="w-12 h-12 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-xs shrink-0">
-                            <svg *ngIf="stat.iconType === 'total'" class="w-6 h-6" fill="none" stroke="currentColor"
-                                stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                </path>
-                            </svg>
-                            <svg *ngIf="stat.iconType === 'pending'" class="w-6 h-6" fill="none" stroke="currentColor"
-                                stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <svg *ngIf="stat.iconType === 'resolved'" class="w-6 h-6" fill="none" stroke="currentColor"
-                                stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                                </path>
-                            </svg>
-                            <svg *ngIf="stat.iconType === 'rejected'" class="w-6 h-6" fill="none" stroke="currentColor"
-                                stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-stretch">
-                    <div
-                        class="lg:col-span-3 border-2 border-[#2BAE96]/20 rounded-[20px] p-6 bg-white shadow-xs flex flex-col justify-between">
-                        <div class="mb-4">
-                            <h3 class="text-[20px] font-bold text-slate-800">User Growth</h3>
-                        </div>
-                        <div class="w-full relative h-[180px] flex gap-3 overflow-hidden">
-                            <div
-                                class="flex flex-col justify-between text-[11px] text-gray-400 h-full pb-2 shrink-0 text-right w-8 select-none">
-                                <span>1400</span><span>1050</span><span>700</span><span>350</span><span>0</span>
-                            </div>
-                            <div class="flex-1 relative h-full"><svg class="absolute inset-0 w-full h-full"
-                                    viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
-                                    <line x1="0" y1="5" x2="700" y2="5" stroke="#F3F4F6" stroke-width="1.5"
-                                        stroke-dasharray="4 4" />
-                                    <line x1="0" y1="48" x2="700" y2="48" stroke="#F3F4F6" stroke-width="1.5"
-                                        stroke-dasharray="4 4" />
-                                    <line x1="0" y1="90" x2="700" y2="90" stroke="#F3F4F6" stroke-width="1.5"
-                                        stroke-dasharray="4 4" />
-                                    <line x1="0" y1="133" x2="700" y2="133" stroke="#F3F4F6" stroke-width="1.5"
-                                        stroke-dasharray="4 4" />
-                                    <line x1="0" y1="175" x2="700" y2="175" stroke="#E5E7EB" stroke-width="1.5" />
-                                    <path [attr.d]="growthPath" stroke="#3B82F6" stroke-width="2" fill="none"></path>
-                                    <path [attr.d]="growthFillPath" fill="rgba(59,130,246,0.2)"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center text-xs text-gray-400 font-sans pt-3 border-t border-gray-100 mt-2 pl-12 pr-1">
-                            <span *ngFor="let g of growth">{{ g.month }}</span>
-                        </div>
-                    </div>
-
-                    <div
-                        class="lg:col-span-2 border-2 border-[#2BAE96]/20 rounded-[20px] p-6 bg-white shadow-xs flex flex-col justify-between">
+                <!-- Stats Cards Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div *ngFor="let summary of stats"
+                        class="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs flex flex-col justify-between min-h-[155px]">
                         <div>
-                            <h3 class="text-[20px] font-bold text-slate-800 mb-4">Reports by Type</h3>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 h-full">
-                            <div class="relative w-36 h-36 flex items-center justify-center shrink-0">
-                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#E5E7EB" stroke-width="3.5">
-                                    </circle>
-                                    <circle *ngFor="let item of pieCategories" cx="18" cy="18" r="15.915" fill="none"
-                                        [attr.stroke]="item.color" stroke-width="3.5"
-                                        [attr.stroke-dasharray]="item.dasharray"
-                                        [attr.stroke-dashoffset]="item.dashoffset"></circle>
+                            <div
+                                [class]="summary.bgClass + ' w-[48px] h-[48px] rounded-full flex items-center justify-center ' + summary.colorClass">
+                                <svg *ngIf="summary.iconType === 'total'" class="w-6 h-6" fill="none"
+                                    stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                 </svg>
-                                <div class="absolute flex flex-col items-center justify-center text-center">
-                                    <span class="text-2xl font-bold text-gray-800 leading-none">{{ stats[0].count
+                                <svg *ngIf="summary.iconType === 'pending'" class="w-6 h-6" fill="none"
+                                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round"
+                                    stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M4 12h3.5l2.5-5.5L13.5 17.5L16 12h4" />
+                                </svg>
+                                <svg *ngIf="summary.iconType === 'resolved'" class="w-6 h-6" fill="none"
+                                    stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <svg *ngIf="summary.iconType === 'rejected'" class="w-6 h-6" fill="none"
+                                    stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mt-4">{{
+                                summary.title }}</div>
+                        </div>
+                        <div class="text-[32px] font-bold text-[#1E293B] leading-none mt-2">{{ summary.count }}</div>
+                    </div>
+                </div>
+
+                <!-- Growth Metrics and Distributions charts row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" style="font-family: 'Inter', sans-serif;">
+
+                    <!-- Left: User Growth Progress -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs">
+                        <h3 class="text-[15px] font-bold text-[#1E293B]">User Growth</h3>
+                        <p class="text-[12px] text-slate-400 mb-6">Monthly active users</p>
+                        <div class="space-y-[18px]">
+                            <div *ngFor="let record of userGrowth" class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-2.5 w-[60px] shrink-0">
+                                    <span class="w-[7px] h-[7px] rounded-full bg-[#2BAE96]"></span>
+                                    <span class="text-[13px] font-medium text-slate-600">{{ record.label }}</span>
+                                </div>
+                                <div class="flex-1 h-[7px] bg-[#EAF7F5] rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#2BAE96] rounded-full transition-all duration-500"
+                                        [style.width.%]="record.percentage"></div>
+                                </div>
+                                <div class="text-[13px] font-bold text-slate-800 text-right w-[40px] shrink-0">{{
+                                    record.value }}</div>
+                            </div>
+                        </div>
+                        <div
+                            class="border-t border-slate-100 mt-[26px] pt-4 flex items-center justify-between text-[13px] font-bold">
+                            <span class="text-slate-500">Total Users</span>
+                            <span class="text-[#2BAE96] text-[15px] font-extrabold">{{ totalUsersSum }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Reports Distribution -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs">
+                        <h3 class="text-[15px] font-bold text-[#1E293B]">Reports by Type</h3>
+                        <p class="text-[12px] text-slate-400 mb-6">Distribution overview</p>
+                        <div class="space-y-[18px]">
+                            <div *ngFor="let report of reportsByType" class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-2.5 w-[140px] shrink-0">
+                                    <span class="w-[7px] h-[7px] rounded-full"
+                                        [style.background-color]="report.color"></span>
+                                    <span class="text-[13px] font-medium text-slate-600 truncate">{{ report.label
                                         }}</span>
-                                    <td class="py-4 px-4 text-center text-base text-[#E28743]">{{ stats[1].count }}</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#20963E]">{{ stats[2].count }}</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#FB2C36]">{{ stats[3].count }}</td>
-                                    <span class="text-[11px] text-gray-400 mt-0.5 font-medium">Total</span>
                                 </div>
-                            </div>
-                            <div class="flex-1 w-full space-y-1.5">
-                                <div *ngFor="let item of pieCategories"
-                                    class="flex items-center justify-between text-xs font-medium">
-                                    <div class="flex items-center gap-2 text-gray-500 truncate">
-                                        <span class="w-2.5 h-2.5 rounded-full block shrink-0"
-                                            [style.backgroundColor]="item.color"></span>
-                                        <span class="truncate">{{ item.name }}</span>
+                                <div class="flex-1 h-[7px] bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full transition-all duration-500"
+                                        [style.background-color]="report.color" [style.width.%]="report.percentage">
                                     </div>
-                                    <span class="text-gray-900 font-bold ml-1">{{ item.percentage }}%</span>
                                 </div>
+                                <div class="text-[13px] font-bold text-slate-800 text-right w-[40px] shrink-0">{{
+                                    report.value }}</div>
                             </div>
+                        </div>
+                        <div
+                            class="border-t border-slate-100 mt-[26px] pt-4 flex items-center justify-between text-[13px] font-bold">
+                            <span class="text-slate-500">Total Reports</span>
+                            <span class="text-[#2BAE96] text-[15px] font-extrabold">{{ totalReportsSum }}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="border-2 border-[#2BAE96]/20 rounded-[20px] bg-white shadow-xs overflow-hidden mb-4">
-                    <div class="px-6 py-4 border-b border-gray-100">
-                        <h3 class="text-[20px] font-bold text-gray-800">Reports Summary by Type</h3>
+                <!-- Data Table Summary -->
+                <div class="bg-white border border-slate-100 rounded-2xl shadow-xs overflow-hidden">
+                    <div class="p-6 pb-2">
+                        <h3 class="text-sm font-bold text-[#1E293B]">Reports Summary by Type</h3>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr
-                                    class="border-b border-gray-200 bg-gray-50/50 text-gray-400 font-bold tracking-wide">
-                                    <th class="py-3.5 px-6 font-semibold">Report Type</th>
-                                    <th class="py-3.5 px-4 font-semibold text-center">Total Reports</th>
-                                    <th class="py-3.5 px-4 font-semibold text-center">Pending</th>
-                                    <th class="py-3.5 px-4 font-semibold text-center">Resolved</th>
-                                    <th class="py-3.5 px-4 font-semibold text-center">Rejected</th>
-                                    <th class="py-3.5 pr-10 font-semibold text-center">Action</th>
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-slate-50/50">
+                                    <th class="py-4 px-6">Report Type</th>
+                                    <th class="py-4 px-6 text-center">Total Reports</th>
+                                    <th class="py-4 px-6 text-center">Pending</th>
+                                    <th class="py-4 px-6 text-center">Resolved</th>
+                                    <th class="py-4 px-6 text-center">Rejected</th>
+                                    <th class="py-4 px-6 text-center">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 text-gray-700">
-                                <tr *ngFor="let row of reportSummary"
-                                    class="hover:bg-gray-50/50 transition duration-150">
-                                    <td
-                                        class="py-4 px-6 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap">
-
-
-                                        <svg *ngIf="row.iconPath === 'fake'" class="w-6 h-6 shrink-0"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
-                                                stroke="#3B82F6" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
-                                                fill="#3B82F6" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        <svg *ngIf="row.iconPath === 'prohibited'" class="w-6 h-6 shrink-0"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 22L2 17V7L12 2L22 7V17L12 22Z" stroke="#F59E0B"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M12 22V12" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M2 7L12 12L22 7" stroke="#F59E0B" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M17 4.5L7 9.5" stroke="#F59E0B" stroke-width="1.5"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <svg *ngIf="row.iconPath === 'irrelevant'" class="w-6 h-6 shrink-0"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-                                                stroke="#A78BFA" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M8 10H8.01M12 10H12.01M16 10H16.01" stroke="#A78BFA"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <svg *ngIf="row.iconPath === 'others'" class="w-6 h-6 shrink-0"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path d="M5 12H5.01M12 12H12.01M19 12H19.01" stroke="#6B7280"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span class="font-medium text-[15px] ml-1">{{ row.type }}</span>
+                            <tbody class="text-xs font-semibold text-slate-700 divide-y divide-slate-100/70">
+                                <tr *ngFor="let row of reportSummary" class="hover:bg-slate-50/40 transition-colors">
+                                    <td class="py-3.5 px-6 flex items-center gap-3.5">
+                                        <div
+                                            class="w-[38px] h-[38px] rounded-xl flex items-center justify-center bg-[#EDFBF7] text-[#2BAE96] shrink-0">
+                                            <svg *ngIf="row.type === 'User Disputes'" class="w-[18px] h-[18px]"
+                                                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                            <svg *ngIf="row.type === 'Product Issues'" class="w-[18px] h-[18px]"
+                                                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                            </svg>
+                                            <svg *ngIf="row.type === 'Payment Problems'" class="w-[18px] h-[18px]"
+                                                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <svg *ngIf="row.type === 'Technical Issues'" class="w-[18px] h-[18px]"
+                                                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                            <svg *ngIf="row.type === 'Other'" class="w-[18px] h-[18px]" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-slate-800 font-bold text-[14px]">{{ row.type }}</span>
                                     </td>
-                                    <td class="py-4 px-4 text-center font-semibold text-gray-900">{{ row.total }}</td>
-                                    <td class="py-4 px-4 text-center font-bold text-[#E28743]">{{ row.pending }}</td>
-                                    <td class="py-4 px-4 text-center font-bold text-[#20963E]">{{ row.resolved }}</td>
-                                    <td class="py-4 px-4 text-center font-bold text-[#FB2C36]">{{ row.rejected }}</td>
-
-                                    <td class="py-4 pr-10 text-center whitespace-nowrap">
+                                    <td class="py-3.5 px-6 text-center text-slate-900 font-bold text-[14px]">{{
+                                        row.total }}</td>
+                                    <td class="py-3.5 px-6 text-center text-slate-500 font-medium text-[13px]">{{
+                                        row.pending }}</td>
+                                    <td class="py-3.5 px-6 text-center text-slate-500 font-medium text-[13px]">{{
+                                        row.resolved }}</td>
+                                    <td class="py-3.5 px-6 text-center text-slate-500 font-medium text-[13px]">{{
+                                        row.rejected }}</td>
+                                    <td class="py-3.5 px-6 text-center">
                                         <button (click)="onViewDetails(row)"
-                                            class="h-[32px] px-4 text-[13px] font-bold text-[#2BAE96] bg-transparent border-2 border-[#2BAE96]/20 rounded-lg hover:bg-[#2BAE96]/5 hover:border-[#2BAE96] transition shadow-xs">
+                                            class="px-4 py-1.5 border border-[#2BAE96]/30 text-[#2BAE96] bg-white rounded-lg hover:bg-[#2BAE96] hover:text-white transition-all text-[12px] font-bold">
                                             View Details
                                         </button>
                                     </td>
                                 </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr class="bg-gray-50/40 border-t-2 border-gray-100 text-gray-900 font-bold">
-                                    <td class="py-4 px-6 text-[16px]">Total</td>
-                                    <td class="py-4 px-4 text-center text-base">{{ getTotalReports() }}</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#E28743]">{{ stats[1].count }}</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#20963E]">{{ stats[2].count }}</td>
-                                    <td class="py-4 px-4 text-center text-base text-[#FB2C36]">{{ stats[3].count }}</td>
-                                    <td class="py-4 pr-10 text-center whitespace-nowrap"></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="currentView === 'detail'" class="w-full p-6 sm:p-10 flex flex-col gap-6 animate-fadeIn">
-
-                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 shrink-0">
-                    <div class="flex flex-col gap-1">
-                        <h1 class="text-[28px] sm:text-[32px] font-bold text-[#1F2937] flex items-center"
-                            style="font-family: 'IBM Plex Serif', serif;">
-
-                            <button (click)="navigateToSummary()"
-                                class="inline-flex items-center justify-center w-[42px] h-[42px] mr-3 rounded-xl bg-white text-gray-500 border border-gray-100 shadow-xs transition-all duration-200 hover:bg-[#EAF7F5] hover:text-[#2BAE96] hover:border-[#E6F7F4] hover:shadow-[0_0_12px_rgba(43,174,150,0.15)]"
-                                title="Back to Analytics">
-                                <svg class="w-5 h-5 stroke-current" stroke-width="2.5" fill="none" viewBox="0 0 24 24">
-                                    <polyline points="15 18 9 12 15 6"></polyline>
-                                </svg>
-                            </button>
-
-                            <span class="inline-flex items-center justify-center mr-3">
-
-                                <!-- Fake Accounts Icon -->
-                                <svg *ngIf="selectedCategoryName === 'Fake Accounts'" class="w-8 h-8 text-[#3B82F6]"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-
-                                <!-- Prohibited Items Icon -->
-                                <svg *ngIf="selectedCategoryName === 'Prohibited Items'" class="w-8 h-8 text-[#F59E0B]"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                </svg>
-
-                                <!-- Irrelevant Content Icon (Matches image_84391e.png) -->
-                                <svg *ngIf="selectedCategoryName === 'Irrelevant Content'"
-                                    class="w-8 h-8 text-[#A855F7]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                </svg>
-
-                                <!-- Others Icon (Matches image_8438a0.png) -->
-                                <svg *ngIf="selectedCategoryName === 'Others'" class="w-8 h-8 text-[#64748B]"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                                </svg>
-                            </span>
-                            {{ selectedCategoryName }}
-                        </h1>
-                        <p class="text-sm text-gray-500 font-medium pl-[54px]"
-                            style="font-family: 'Inter', sans-serif;">Manage all {{ selectedCategoryName | lowercase }}
-                            complaints</p>
-                    </div>
-
-                    <div class="flex flex-col items-stretch sm:items-end gap-3 w-full lg:w-auto">
-
-                        <div (click)="openRangePicker($event, detailStartInput)"
-                            class="relative flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-xl bg-white text-gray-800 shadow-2xs hover:bg-gray-50 transition duration-150 cursor-pointer w-full sm:min-w-[260px] h-[46px]">
-                            <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor"
-                                stroke-width="2" viewBox="0 0 24 24">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-
-                            <div class="flex-1 flex items-center justify-center gap-1.5 text-gray-800 tracking-normal text-center"
-                                style="font-family: 'IBM Plex Serif', serif; font-weight: 500; font-size: 15px; line-height: 15px; letter-spacing: 0px;">
-                                <span>{{ startDate ? (startDate | date:'dd MMM yyyy') : '01 May 2026' }}</span>
-                                <span class="text-gray-400">-</span>
-                                <span>{{ endDate ? (endDate | date:'dd MMM yyyy') : '13 May 2026' }}</span>
-                            </div>
-
-                            <svg class="w-4 h-4 text-gray-400 stroke-current shrink-0" stroke-width="2.5" fill="none"
-                                viewBox="0 0 24 24">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-
-                            <div class="absolute inset-0 opacity-0 pointer-events-none flex w-full h-full">
-                                <input #detailStartInput type="date" [(ngModel)]="startDate"
-                                    (change)="onStartDateSelected(detailEndInput)" class="w-1/2 h-full">
-                                <input #detailEndInput type="date" [(ngModel)]="endDate" (change)="onDateFilterChange()"
-                                    class="w-1/2 h-full">
-                            </div>
-                        </div>
-
-                        <button (click)="exportToCSV()"
-                            class="h-[40px] w-full sm:w-auto px-5 flex items-center justify-center gap-2 font-bold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 shadow-2xs transition duration-150 text-sm whitespace-nowrap"
-                            style="font-family: 'Inter', sans-serif;">
-                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2.5"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Export
-                        </button>
-                    </div>
-                </div>
-
-                <div
-                    class="w-full bg-white border border-gray-200 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-2xs">
-                    <div class="w-full md:flex-1 flex flex-col sm:flex-row gap-4">
-
-                        <div class="relative flex items-center w-full sm:w-2/3 md:max-w-md">
-                            <span class="absolute left-3.5 text-gray-400">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </span>
-                            <input type="text" [(ngModel)]="searchQuery" (input)="applyDetailedFilters()"
-                                placeholder="Search by username or email"
-                                class="w-full h-[44px] pl-11 pr-4 border border-gray-300 rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#2BAE96] transition"
-                                style="font-family: 'Inter', sans-serif; font-weight: 500;">
-                        </div>
-
-                        <div class="relative w-full sm:w-1/3 md:max-w-[160px]"
-                            style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px; letter-spacing: 0%;">
-                            <div (click)="isDropdownOpen = !isDropdownOpen" [class.border-[#2BAE96]]="isDropdownOpen"
-                                class="w-full h-[44px] px-4 border border-gray-300 rounded-xl text-gray-700 bg-white flex items-center justify-between transition-all duration-150 cursor-pointer select-none leading-none">
-                                <span class="w-full text-center">{{ statusFilter === 'All' ? 'All Status' : statusFilter
-                                    }}</span>
-                                <span class="text-gray-400 transition-transform duration-200 shrink-0"
-                                    [class.rotate-180]="isDropdownOpen">
-                                    <svg class="w-4 h-4 stroke-current" stroke-width="2.5" fill="none"
-                                        viewBox="0 0 24 24">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
-                                    </svg>
-                                </span>
-                            </div>
-
-                            <div *ngIf="isDropdownOpen"
-                                class="absolute z-50 left-0 right-0 mt-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden animate-fadeIn text-center">
-                                <div (click)="selectStatusOption('All')" [class.bg-[#E6F7F4]]="statusFilter === 'All'"
-                                    [class.text-[#2BAE96]]="statusFilter === 'All'"
-                                    class="px-4 py-3 hover:bg-[#E6F7F4]/60 hover:text-[#2BAE96] transition cursor-pointer text-gray-700 leading-none">
-                                    All Status
-                                </div>
-                                <div (click)="selectStatusOption('Pending')"
-                                    [class.bg-[#E6F7F4]]="statusFilter === 'Pending'"
-                                    [class.text-[#2BAE96]]="statusFilter === 'Pending'"
-                                    class="px-4 py-3 hover:bg-[#E6F7F4]/60 hover:text-[#2BAE96] transition cursor-pointer text-gray-700 leading-none">
-                                    Pending
-                                </div>
-                                <div (click)="selectStatusOption('Resolved')"
-                                    [class.bg-[#E6F7F4]]="statusFilter === 'Resolved'"
-                                    [class.text-[#2BAE96]]="statusFilter === 'Resolved'"
-                                    class="px-4 py-3 hover:bg-[#E6F7F4]/60 hover:text-[#2BAE96] transition cursor-pointer text-gray-700 leading-none">
-                                    Resolved
-                                </div>
-                                <div (click)="selectStatusOption('Rejected')"
-                                    [class.bg-[#E6F7F4]]="statusFilter === 'Rejected'"
-                                    [class.text-[#2BAE96]]="statusFilter === 'Rejected'"
-                                    class="px-4 py-3 hover:bg-[#E6F7F4]/60 hover:text-[#2BAE96] transition cursor-pointer text-gray-700 leading-none">
-                                    Rejected
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button (click)="resetDetailedFilters()"
-                        class="w-full md:w-auto h-[44px] px-[22px] flex items-center justify-center gap-2.5 font-bold text-[#FB2C36] bg-white border border-[#FF8E94]/60 rounded-xl hover:bg-[#FFC9C9]/20 transition duration-150 text-[15px]"
-                        style="font-family: 'Inter', sans-serif; font-weight: 600;">
-
-                        <svg class="w-6 h-6 text-[#FB2C36]" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.73-.73" />
-                        </svg>
-                        Reset
-                    </button>
-                </div>
-
-                <div
-                    class="border border-gray-200 rounded-xl bg-white shadow-2xs overflow-hidden flex-1 flex flex-col justify-between">
-                    <div class="overflow-x-auto w-full">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="border-b border-gray-200 bg-gray-50/70 text-gray-900 tracking-wide"
-                                    style="font-family: 'IBM Plex Serif', serif; font-weight: 600;">
-                                    <th class="py-4 px-6">Report ID</th>
-                                    <th class="py-4 px-6">Reported User</th>
-                                    <th class="py-4 px-6">Reported By</th>
-                                    <th class="py-4 px-6">Date</th>
-                                    <th class="py-4 px-6 text-center">Status</th>
-                                    <th class="py-4 px-6 text-center">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="divide-y divide-gray-100 text-gray-700 bg-white"
-                                style="font-family: 'Inter', sans-serif; font-weight: 500;">
-                                <tr *ngFor="let item of filteredDetailRecords"
-                                    class="hover:bg-gray-50/40 transition duration-150">
-
-                                    <td class="py-4 px-6 text-gray-500 tracking-tight text-[13px]"
-                                        style="font-family: 'IBM Plex Serif', serif;">
-                                        {{ item.reportId === '#REP-0021A' || item.reportId === '#REP-0022B' ||
-                                        item.reportId === '#REP-0023C' ? 'CC100000' : item.reportId }}
-                                    </td>
-
-                                    <td class="py-4 px-6 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <ng-container *ngIf="item.reportedUserImage; else userInitial">
-                                                <img [src]="item.reportedUserImage" alt="User"
-                                                    class="w-9 h-9 rounded-full object-cover border border-[#2BAE96]/10 shadow-3xs" />
-                                            </ng-container>
-                                            <ng-template #userInitial>
-                                                <div
-                                                    class="w-9 h-9 rounded-full bg-[#E6F7F4] text-[#2BAE96] font-bold text-sm flex items-center justify-center border border-[#2BAE96]/10 shadow-3xs uppercase">
-                                                    {{ item.reportedUser.name.charAt(0) }}
-                                                </div>
-                                            </ng-template>
-                                            <div class="flex flex-col">
-                                                <span class="text-gray-900"
-                                                    style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">
-                                                    {{ item.reportedUser.name }}
-                                                </span>
-                                                <span class="text-xs text-gray-400 tracking-tight mt-1">
-                                                    {{ item.reportedUser.email.split('@')[0] }}@kristujayanti.com
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td class="py-4 px-6 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <ng-container *ngIf="item.reportedByImage; else reporterInitial">
-                                                <img [src]="item.reportedByImage" alt="Reporter"
-                                                    class="w-9 h-9 rounded-full object-cover border border-[#2BAE96]/10 shadow-3xs" />
-                                            </ng-container>
-                                            <ng-template #reporterInitial>
-                                                <div
-                                                    class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 font-bold text-sm flex items-center justify-center border border-blue-100 shadow-3xs uppercase">
-                                                    {{ item.reportedBy.name.charAt(0) }}
-                                                </div>
-                                            </ng-template>
-                                            <div class="flex flex-col">
-                                                <span class="text-gray-900"
-                                                    style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; line-height: 100%;">{{
-                                                    item.reportedBy.name }}</span>
-                                                <span class="text-xs text-gray-400 tracking-tight mt-1">{{
-                                                    item.reportedBy.email.split('@')[0] }}@kristujayanti.com</span>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td class="py-4 px-6 whitespace-nowrap">
-                                        <div class="flex flex-col">
-                                            <span class="text-gray-900 text-xs font-medium">{{ item.date |
-                                                date:'dd\'th\' MMM yyyy' }}</span>
-                                            <span class="text-[10px] text-gray-400 font-medium mt-0.5">{{ item.date |
-                                                date:'h:mm a' }}</span>
-                                        </div>
-                                    </td>
-
-                                    <td class="py-4 px-6 text-center whitespace-nowrap">
-                                        <span [ngClass]="{
-                                    'bg-[#FFE8CC] text-[#E28743]': item.status === 'Pending',
-                                    'bg-[#E6F7ED] text-[#20963E]': item.status === 'Resolved',
-                                    'bg-[#FFEAEA] text-[#FB2C36]': item.status === 'Rejected'
-                                }" class="px-3.5 py-1.5 rounded-lg font-bold text-xs tracking-wide inline-block min-w-[84px] text-center">
-                                            {{ item.status }}
-                                        </span>
-                                    </td>
-
-                                    <td class="py-4 px-6 text-center whitespace-nowrap">
-                                        <button (click)="onViewSingleReport(item)"
-                                            class="h-[30px] px-3 text-xs font-bold text-[#2BAE96] bg-white border border-[#2BAE96]/30 rounded-md hover:bg-[#2BAE96]/5 hover:border-[#2BAE96] transition shadow-3xs">
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr *ngIf="filteredDetailRecords.length === 0">
-                                    <td colspan="6" class="py-12 px-6 text-center text-gray-400 font-medium"
-                                        style="font-family: 'Inter', sans-serif;">
-                                        No matched complaints found for the specified active structural selection
-                                        filters.
-                                    </td>
+                                <tr class="bg-slate-50/50 font-bold text-slate-800 border-t border-slate-100">
+                                    <td class="py-4 px-6 text-slate-900 font-bold text-[14px]">Total</td>
+                                    <td class="py-4 px-6 text-center text-[#1E293B] font-extrabold text-[14px]">{{
+                                        totalReportsSum }}</td>
+                                    <td class="py-4 px-6 text-center text-slate-800 text-[13px]">24</td>
+                                    <td class="py-4 px-6 text-center text-slate-800 text-[13px]">112</td>
+                                    <td class="py-4 px-6 text-center text-slate-800 text-[13px]">16</td>
+                                    <td class="py-4 px-6"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between text-xs font-medium text-gray-500 bg-gray-50/30"
-                        style="font-family: 'Inter', sans-serif;">
-                        <span>Showing 1 to {{ filteredDetailRecords.length }} of 10 results</span>
-                        <div class="flex items-center gap-1">
-                            <button
-                                class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-400">
-                                <svg class="w-3.5 h-3.5 stroke-current" stroke-width="2.5" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <polyline points="15 18 9 12 15 6"></polyline>
-                                </svg>
-                            </button>
-                            <button
-                                class="w-7 h-7 flex items-center justify-center rounded border font-bold bg-[#2BAE96] border-[#2BAE96] text-white">1</button>
-                            <button
-                                class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-700">2</button>
-                            <button
-                                class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-700">3</button>
-                            <span class="px-1 text-gray-300">---</span>
-                            <button
-                                class="w-7 h-7 flex items-center justify-center rounded border border-gray-200 bg-white hover:bg-gray-50 transition text-gray-400">
-                                <svg class="w-3.5 h-3.5 stroke-current" stroke-width="2.5" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
                 </div>
+
             </div>
+        </main>
 
-            <div *ngIf="currentView === 'single-report' && selectedReportItem"
-                class="w-full flex flex-col bg-[#FAFAFA] min-h-screen" style="font-family: 'Inter', sans-serif;">
-
-                <div class="p-6 md:p-8 space-y-6 max-w-[1400px] w-full mx-auto">
-
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-3 flex-wrap">
-                                <h1 class="text-[26px] font-bold text-[#0F172A] tracking-tight">User Report Details</h1>
-                                <span [ngClass]="{
-            'bg-[#FEF3C7] text-[#D97706]': selectedReportItem.status === 'Pending',
-            'bg-[#DCFCE7] text-[#15803D]': selectedReportItem.status === 'Resolved',
-            'bg-[#FEE2E2] text-[#B91C1C]': selectedReportItem.status === 'Rejected'
-          }" class="px-2.5 py-0.5 text-xs font-semibold rounded-md tracking-wide">
-                                    {{ selectedReportItem.status }}
-                                </span>
-                            </div>
-                            <p class="text-[14px] text-gray-500 font-medium">
-                                Report ID : <span class="text-gray-700 font-semibold">{{ selectedReportItem.reportId
-                                    }}</span>
-                            </p>
-                        </div>
-
-                        <button (click)="goBackToList()"
-                            class="inline-flex items-center justify-center gap-2 h-10 px-4 bg-white border border-[#2BAE96] text-[#2BAE96] font-semibold text-sm rounded-lg hover:bg-[#2BAE96]/5 transition duration-200">
-                            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor"
-                                stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                            </svg>
-                            Back to Reports
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-
-                        <div
-                            class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm flex flex-col justify-between">
-                            <div>
-                                <h2 class="text-[15px] font-bold text-[#0F172A] mb-5 tracking-tight">Reported User
-                                    Information</h2>
-                                <div class="flex items-start gap-4">
-                                    <div *ngIf="!selectedReportItem.reportedUserImage"
-                                        class="w-12 h-12 rounded-full bg-[#F0EEFD] text-[#6366F1] font-bold flex items-center justify-center text-[15px] shrink-0">
-                                        {{ selectedReportItem.reportedUser.name.substring(0, 2).toUpperCase() }}
-                                    </div>
-                                    <img *ngIf="selectedReportItem.reportedUserImage"
-                                        [src]="selectedReportItem.reportedUserImage" alt="Profile"
-                                        class="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100">
-
-                                    <div class="space-y-1 min-w-0">
-                                        <div class="flex items-center gap-2 flex-wrap">
-                                            <h3 class="text-[16px] font-bold text-[#0F172A] truncate">{{
-                                                selectedReportItem.reportedUser.name }}</h3>
-                                            <span
-                                                class="px-2 py-0.5 text-[11px] font-bold bg-[#DCFCE7] text-[#16A34A] rounded">Active</span>
-                                        </div>
-
-                                        <div class="flex items-center gap-1">
-                                            <span class="text-[#F59E0B] text-sm">★★★★</span><span
-                                                class="text-gray-200 text-sm">★</span>
-                                            <span class="text-xs text-gray-500 font-medium ml-1">4.2 (18 reviews)</span>
-                                        </div>
-
-                                        <div class="flex items-center gap-2 text-sm text-gray-500 pt-2 break-all">
-                                            <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none"
-                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 17.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                            </svg>
-                                            {{ selectedReportItem.reportedUser.email }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-8 pt-4 border-t border-gray-100 space-y-2.5 text-[14px]">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-medium">Joined on</span>
-                                    <span class="text-[#1E293B] font-semibold">{{ selectedReportItem.date | date:'dd MMM
-                                        yyyy' }}</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-medium">Account Status</span>
-                                    <span class="text-[#16A34A] font-bold">Active</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-medium">Email Verified</span>
-                                    <span class="text-[#16A34A] font-semibold flex items-center gap-1">
-                                        <span
-                                            class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] text-[10px] font-bold">✓</span>
-                                        verified
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm space-y-4 flex flex-col justify-between">
-                            <div>
-                                <h2 class="text-[15px] font-bold text-[#0F172A] mb-4 tracking-tight">Report Information
-                                </h2>
-                                <div class="space-y-3.5">
-                                    <div>
-                                        <span
-                                            class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Report
-                                            Type</span>
-                                        <span class="text-[14px] font-bold text-[#1E293B] block mt-0.5">{{
-                                            selectedReportItem.category }}</span>
-                                    </div>
-
-                                    <div>
-                                        <span
-                                            class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Report
-                                            Date</span>
-                                        <span class="text-[14px] font-bold text-[#1E293B] block mt-0.5">{{
-                                            selectedReportItem.date | date:'dd MMM yyyy, hh:mm a' }}</span>
-                                    </div>
-
-                                    <div>
-                                        <span
-                                            class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Reported
-                                            By</span>
-                                        <div class="mt-0.5 flex items-center gap-4">
-                                            <div *ngIf="!selectedReportItem.reportedByImage"
-                                                class="w-12 h-12 rounded-full bg-[#F0EEFD] text-[#6366F1] font-bold flex items-center justify-center text-[15px] shrink-0">
-                                                {{ selectedReportItem.reportedBy.name.substring(0,2).toUpperCase() }}
-                                            </div>
-                                            <img *ngIf="selectedReportItem.reportedByImage"
-                                                [src]="selectedReportItem.reportedByImage" alt="Reporter"
-                                                class="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100" />
-                                            <div class="flex flex-col">
-                                                <span class="text-[14px] font-bold text-[#1E293B] block">{{
-                                                    selectedReportItem.reportedBy.name }}</span>
-                                                <span class="text-xs font-medium text-gray-400 block">{{
-                                                    selectedReportItem.reportedBy.email }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="pt-4">
-                                <span
-                                    class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Reporter
-                                    Description</span>
-                                <div class="bg-[#F8FAFC] rounded-xl p-4 border border-gray-100">
-                                    <p
-                                        class="text-[13px] text-gray-600 italic font-medium leading-relaxed border-l-2 border-gray-300 pl-3">
-                                        " {{ selectedReportItem.details || 'No description provided.' }} "
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm space-y-4"
-                        *ngIf="selectedReportItem.screenshot">
-                        <h2 class="text-[15px] font-bold text-[#0F172A] tracking-tight">Evidence / Screenshot</h2>
-                        <div class="flex justify-center bg-[#F8FAFC] border border-gray-200 rounded-xl p-4">
-                            <img [src]="getScreenshotUrl(selectedReportItem.screenshot)" alt="Evidence"
-                                class="max-w-full max-h-[400px] object-contain rounded-lg shadow-sm">
-                        </div>
-                        <p class="text-[12px] text-gray-400 font-medium pt-1">Note: Screenshot provided by the reporter
-                            as evidence.</p>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-lg border border-gray-200">
-                        <h3 class="text-base font-semibold text-gray-900 mb-4 font-serif">Admin Actions</h3>
-
-                        <div class="grid grid-cols-2 gap-4 mb-5">
-                            <div class="space-y-1.5 relative">
-                                <label class="text-[12px] font-bold text-black-500 tracking-wider">Status</label>
-
-                                <button type="button" (click)="isDropdownOpen = !isDropdownOpen"
-                                    class="w-full bg-white border border-[#2BAE96] text-gray-700 rounded-xl h-[44px] px-4 flex items-center justify-between text-[14px] font-semibold transition focus:outline-none shadow-2xs">
-                                    <span class="font-serif">{{ selectedReportItem.status }}</span>
-                                    <svg class="w-4 h-4 text-[#2BAE96] transition-transform duration-200"
-                                        [ngClass]="{'rotate-180': isDropdownOpen}" fill="none" stroke="currentColor"
-                                        stroke-width="2.5" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-
-                                <div *ngIf="isDropdownOpen"
-                                    class="absolute left-0 right-0 z-50 mt-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden animate-fadeIn">
-
-                                    <div class="flex flex-col py-1">
-                                        <button type="button" (click)="selectStatusOption('Pending')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Pending'}"
-                                            class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
-                                            Pending
-                                        </button>
-
-                                        <button type="button" (click)="selectStatusOption('Resolved')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Resolved'}"
-                                            class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
-                                            Resolved
-                                        </button>
-
-                                        <button type="button" (click)="selectStatusOption('Rejected')"
-                                            [ngClass]="{'bg-[#EAF7F5]/60 text-[#2BAE96] font-bold': selectedReportItem.status === 'Rejected'}"
-                                            class="w-full text-left px-4 py-2.5 text-[14px] font-medium text-gray-500 hover:bg-[#EAF7F5]/50 hover:text-[#2BAE96] transition duration-150 font-serif">
-                                            Rejected
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col justify-end">
-                                <label class="block text-sm text-black-500 mb-1 font-serif">Admin Notes
-                                    (optional)</label>
-                                <input type="text" placeholder="Write notes about this report..."
-                                    class="w-full border border-gray-300 rounded-xl h-[44px] px-4 text-[14px] font-serif" />
-                            </div>
-                        </div>
-
-                        <div class="flex justify-center items-center gap-2">
-                            <button type="button"
-                                class="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50 font-serif">
-                                <span>⚠️</span> Warn User
-                            </button>
-
-                            <button type="button" (click)="selectStatusOption('Rejected')"
-                                class="flex items-center gap-2 px-3 py-1.5 border border-red-200 rounded text-sm text-red-600 hover:bg-red-50 font-serif">
-                                <span>✕</span> Reject Report
-                            </button>
-
-                            <button type="button" (click)="selectStatusOption('Resolved')"
-                                class="flex items-center gap-2 px-3 py-1.5 bg-emerald-700 rounded text-sm text-white border border-emerald-700 font-serif">
-                                <span>✓</span> Resolve Report
-                            </button>
-                        </div>
-                    </div>
+    </div>
+</div>

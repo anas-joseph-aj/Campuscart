@@ -1,112 +1,83 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { AdminService } from '../services/admin.service';
 
 interface Product {
-  id: any;
+  id: number;
   name: string;
-  price: any;
+  price: string;
   uploadedBy: string;
   image: string;
-  liked: boolean;
-  rawProduct?: any;
+  status: 'Available' | 'Sold';
 }
 
-interface StatCard {
-  title: string;
-  count: number;
-  iconType: string;
-  colorClass: string;
-  bgClass: string;
-  borderClass: string;
+@Pipe({
+  name: 'searchProducts',
+  standalone: true
+})
+export class SearchProductsPipe implements PipeTransform {
+  transform(products: Product[], query: string): Product[] {
+    if (!products || !query) return products;
+    const cleanQuery = query.toLowerCase().trim();
+    return products.filter(p =>
+      p.name.toLowerCase().includes(cleanQuery) ||
+      p.uploadedBy.toLowerCase().includes(cleanQuery) ||
+      p.price.toLowerCase().includes(cleanQuery)
+    );
+  }
 }
 
-interface ReportRow {
-  type: string;
-  total: number;
-  pending: number;
-  resolved: number;
-  rejected: number;
-}
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, SearchProductsPipe],
   templateUrl: './admin-products.component.html',
   styleUrls: ['./admin-products.component.css']
 })
-export class AdminProductsComponent implements OnInit {
-  constructor(private adminService: AdminService, private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    this.loadProducts();
-  }
-
-  /** Load products from backend */
-  loadProducts(): void {
-    this.adminService.getAllProducts().subscribe(
-      (data: any[]) => {
-        // Map backend fields to component fields
-        this.adminProducts = (data || []).map((p: any) => ({
-          id: p.id || p._id,
-          name: p.name,
-          price: p.price,
-          uploadedBy: p.sellerName || p.uploadedBy || '',
-          image: this.adminService.buildImageUrl((p.images && p.images.length > 0) ? p.images[0] : p.image),
-          liked: false,
-          rawProduct: p
-        }));
-      },
-      (error: any) => {
-        console.error('Failed to load admin products', error);
-        alert('Unable to load products. Check console for details.');
-      }
-    );
-  }
+export class AdminProductsComponent {
   activeMenu: string = 'Products';
+  searchQuery: string = '';
 
-  // Modal display toggles
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
 
-  // Context trackers
   targetProduct!: Product;
-  tempProduct: Product = { id: '', name: '', price: '', uploadedBy: '', image: '', liked: false };
-  selectedFile: File | null = null;
+  tempProduct: Product = { id: 0, name: '', price: '', uploadedBy: '', image: '', status: 'Available' };
 
-  adminProducts: Product[] = [];
-
-  stats: StatCard[] = [
-    { title: 'Total Reports', count: 152, iconType: 'total', colorClass: 'text-[#2BAE96]', bgClass: 'bg-[#EAF7F5]', borderClass: 'border-[#2BAE96]/30' },
-    { title: 'Pending Reports', count: 24, iconType: 'pending', colorClass: 'text-[#E28743]', bgClass: 'bg-[#FFF8F2]', borderClass: 'border-[#E28743]/30' },
-    { title: 'Total Reports', count: 112, iconType: 'resolved', colorClass: 'text-[#20963E]', bgClass: 'bg-[#EDF7EE]', borderClass: 'border-[#20963E]/30' },
-    { title: 'Rejected Reports', count: 16, iconType: 'rejected', colorClass: 'text-[#FB2C36]', bgClass: 'bg-[#FFF2F3]', borderClass: 'border-[#FB2C36]/30' }
-  ];
-
-  reportSummary: ReportRow[] = [
-    { type: 'Spam Reports', total: 64, pending: 10, resolved: 48, rejected: 6 },
-    { type: 'Fake Accounts', total: 36, pending: 6, resolved: 26, rejected: 4 },
-    { type: 'Prohibited Items', total: 27, pending: 5, resolved: 19, rejected: 3 },
-    { type: 'Irrelevant Content', total: 15, pending: 2, resolved: 11, rejected: 2 },
-    { type: 'Others', total: 10, pending: 1, resolved: 8, rejected: 1 }
+  // Expanded list containing all 22 products mapped cleanly to Available / Sold
+  adminProducts: Product[] = [
+    { id: 1, name: 'iPhone 16', price: '₹69,900', uploadedBy: 'Rohit Sharma', image: 'assets/iphone16.png', status: 'Available' },
+    { id: 2, name: 'Smart Watch', price: '₹5,500', uploadedBy: 'Rahul Verma', image: 'assets/smartwatch.png', status: 'Available' },
+    { id: 3, name: 'Running Shoes', price: '₹1,200', uploadedBy: 'Jacob Thomas', image: 'assets/shoes.png', status: 'Available' },
+    { id: 4, name: 'Dell Laptop', price: '₹37,100', uploadedBy: 'Jacob Thomas', image: 'assets/delllaptop.png', status: 'Available' },
+    { id: 5, name: 'Apple MacBook Air M2', price: '₹32,500', uploadedBy: 'Arjun M', image: 'assets/macbook.png', status: 'Available' },
+    { id: 6, name: 'Apple iPhone 17 Pro', price: '₹70,000', uploadedBy: 'Rahul Mathew', image: 'assets/iphone17.png', status: 'Sold' },
+    { id: 7, name: 'Apple iPhone 11', price: '₹37,000', uploadedBy: 'Rahul Mathew', image: 'assets/iphone11.png', status: 'Available' },
+    { id: 8, name: 'Wooden Cot', price: '₹2,800', uploadedBy: 'Arjun M', image: 'assets/woodencot.png', status: 'Available' },
+    { id: 9, name: 'Study Table', price: '₹1,400', uploadedBy: 'Verma', image: 'assets/studytable.png', status: 'Sold' },
+    { id: 10, name: 'Fairy Lights', price: '₹100', uploadedBy: 'Anjali Sharma', image: 'assets/fairylights.png', status: 'Available' },
+    { id: 11, name: 'Fish Bowl', price: '₹50', uploadedBy: 'Rohit Verma', image: 'assets/fish.png', status: 'Available' },
+    { id: 12, name: 'Flower Pot', price: '₹70', uploadedBy: 'Sneha Reddy', image: 'assets/flowerpot.png', status: 'Available' },
+    { id: 13, name: 'Forensic Science Textbook', price: '₹490', uploadedBy: 'Dr. Amit', image: 'assets/forensicscience.png', status: 'Available' },
+    { id: 14, name: 'Samsung Fridge', price: '₹2,500', uploadedBy: 'Vikram Singh', image: 'assets/fridge.png', status: 'Available' },
+    { id: 15, name: 'Hero Xtreme 160R 4V', price: '₹45,000', uploadedBy: 'Rajesh Kumar', image: 'assets/herobike.png', status: 'Available' },
+    { id: 16, name: 'Prestige Induction Cooktop', price: '₹2,200', uploadedBy: 'Pooja Hegde', image: 'assets/inductioncooktopprestige.png', status: 'Available' },
+    { id: 17, name: 'Electric Kettle', price: '₹1,500', uploadedBy: 'Suresh Raina', image: 'assets/kettle.png', status: 'Available' },
+    { id: 18, name: 'MRF Cricket Bat', price: '₹3,200', uploadedBy: 'Virat K', image: 'assets/mrfcricketbat.png', status: 'Available' },
+    { id: 19, name: 'Prestige Pressure Cooker', price: '₹2,200', uploadedBy: 'Karan Johar', image: 'assets/prestigecooker.png', status: 'Available' },
+    { id: 20, name: 'The Price of Freedom Book', price: '₹340', uploadedBy: 'Prof. Das', image: 'assets/priceoffreedom.png', status: 'Available' },
+    { id: 21, name: '32 inch Smart TV', price: '₹11,200', uploadedBy: 'Abhishek B', image: 'assets/smarttv.png', status: 'Available' },
+    { id: 22, name: 'Siberian Cat', price: '₹2,200', uploadedBy: 'Aisha Malik', image: 'assets/cat.png', status: 'Available' }
   ];
 
   setActiveMenu(menuName: string): void {
     this.activeMenu = menuName;
   }
 
-  toggleLike(product: Product, event: Event): void {
-    event.stopPropagation();
-    product.liked = !product.liked;
-  }
-
   onEditProduct(product: Product, event: Event): void {
     event.stopPropagation();
-    this.selectedFile = null;
     this.targetProduct = product;
     this.tempProduct = { ...product };
     this.showEditModal = true;
@@ -118,11 +89,9 @@ export class AdminProductsComponent implements OnInit {
     this.showDeleteModal = true;
   }
 
-  // Handles reading the local image file selection stream and parsing it to a valid preview
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
         this.tempProduct.image = reader.result as string;
@@ -137,69 +106,15 @@ export class AdminProductsComponent implements OnInit {
   }
 
   saveProductDetails(): void {
-    if (!this.targetProduct) return;
-
-    const updateRequest = (imagePaths: string[]) => {
-      const raw = this.tempProduct.rawProduct || {};
-      const productImages = imagePaths.length > 0 ? imagePaths : (raw.images || []);
-
-      const payload = {
-        name: this.tempProduct.name,
-        companyName: raw.companyName || 'CampusCart',
-        description: raw.description || 'No description provided.',
-        price: parseFloat(this.tempProduct.price.toString().replace(/[^0-9.]/g, '')) || 0,
-        negotiable: raw.negotiable !== undefined ? raw.negotiable : true,
-        images: productImages,
-        category: raw.category || 'Electronics',
-        status: raw.status || 'AVAILABLE',
-        sellerEmail: raw.sellerEmail || raw.seller || 'admin@campuscart.com',
-        sellerName: this.tempProduct.uploadedBy || raw.sellerName || 'Admin'
-      };
-
-      this.adminService.updateProduct(this.targetProduct.id.toString(), payload).subscribe(
-        () => {
-          this.loadProducts();
-          this.closeModals();
-          // Notify other components about product changes
-          this.apiService.triggerProductRefresh();
-        },
-        (error: any) => {
-          console.error('Update product failed', error);
-          alert('Failed to update product');
-        }
-      );
-    };
-
-    if (this.selectedFile) {
-      this.adminService.uploadImages([this.selectedFile]).subscribe(
-        (res: any) => {
-          const imagePaths = Array.isArray(res) ? res : (res.imageUrls || []);
-          updateRequest(imagePaths);
-        },
-        (error: any) => {
-          console.error('Image upload failed', error);
-          alert('Failed to upload image during update');
-        }
-      );
-    } else {
-      updateRequest([]);
+    const idx = this.adminProducts.findIndex(p => p.id === this.targetProduct.id);
+    if (idx !== -1) {
+      this.adminProducts[idx] = { ...this.tempProduct };
     }
+    this.closeModals();
   }
 
   confirmDeleteProduct(): void {
-    if (this.targetProduct && this.targetProduct.id) {
-      this.adminService.deleteProduct(this.targetProduct.id.toString()).subscribe(
-        () => {
-          this.adminProducts = this.adminProducts.filter(p => p.id !== this.targetProduct.id);
-          this.closeModals();
-          // Notify other components about product deletion
-          this.apiService.triggerProductRefresh();
-        },
-        (error: any) => {
-          console.error('Delete product failed', error);
-          alert('Failed to delete product');
-        }
-      );
-    }
+    this.adminProducts = this.adminProducts.filter(p => p.id !== this.targetProduct.id);
+    this.closeModals();
   }
 }

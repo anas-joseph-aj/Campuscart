@@ -1,306 +1,411 @@
-.admin-page {
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
-  /* Removes the browser's default window scrollbar */
-  padding-top: 77px;
-  background: #f8f8f8;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
-/* ==========================
-   LAYOUT
-========================== */
+body {
+  background: #f6f7fb;
+  overflow: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  height: 54px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+}
+
+.header-logo {
+  width: 118px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 34px;
+}
+
+.header-nav a {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.profile-btn {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.profile-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.logout-btn {
+  border: none;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #ff2957;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* ================= PAGE ================= */
+
+.admin-page {
+  padding-top: 54px;
+  height: 100vh;
+}
 
 .admin-layout {
   display: flex;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 54px);
 }
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+  width: 175px;
+
+  background: #049688;
+
+  padding: 14px 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  padding-left: 8px;
+}
+
+.menu-btn {
+  width: 100%;
+  height: 38px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 12px;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.menu-btn:hover {
+  background: white;
+  color: #049688;
+}
+
+.menu-btn.active {
+  background: white;
+  color: #049688;
+}
+
+.menu-icon-wrap {
+  width: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.menu-text {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ================= MAIN ================= */
 
 .admin-main {
   flex: 1;
-  height: 100%;
+
+  padding: 16px 18px;
+
   overflow-y: auto;
-  /* Only the reviews content block will scroll */
-  padding: 35px;
+
+  background: #f6f7fb;
 }
 
-/* ==========================
-   HEADER
-========================== */
-
-.reviews-header {
+.breadcrumb {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  gap: 7px;
+
+  font-size: 11px;
+  color: #9ca3af;
+
+  margin-bottom: 14px;
 }
 
-.reviews-header h1 {
-  font-family: 'IBM Plex Serif', serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: #25233A;
-  margin: 0;
-}
-
-.total-reviews {
-  font-size: 14px;
-  color: #777;
-  margin-top: 6px;
-}
-
-/* ==========================
-   STATS
-========================== */
-
-.review-stats {
-  display: flex;
-  gap: 10px;
-}
-
-.review-stats span {
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
+.active-page {
+  color: #374151;
   font-weight: 600;
 }
 
-.approved-badge {
-  background: #2BAE96;
+.admin-topbar {
+  margin-bottom: 18px;
+}
+
+.admin-topbar h1 {
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #111827;
+
+  margin-bottom: 4px;
+}
+
+.admin-topbar p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ================= SUMMARY ================= */
+
+.review-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.review-summary p {
+  font-size: 13px;
+  color: #6b7280;
 }
 
 .deleted-badge {
-  background: #ef4444;
+  height: 24px;
+
+  padding: 0 12px;
+
+  border-radius: 8px;
+
+  background: #fff1f2;
+
+  color: #ff2957;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
 }
 
-.pending-badge {
-  background: #f5b23d;
-}
-
-/* ==========================
-   REVIEW CARD
-========================== */
+/* ================= REVIEW CARD ================= */
 
 .review-card {
   background: #ffffff;
-  border: 1px solid #2BAE96;
-  border-radius: 14px;
-  padding: 18px 22px;
-  margin-bottom: 18px;
+
+  border: 1px solid #e8e8e8;
+
+  border-radius: 18px;
+
+  min-height: 92px;
+
+  padding: 16px 18px;
 
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
 
-  transition: 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+
+  margin-bottom: 12px;
 }
-
-.review-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-}
-
-/* ==========================
-   LEFT SECTION
-========================== */
 
 .review-left {
   display: flex;
   gap: 14px;
-  align-items: flex-start;
+  flex: 1;
 }
 
-.avatar {
-  width: 48px;
-  height: 48px;
+.review-avatar {
+  width: 32px;
+  height: 32px;
+
+  min-width: 32px;
+
   border-radius: 50%;
-  background: #d9f3ee;
-  color: #2BAE96;
+
+  background: #11c5af;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-size: 12px;
   font-weight: 700;
-  font-size: 18px;
+}
 
+.review-content {
+  width: 100%;
+}
+
+.review-user {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+
+  margin-bottom: 2px;
 }
 
-.review-left h3 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
-  color: #25233A;
-}
-
-.stars {
-  color: #f5b23d;
-  margin: 4px 0;
-  font-size: 15px;
-}
-
-.comment {
-  margin: 5px 0;
-  color: #666;
+.review-user h3 {
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 600;
+
+  color: #1f2937;
 }
 
-.review-left small {
-  color: #999;
-  font-size: 13px;
+.review-user span {
+  font-size: 11px;
+  color: #b0b7c3;
 }
 
-/* ==========================
-   RIGHT SECTION
-========================== */
-
-.review-right {
+.review-stars {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 1px;
+
+  color: #ffb800;
+
+  font-size: 12px;
+
+  margin-bottom: 5px;
 }
 
-/* ==========================
-   STATUS BADGES
-========================== */
-
-.status {
-  color: white;
-  padding: 7px 14px;
-  border-radius: 8px;
+.review-text {
   font-size: 13px;
-  font-weight: 600;
+
+  line-height: 1.45;
+
+  color: #6b7280;
+
+  font-style: italic;
+
+  margin-bottom: 6px;
 }
 
-.status.approved {
-  background: #2BAE96;
+.review-date {
+  font-size: 11px;
+  color: #9ca3af;
 }
 
-.status.pending {
-  background: #f5b23d;
-}
+/* ================= DELETE ================= */
 
-.status.deleted {
-  background: #ef4444;
-}
-
-/* ==========================
-   APPROVE BUTTON
-========================== */
-
-.approve-btn {
-  border: 1px solid #2BAE96;
-  background: white;
-  color: #2BAE96;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.approve-btn:hover {
-  background: #2BAE96;
-  color: white;
-}
-
-/* ==========================
-   PENDING BUTTON
-========================== */
-
-.pending-btn {
-  border: 1px solid #f5b23d;
-  background: white;
-  color: #f5b23d;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.pending-btn:hover {
-  background: #f5b23d;
-  color: white;
-}
-
-/* ==========================
-   DELETE ICON BUTTON
-========================== */
-
-.delete-btn {
-  width: 38px;
-  height: 38px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: all 0.2s ease;
-}
-
-.delete-btn:hover {
-  transform: scale(1.1);
-}
-
-.delete-btn:active {
-  transform: scale(0.95);
-}
-
-.delete-btn svg {
+.delete-review-btn {
   width: 28px;
   height: 28px;
+
+  border: none;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: #b7bec8;
 }
 
-/* ==========================
-   RESPONSIVE
-========================== */
+.delete-review-btn svg {
+  width: 15px;
+  height: 15px;
+}
 
-@media (max-width: 900px) {
-  .reviews-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px) {
+
+  .header-nav {
+    display: none;
   }
+
+  .sidebar {
+    width: 70px;
+  }
+
+  .menu-text,
+  .section-title {
+    display: none;
+  }
+
+}
+
+@media(max-width:600px) {
 
   .review-card {
+    padding: 14px;
+  }
+
+  .review-user {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 2px;
   }
 
-  .review-right {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-}
-
-/* ==========================
-   FIXED SIDEBAR (Scrollbars Completely Hidden)
-========================== */
-.admin-layout aside {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-
-  /* Enables inner scrolling mechanics safely if needed */
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  /* Hides scrollbar on Firefox */
-  scrollbar-width: none;
-  /* Hides scrollbar on IE/Edge */
-  -ms-overflow-style: none;
-}
-
-/* Hides scrollbar on Chrome, Safari, and Opera */
-.admin-layout aside::-webkit-scrollbar {
-  display: none;
 }

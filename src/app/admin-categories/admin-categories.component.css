@@ -1,365 +1,512 @@
-.admin-page {
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
-  /* Removes the browser's default window scrollbar */
-  padding-top: 77px;
-  background: #ffffff;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
-/* ==========================
-   LAYOUT
-========================== */
+body {
+  overflow: hidden;
+  background: #f6f7fb;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  height: 54px;
+  background: #ffffff;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 22px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+}
+
+/* LOGO */
+
+.header-logo {
+  width: 108px;
+  object-fit: contain;
+}
+
+/* NAVIGATION */
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.header-nav a {
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  color: #4b5563;
+
+  transition: 0.2s;
+}
+
+.header-nav a:hover {
+  color: #11b6a2;
+}
+
+/* RIGHT */
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* PROFILE */
+
+.profile-btn {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  padding: 0;
+}
+
+.profile-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* LOGOUT */
+
+.logout-btn {
+  border: none;
+  background: none;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #ff2957;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.logout-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.admin-page {
+  padding-top: 54px;
+  height: 100vh;
+}
 
 .admin-layout {
   display: flex;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 54px);
 }
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 172px;
+
+  background: #049688;
+
+  padding: 12px 9px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  overflow: hidden;
+
+  min-height: 100%;
+}
+
+/* SECTIONS */
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  padding-left: 8px;
+
+  margin-bottom: 3px;
+}
+
+/* MENU */
+
+.menu-btn {
+  width: 100%;
+  height: 36px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 0 11px;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.menu-btn:hover {
+  background: white;
+  color: #049688;
+}
+
+.menu-btn.active {
+  background: white;
+  color: #049688;
+  font-weight: 600;
+}
+
+/* ICON */
+
+.menu-icon-wrap {
+  width: 17px;
+  min-width: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* TEXT */
+
+.menu-text {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* =========================
+   MAIN
+========================= */
 
 .admin-main {
   flex: 1;
-  height: 100%;
+
+  padding: 14px 18px;
+
   overflow-y: auto;
-  /* Only the main panel contents will scroll */
-  padding: 26px 38px;
 }
 
-/* ==========================
-   PAGE TITLE
-========================== */
+/* BREADCRUMB */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 11px;
+
+  color: #9ca3af;
+
+  margin-bottom: 10px;
+}
+
+.active-page {
+  color: #374151;
+  font-weight: 600;
+}
+
+/* =========================
+   TOPBAR
+========================= */
 
 .admin-topbar {
-  margin-bottom: 36px;
+  margin-bottom: 14px;
 }
 
 .admin-topbar h1 {
-  margin: 0;
-  font-family: 'IBM Plex Serif', serif;
-  font-size: 32px;
+  font-size: 17px;
   font-weight: 700;
-  color: #25233a;
-  line-height: 1.1;
+
+  color: #111827;
+
+  margin-bottom: 2px;
 }
 
-/* ==========================
-   SEARCH + BUTTON
-========================== */
+.admin-topbar p {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
 
 .toolbar-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  width: 100%;
-  max-width: 100%;
-
-  margin-bottom: 55px;
+  margin-bottom: 14px;
 }
 
-.search-row {
-  width: auto;
-}
+/* SEARCH */
 
 .search-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  width: 200px;
+  height: 32px;
 
-  width: 160px;
-  height: 36px;
-
-  padding: 0 12px;
-
-  border: 1px solid #26c0ab;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
 
-  background: #ffffff;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 0 10px;
 }
 
 .search-card svg {
-  width: 16px;
-  height: 16px;
-  color: #222;
+  width: 13px;
+  height: 13px;
 }
 
 .search-card input {
   width: 100%;
+
   border: none;
   outline: none;
+
   background: transparent;
 
-  font-size: 12px;
-  color: #111827;
+  font-size: 11px;
 }
 
-/* ==========================
-   ADD CATEGORY BUTTON
-========================== */
+/* ADD BUTTON */
 
 .btn-primary {
-  width: 110px;
-  height: 36px;
+  height: 32px;
+  padding: 0 14px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
 
-  background: #2fa084;
-  color: #ffffff;
+  background: #11c5af;
+  color: white;
 
   font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.btn-primary:hover {
-  background: #23866f;
-}
-
-/* ==========================
-   CATEGORY GRID
-========================== */
+/* =========================
+   GRID
+========================= */
 
 .category-grid {
   display: grid;
 
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns:
+    repeat(4, 1fr);
 
-  column-gap: 26px;
-  row-gap: 28px;
-
-  justify-content: start;
+  gap: 12px;
 }
 
-/* ==========================
-   CATEGORY CARD
-========================== */
+/* =========================
+   CARD
+========================= */
 
 .category-card {
-  width: 100%;
-  height: 170px;
+  height: 138px;
 
-  border: 0.8px solid #26c0ab;
-  border-radius: 12px;
+  background: white;
 
-  background: #ffffff;
+  border-radius: 14px;
+
+  border: 1px solid #ebebeb;
+
+  padding: 13px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 
-  padding: 14px 12px 14px;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.04);
 
-  transition: 0.25s ease;
+  transition: 0.2s;
 }
 
 .category-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(38, 192, 171, 0.15);
 }
 
-/* ==========================
-   ICON
-========================== */
-
-.category-icon-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-}
+/* ICON */
 
 .category-icon {
-  width: 54px;
-  height: 54px;
+  width: 42px;
+  height: 42px;
 
-  border-radius: 50%;
+  border-radius: 12px;
+
+  background: #f5f7f9;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  background: rgba(38, 192, 171, 0.12);
-
-  font-size: 24px;
+  font-size: 21px;
 }
 
-.category-icon-img {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: rgba(38, 192, 171, 0.12);
-  object-fit: cover;
-}
-
-
-/* ==========================
-   CARD TITLE
-========================== */
+/* TITLE */
 
 .category-card h2 {
-  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
 
-  font-size: 14px;
-  font-weight: 500;
-
-  text-align: center;
   color: #111827;
 }
 
-/* ==========================
-   ACTION BUTTONS
-========================== */
+/* PRODUCT COUNT */
+
+.product-count {
+  font-size: 11px;
+  color: #9ca3af;
+
+  margin-top: -5px;
+}
+
+/* ACTIONS */
 
 .card-actions {
   display: flex;
-  gap: 8px;
+  gap: 7px;
 }
+
+/* BUTTONS */
 
 .btn-edit,
 .btn-delete {
-  width: 58px;
-  height: 28px;
+  width: 72px;
+  height: 26px;
 
-  border-radius: 10px;
+  border-radius: 8px;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 /* EDIT */
 
 .btn-edit {
-  border: 1px solid #26c0ab;
-  background: #effdf8;
-  color: #26c0ab;
-}
+  border: 1px solid #9ff1e5;
 
-.btn-edit:hover {
-  background: #26c0ab;
-  color: #ffffff;
+  background: #effdf8;
+  color: #049688;
 }
 
 /* DELETE */
 
 .btn-delete {
-  border: 1px solid #fca5a5;
-  background: #fef2f2;
-  color: #dc2626;
+  border: 1px solid #ffd1d8;
+
+  background: #fff1f2;
+  color: #ff2957;
 }
 
-.btn-delete:hover {
-  background: #fee2e2;
-  color: #b91c1c;
-  transform: translateY(-2px);
-}
-
-/* ==========================
-   DELETE ICON BUTTON
-   (For Reviews Page)
-========================== */
-
-.delete-btn {
-  width: 42px;
-  height: 42px;
-
-  border: none;
-  border-radius: 10px;
-
-  background: #fef2f2;
-  color: #dc2626;
-
-  font-size: 20px;
-  font-weight: 700;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.delete-btn:hover {
-  background: #fee2e2;
-  color: #b91c1c;
-  transform: translateY(-2px);
-}
-
-.delete-btn:active {
-  transform: scale(0.95);
-}
-
-/* ==========================
-   RESPONSIVE
-========================== */
-
-@media (max-width: 1200px) {
-  .category-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .toolbar-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .admin-main {
-    padding: 20px;
-  }
-
-  .admin-topbar h1 {
-    font-size: 26px;
-  }
-
-  .category-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-/* ==========================
-   MODALS
-========================== */
+/* =========================
+   MODAL
+========================= */
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .35);
+
+  background: rgba(0, 0, 0, 0.35);
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  z-index: 999;
+  z-index: 3000;
 }
 
-.modal-box {
-  width: 420px;
+.modal-box,
+.delete-modal {
+  width: 340px;
+
   background: white;
-  border-radius: 14px;
-  padding: 24px;
+
+  border-radius: 16px;
+
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 15px;
 }
+
+.modal-box h2,
+.delete-modal h3 {
+  font-size: 17px;
+  color: #111827;
+}
+
+/* FORM */
 
 .form-group {
   display: flex;
@@ -368,103 +515,113 @@
 }
 
 .form-group label {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
-  color: #374151;
 }
 
 .form-group input {
-  height: 42px;
+  height: 38px;
+
   border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border-radius: 9px;
+
   padding: 0 12px;
-  font-size: 14px;
+
+  font-size: 12px;
 }
 
-.modal-actions {
+/* ACTIONS */
+
+.modal-actions,
+.delete-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 9px;
+}
+
+.save-btn,
+.cancel-btn,
+.delete-confirm-btn {
+  height: 34px;
+  padding: 0 15px;
+
+  border: none;
+  border-radius: 9px;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
 }
 
 .save-btn {
-  background: #2BAE96;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+  background: #11c5af;
 }
 
 .cancel-btn {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+  background: #9ca3af;
 }
 
-/* ==========================
-   FIXED SIDEBAR (Scrollbars Completely Hidden)
-========================== */
-.admin-layout aside {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-
-  /* Enables native container inner navigation */
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  /* Hides sidebar tracking layout scrollbar on Firefox */
-  scrollbar-width: none;
-  /* Hides sidebar tracking layout scrollbar on IE/Edge */
-  -ms-overflow-style: none;
+.delete-confirm-btn {
+  background: #ff2957;
 }
 
-/* Hides sidebar tracking layout scrollbar on Chrome, Safari, and Opera */
-.admin-layout aside::-webkit-scrollbar {
-  display: none;
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px) {
+
+  .category-grid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
 }
 
-/* ==========================
-   EMOJI SUGGESTIONS
-========================== */
-.emoji-suggestions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-  max-height: 110px;
-  overflow-y: auto;
-  padding: 4px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #f9fafb;
+@media(max-width:900px) {
+
+  .header-nav {
+    display: none;
+  }
+
+  .sidebar {
+    width: 68px;
+  }
+
+  .menu-text,
+  .section-title {
+    display: none;
+  }
+
+  .category-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
 }
 
-.emoji-item {
-  font-size: 22px;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-}
+@media(max-width:600px) {
 
-.emoji-item:hover {
-  background: #e5e7eb;
-  transform: scale(1.15);
-}
+  .toolbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 
-.emoji-item.selected {
-  border-color: #2BAE96;
-  background: #e6fffb;
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    height: 132px;
+  }
+
+  .profile-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
 }
