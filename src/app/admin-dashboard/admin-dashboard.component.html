@@ -290,19 +290,21 @@
                     <td class="py-4 px-6 font-semibold text-slate-800 flex items-center gap-3">
                       <div
                         class="w-7 h-7 rounded-md overflow-hidden flex items-center justify-center bg-slate-100 text-slate-400 shrink-0">
+                        <!-- 1. Cricket Bat -->
                         <img *ngIf="product.name.toLowerCase().includes('bat')" src="assets/bat.jpg"
                           [alt]="product.name" class="w-full h-full object-cover" />
-                        <img *ngIf="product.name.toLowerCase().includes('macbook')" src="assets/apple macbook.png"
+                          
+                        <!-- 2. Apple MacBook Pro (Macbook but not MacBook Air M2) -->
+                        <img *ngIf="product.name.toLowerCase().includes('macbook') && !product.name.toLowerCase().includes('macbook air m2') && !product.name.toLowerCase().includes('bat')" src="assets/apple macbook.png"
                           [alt]="product.name" class="w-full h-full object-cover" />
-                        <img *ngIf="product.name.toLowerCase().includes('iphone')" src="assets/apple iphone 11.png"
+                          
+                        <!-- 3. MacBook Air M2 or any other product with image -->
+                        <img *ngIf="product.image && !product.name.toLowerCase().includes('bat') && !(product.name.toLowerCase().includes('macbook') && !product.name.toLowerCase().includes('macbook air m2'))" [src]="product.image" 
                           [alt]="product.name" class="w-full h-full object-cover" />
-                        <svg
-                          *ngIf="!product.name.toLowerCase().includes('bat') && !product.name.toLowerCase().includes('macbook') && !product.name.toLowerCase().includes('iphone')"
-                          class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                        </svg>
+                          
+                        <!-- 4. Fallback placeholder if no image and not a special mock product -->
+                        <img *ngIf="!product.image && !product.name.toLowerCase().includes('bat') && !(product.name.toLowerCase().includes('macbook') && !product.name.toLowerCase().includes('macbook air m2'))" src="assets/placeholder.png" 
+                          class="w-full h-full object-cover" />
                       </div>
                       <span>{{ product.name }}</span>
                     </td>
@@ -350,40 +352,18 @@
         <div class="bg-white border border-slate-200/80 rounded-2xl shadow-sm p-6 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-50 pb-3">
             <h2 class="font-bold text-slate-800 text-sm">Categories Overview</h2>
-            <span class="text-xs font-bold text-slate-400">10 total</span>
+            <span class="text-xs font-bold text-slate-400">{{ categoriesOverview.length }} total</span>
           </div>
           <div class="space-y-4">
-            <div class="flex items-center w-full justify-between gap-4 text-[11px] font-bold">
-              <span class="text-slate-600 w-24 flex items-center gap-2"><span
-                  class="w-2 h-2 rounded-full bg-[#2BAE96]"></span> Electronics</span>
+            <div *ngFor="let cat of categoriesOverview" class="flex items-center w-full justify-between gap-4 text-[11px] font-bold">
+              <span class="text-slate-600 w-24 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full" [ngClass]="cat.color"></span> 
+                {{ cat.category }}
+              </span>
               <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-[#2BAE96] rounded-full" style="width: 85%;"></div>
+                <div class="h-full rounded-full" [ngClass]="cat.color" [style.width.%]="cat.percentage"></div>
               </div>
-              <span class="text-slate-400 text-right w-20">9 products</span>
-            </div>
-            <div class="flex items-center w-full justify-between gap-4 text-[11px] font-bold">
-              <span class="text-slate-600 w-24 flex items-center gap-2"><span
-                  class="w-2 h-2 rounded-full bg-indigo-500"></span> Donation</span>
-              <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-indigo-500 rounded-full" style="width: 35%;"></div>
-              </div>
-              <span class="text-slate-400 text-right w-20">3 products</span>
-            </div>
-            <div class="flex items-center w-full justify-between gap-4 text-[11px] font-bold">
-              <span class="text-slate-600 w-24 flex items-center gap-2"><span
-                  class="w-2 h-2 rounded-full bg-blue-500"></span> Books</span>
-              <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-blue-500 rounded-full" style="width: 22%;"></div>
-              </div>
-              <span class="text-slate-400 text-right w-20">2 products</span>
-            </div>
-            <div class="flex items-center w-full justify-between gap-4 text-[11px] font-bold">
-              <span class="text-slate-600 w-24 flex items-center gap-2"><span
-                  class="w-2 h-2 rounded-full bg-amber-500"></span> Furniture</span>
-              <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-amber-500 rounded-full" style="width: 22%;"></div>
-              </div>
-              <span class="text-slate-400 text-right w-20">2 products</span>
+              <span class="text-slate-400 text-right w-20">{{ cat.count }} products</span>
             </div>
           </div>
         </div>
@@ -461,12 +441,8 @@
                   <td class="py-4 px-6 font-semibold text-slate-800 flex items-center gap-3">
                     <div
                       class="w-7 h-7 rounded-md overflow-hidden flex items-center justify-center bg-slate-100 text-slate-400 shrink-0">
-                      <img *ngIf="product.name.toLowerCase().includes('bat')" src="assets/bat.jpg" [alt]="product.name"
-                        class="w-full h-full object-cover" />
-                      <img *ngIf="product.name.toLowerCase().includes('macbook')" src="assets/apple macbook.png"
-                        [alt]="product.name" class="w-full h-full object-cover" />
-                      <img *ngIf="product.name.toLowerCase().includes('iphone')" src="assets/apple iphone 11.png"
-                        [alt]="product.name" class="w-full h-full object-cover" />
+                      <img *ngIf="product.image" [src]="product.image" [alt]="product.name" class="w-full h-full object-cover" />
+                      <img *ngIf="!product.image" src="assets/empty.png" class="w-full h-full object-cover" />
                     </div>
                     <span>{{ product.name }}</span>
                   </td>

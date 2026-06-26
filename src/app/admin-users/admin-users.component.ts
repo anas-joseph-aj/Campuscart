@@ -65,7 +65,8 @@ export class AdminUsersComponent implements OnInit {
           }
 
           const id = user.id || user._id || '';
-          const status = user.status || 'Active';
+          const rawStatus = user.status || 'Active';
+          const status = rawStatus.toUpperCase() === 'INACTIVE' ? 'Inactive' : 'Active';
           const name = user.name || user.email?.split('@')[0] || 'User';
 
           return {
@@ -137,16 +138,24 @@ export class AdminUsersComponent implements OnInit {
 
   saveUserStatus(): void {
     if (this.selectedUser) {
-      // Optimistically update the UI
+      // Update locally (optimistic) — do not reload from API to avoid revert
       const userIndex = this.usersList.findIndex(u => u.id === this.selectedUser.id);
       if (userIndex !== -1) {
         this.usersList[userIndex].status = this.updatedStatusValue;
+        // Update filtered list entry as well
+        const filteredIndex = this.filteredUsers.findIndex(u => u.id === this.selectedUser.id);
+        if (filteredIndex !== -1) {
+          this.filteredUsers[filteredIndex].status = this.updatedStatusValue;
+        }
         this.filterUsers();
       }
 
-      this.adminService.updateUserStatus(this.selectedUser.id.toString(), this.updatedStatusValue).subscribe({
-        next: () => this.loadAllUsers(),
-        error: (err) => console.warn('Mock mode: Status updated locally.')
+      const backendStatus = this.updatedStatusValue.toUpperCase();
+      this.adminService.updateUserStatus(this.selectedUser.id.toString(), backendStatus).subscribe({
+        next: () => {
+          // Status already applied locally; no reload needed
+        },
+        error: (err) => console.warn('Mock mode or backend error: Status updated locally only.')
       });
     }
     this.showUserEditModal = false;
@@ -159,13 +168,15 @@ export class AdminUsersComponent implements OnInit {
 
   confirmDeleteUser(): void {
     if (this.userToDeleteId !== null) {
-      // Optimistically update the UI
+      // Remove locally — do not reload from API to avoid revert
       this.usersList = this.usersList.filter(u => u.id !== this.userToDeleteId);
       this.filterUsers();
 
       this.adminService.deleteUser(this.userToDeleteId!.toString()).subscribe({
-        next: () => this.loadAllUsers(),
-        error: (err) => console.warn('Mock mode: User deleted locally.')
+        next: () => {
+          // Already removed locally; no reload needed
+        },
+        error: (err) => console.warn('Mock mode: User deleted locally only.')
       });
     }
     this.showDeleteModal = false;
@@ -175,4 +186,4 @@ export class AdminUsersComponent implements OnInit {
   setActiveMenu(menu: string): void {
     this.activeMenu = menu;
   }
-}
+}

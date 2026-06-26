@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class AuthService {
 
-  baseUrl = 'http://10.204.205.47:8080/auth';
+  baseUrl = 'http://10.188.9.118:8080/auth';
 
   constructor(private http: HttpClient) { }
 

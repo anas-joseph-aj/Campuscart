@@ -8,7 +8,7 @@ import { Product } from '../product.service';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://10.204.205.47:8080';
+  private baseUrl = 'http://10.46.75.118:8080';
 
   // Subject to notify components when product data changes
   private productRefreshSubject = new Subject<void>();
@@ -354,13 +354,13 @@ export class ApiService {
     const anyProd = product as any;
     const normalizedStatus = typeof anyProd.status === 'string' ? anyProd.status.toLowerCase() : '';
     product.sold = anyProd.sold === true ||
-                   ['sold', 'inactive'].includes(normalizedStatus) ||
-                   anyProd.sold === 'true';
+      ['sold', 'inactive'].includes(normalizedStatus) ||
+      anyProd.sold === 'true';
 
     // Debug: show result of normalization
     try {
       console.debug('transformProduct OUT', { id: (product as any).id, sold: product.sold, image: product.image, images: product.images });
-    } catch (e) {}
+    } catch (e) { }
 
     return product;
   }
