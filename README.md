@@ -25,7 +25,7 @@ CampusCart provides a secure and easy-to-use platform for students to:
 - Spring Boot
 
 ### Database
-- MySQL
+- MongoDB
 
 ## Modules
 
