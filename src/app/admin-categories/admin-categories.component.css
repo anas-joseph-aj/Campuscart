@@ -21,20 +21,15 @@ body {
 .header {
   height: 54px;
   background: #ffffff;
-
   border-bottom: 1px solid #e5e7eb;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 22px;
-
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-
   z-index: 1000;
 }
 
@@ -55,12 +50,9 @@ body {
 
 .header-nav a {
   text-decoration: none;
-
   font-size: 12px;
   font-weight: 500;
-
   color: #4b5563;
-
   transition: 0.2s;
 }
 
@@ -81,14 +73,11 @@ body {
 .profile-btn {
   width: 28px;
   height: 28px;
-
   border: none;
   background: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
   padding: 0;
 }
@@ -103,16 +92,12 @@ body {
 .logout-btn {
   border: none;
   background: none;
-
   display: flex;
   align-items: center;
   gap: 5px;
-
   color: #ff2957;
-
   font-size: 12px;
   font-weight: 500;
-
   cursor: pointer;
 }
 
@@ -141,17 +126,12 @@ body {
 
 .sidebar {
   width: 172px;
-
   background: #049688;
-
   padding: 12px 9px;
-
   display: flex;
   flex-direction: column;
   gap: 16px;
-
   overflow: hidden;
-
   min-height: 100%;
 }
 
@@ -167,11 +147,8 @@ body {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1px;
-
   color: rgba(255, 255, 255, 0.55);
-
   padding-left: 8px;
-
   margin-bottom: 3px;
 }
 
@@ -180,22 +157,15 @@ body {
 .menu-btn {
   width: 100%;
   height: 36px;
-
   border: none;
   border-radius: 12px;
-
   background: transparent;
-
   display: flex;
   align-items: center;
   gap: 11px;
-
   padding: 0 11px;
-
   color: white;
-
   cursor: pointer;
-
   transition: 0.25s ease;
 }
 
@@ -215,7 +185,6 @@ body {
 .menu-icon-wrap {
   width: 17px;
   min-width: 17px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,9 +208,7 @@ body {
 
 .admin-main {
   flex: 1;
-
   padding: 14px 18px;
-
   overflow-y: auto;
 }
 
@@ -251,11 +218,8 @@ body {
   display: flex;
   align-items: center;
   gap: 7px;
-
   font-size: 11px;
-
   color: #9ca3af;
-
   margin-bottom: 10px;
 }
 
@@ -275,22 +239,11 @@ body {
 .admin-topbar h1 {
   font-size: 17px;
   font-weight: 700;
-
   color: #111827;
-
   margin-bottom: 2px;
 }
 
 .admin-topbar p {
-<<<<<<< Updated upstream
-  font-size: 11px;
-  color: #6b7280;
-}
-
-/* =========================
-   TOOLBAR
-========================= */
-=======
   margin: 8px 0 0 0;
   font-size: 16px;
   font-weight: 400;
@@ -301,13 +254,11 @@ body {
 /* ==========================
    SEARCH + BUTTON
 ========================== */
->>>>>>> Stashed changes
 
 .toolbar-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 14px;
 }
 
@@ -316,16 +267,12 @@ body {
 .search-card {
   width: 200px;
   height: 32px;
-
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-
   background: white;
-
   display: flex;
   align-items: center;
   gap: 7px;
-
   padding: 0 10px;
 }
 
@@ -336,12 +283,9 @@ body {
 
 .search-card input {
   width: 100%;
-
   border: none;
   outline: none;
-
   background: transparent;
-
   font-size: 11px;
 }
 
@@ -350,16 +294,12 @@ body {
 .btn-primary {
   height: 32px;
   padding: 0 14px;
-
   border: none;
   border-radius: 10px;
-
   background: #11c5af;
   color: white;
-
   font-size: 12px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -369,10 +309,7 @@ body {
 
 .category-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
@@ -381,46 +318,24 @@ body {
 ========================= */
 
 .category-card {
-<<<<<<< Updated upstream
-  height: 138px;
-
-  background: white;
-=======
   width: 100%;
   height: 190px;
-
-  border: 1px solid #E5E7EB;
+  background: white;
   border-radius: 12px;
->>>>>>> Stashed changes
-
-  border-radius: 14px;
-
-  border: 1px solid #ebebeb;
-
-  padding: 13px;
-
+  border: 1px solid #E5E7EB;
+  padding: 18px 12px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-
-<<<<<<< Updated upstream
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.04);
-=======
-  padding: 18px 12px 16px;
->>>>>>> Stashed changes
-
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: 0.2s;
 }
 
 .category-card:hover {
   transform: translateY(-2px);
-<<<<<<< Updated upstream
-=======
   box-shadow: 0 4px 12px rgba(38, 192, 171, 0.12);
   border-color: #26c0ab;
->>>>>>> Stashed changes
 }
 
 /* ICON */
@@ -428,15 +343,11 @@ body {
 .category-icon {
   width: 42px;
   height: 42px;
-
   border-radius: 12px;
-
   background: #f5f7f9;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 21px;
 }
 
@@ -445,22 +356,9 @@ body {
 .category-card h2 {
   font-size: 13px;
   font-weight: 700;
-
   color: #111827;
 }
 
-<<<<<<< Updated upstream
-/* PRODUCT COUNT */
-
-.product-count {
-  font-size: 11px;
-  color: #9ca3af;
-
-  margin-top: -5px;
-}
-
-/* ACTIONS */
-=======
 .category-product-count {
   margin: 0;
   font-size: 12px;
@@ -473,7 +371,6 @@ body {
 /* ==========================
    ACTION BUTTONS
 ========================== */
->>>>>>> Stashed changes
 
 .card-actions {
   display: flex;
@@ -484,36 +381,19 @@ body {
 
 .btn-edit,
 .btn-delete {
-<<<<<<< Updated upstream
-  width: 72px;
-  height: 26px;
-=======
   width: 60px;
   height: 30px;
->>>>>>> Stashed changes
-
   border-radius: 8px;
-
   font-size: 11px;
   font-weight: 600;
-
   cursor: pointer;
-<<<<<<< Updated upstream
-=======
   transition: all 0.3s ease;
   border: none;
->>>>>>> Stashed changes
 }
 
 /* EDIT */
 
 .btn-edit {
-<<<<<<< Updated upstream
-  border: 1px solid #9ff1e5;
-
-  background: #effdf8;
-  color: #049688;
-=======
   background: #D1FAE5;
   color: #059669;
 }
@@ -522,23 +402,11 @@ body {
   background: #A7F3D0;
   color: #047857;
   transform: translateY(-1px);
->>>>>>> Stashed changes
 }
 
 /* DELETE */
 
 .btn-delete {
-<<<<<<< Updated upstream
-  border: 1px solid #ffd1d8;
-
-  background: #fff1f2;
-  color: #ff2957;
-}
-
-/* =========================
-   MODAL
-========================= */
-=======
   background: #FEE2E2;
   color: #DC2626;
 }
@@ -557,20 +425,15 @@ body {
 .delete-btn {
   width: 42px;
   height: 42px;
-
   border: none;
   border-radius: 10px;
-
   background: #fef2f2;
   color: #dc2626;
-
   font-size: 20px;
   font-weight: 700;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -624,31 +487,23 @@ body {
 /* ==========================
    MODALS
 ========================== */
->>>>>>> Stashed changes
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-
   background: rgba(0, 0, 0, 0.35);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 3000;
 }
 
 .modal-box,
 .delete-modal {
   width: 340px;
-
   background: white;
-
   border-radius: 16px;
-
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -675,12 +530,9 @@ body {
 
 .form-group input {
   height: 38px;
-
   border: 1px solid #d1d5db;
   border-radius: 9px;
-
   padding: 0 12px;
-
   font-size: 12px;
 }
 
@@ -698,15 +550,11 @@ body {
 .delete-confirm-btn {
   height: 34px;
   padding: 0 15px;
-
   border: none;
   border-radius: 9px;
-
   color: white;
-
   font-size: 12px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -723,20 +571,16 @@ body {
 }
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE (UPSTREAM OVERRIDES)
 ========================= */
 
 @media(max-width:1200px) {
-
   .category-grid {
-    grid-template-columns:
-      repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
-
 }
 
 @media(max-width:900px) {
-
   .header-nav {
     display: none;
   }
@@ -751,14 +595,11 @@ body {
   }
 
   .category-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
-
 }
 
 @media(max-width:600px) {
-
   .toolbar-row {
     flex-direction: column;
     align-items: flex-start;
@@ -777,5 +618,4 @@ body {
     width: 18px;
     height: 18px;
   }
-
 }

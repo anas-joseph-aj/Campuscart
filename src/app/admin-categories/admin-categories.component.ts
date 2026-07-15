@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-admin-categories',
@@ -12,8 +13,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './admin-categories.component.html',
   styleUrls: ['./admin-categories.component.css']
 })
-
-export class AdminCategoriesComponent {
+export class AdminCategoriesComponent implements OnInit {
 
   /* =========================
      SEARCH
@@ -32,13 +32,11 @@ export class AdminCategoriesComponent {
   ========================= */
 
   showModal = false;
-
   showDeleteModal = false;
-
   isEditMode = false;
 
   selectedCategoryIndex = -1;
-
+  selectedCategoryId: string | null = null;
   selectedDeleteIndex = -1;
 
   /* =========================
@@ -46,10 +44,8 @@ export class AdminCategoriesComponent {
   ========================= */
 
   categoryForm = {
-
     name: '',
     icon: ''
-
   };
 
   // Emoji palette (icons are stored as emojis in admin-categories.ts)
@@ -77,7 +73,8 @@ export class AdminCategoriesComponent {
           } catch (e) { }
           this.categories = (data || []).map((cat: any) => ({
             ...cat,
-            icon: this.getDisplayIcon(cat)
+            icon: this.getDisplayIcon(cat),
+            productCount: cat.productCount ?? 0
           }));
         },
         (error) => {
@@ -93,12 +90,14 @@ export class AdminCategoriesComponent {
           } catch (e) { }
           this.categories = (data || []).map((cat: any) => ({
             ...cat,
-            icon: this.getDisplayIcon(cat)
+            icon: this.getDisplayIcon(cat),
+            productCount: cat.productCount ?? 0
           }));
         },
         (error) => {
           console.error('Failed to load categories', error);
-          alert('Unable to load categories. Check console for details.');
+          // Fallback to mock data if backend fails
+          this.loadMockCategories();
         }
       );
     }
@@ -169,23 +168,41 @@ export class AdminCategoriesComponent {
     return s;
   }
 
+  /** Triggered when the search term changes */
+  onSearchChange(): void {
+    this.loadCategories();
+  }
+
+  /** Returns an emoji/icon based on the category name */
+  private getIcon(name: string): string {
+    const map: { [key: string]: string } = {
+      electronics: '💻',
+      books: '📚',
+      pets: '🐾',
+      kitchen: '🍳',
+      fashion: '👗',
+      furniture: '🪑',
+      vehicles: '🚗',
+      sports: '⚽',
+      miscellaneous: '📦',
+      donation: '🎁'
+    };
+    const key = name.toLowerCase();
+    return map[key] || '❓';
+  }
+
   /* =========================
      OPEN ADD MODAL
   ========================= */
 
   openAddModal(): void {
-
     this.isEditMode = false;
-
+    this.selectedCategoryId = null;
     this.categoryForm = {
-
       name: '',
       icon: ''
-
     };
-
     this.showModal = true;
-
   }
 
   /* =========================
@@ -193,23 +210,15 @@ export class AdminCategoriesComponent {
   ========================= */
 
   openEditModal(index: number): void {
-
     this.isEditMode = true;
-
     this.selectedCategoryIndex = index;
-
+    const cat = this.filteredCategories[index];
+    this.selectedCategoryId = cat.id || null;
     this.categoryForm = {
-
-      name:
-        this.filteredCategories[index].name,
-
-      icon:
-        this.filteredCategories[index].icon
-
+      name: cat.name,
+      icon: cat.icon
     };
-
     this.showModal = true;
-
   }
 
   /* =========================
@@ -217,87 +226,42 @@ export class AdminCategoriesComponent {
   ========================= */
 
   saveCategory(): void {
-
-    /* VALIDATION */
-
-    if (!this.categoryForm.name.trim()) {
-
+    const name = this.categoryForm.name?.trim();
+    if (!name) {
       alert('Please enter category name');
-
       return;
-
     }
 
-    /* CATEGORY OBJECT */
-
-    const categoryData = {
-
-      name:
-        this.categoryForm.name.trim(),
-
-      icon:
-        this.categoryForm.icon.trim() || '📦',
-
-      count: 0
-
+    const payload: any = {
+      name: name,
+      icon: this.categoryForm.icon?.trim() || '📦'
     };
 
-    /* =========================
-       EDIT CATEGORY
-    ========================= */
-
-    if (this.isEditMode) {
-
-      const currentCategory =
-
-        this.filteredCategories[
-        this.selectedCategoryIndex
-        ];
-
-      const actualIndex =
-
-        this.categories.indexOf(
-          currentCategory
-        );
-
-      this.categories[actualIndex] = {
-
-        ...this.categories[actualIndex],
-
-        name: categoryData.name,
-
-        icon: categoryData.icon
-
-      };
-
-      /* REFRESH */
-
-      this.categories = [
-        ...this.categories
-      ];
-
+    if (this.isEditMode && this.selectedCategoryId) {
+      this.adminService.updateCategory(this.selectedCategoryId, payload).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category updated successfully');
+        },
+        (error) => {
+          console.error('Update failed', error);
+          alert('Failed to update category');
+        }
+      );
+    } else {
+      this.adminService.addCategory(payload).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category added successfully');
+        },
+        (error) => {
+          console.error('Add failed', error);
+          alert('Failed to add category');
+        }
+      );
     }
-
-    /* =========================
-       ADD CATEGORY
-    ========================= */
-
-    else {
-
-      this.categories.push(categoryData);
-
-      /* REFRESH */
-
-      this.categories = [
-        ...this.categories
-      ];
-
-    }
-
-    /* CLOSE MODAL */
 
     this.closeModal();
-
   }
 
   /* =========================
@@ -305,11 +269,8 @@ export class AdminCategoriesComponent {
   ========================= */
 
   deleteCategory(index: number): void {
-
     this.selectedDeleteIndex = index;
-
     this.showDeleteModal = true;
-
   }
 
   /* =========================
@@ -317,27 +278,20 @@ export class AdminCategoriesComponent {
   ========================= */
 
   confirmDelete(): void {
-
-    if (this.selectedDeleteIndex !== -1) {
-
-      const category =
-
-        this.filteredCategories[
-        this.selectedDeleteIndex
-        ];
-
-      this.categories =
-
-        this.categories.filter(
-
-          c => c !== category
-
-        );
-
+    const cat = this.filteredCategories[this.selectedDeleteIndex];
+    if (cat && cat.id) {
+      this.adminService.deleteCategory(cat.id).subscribe(
+        () => {
+          this.loadCategories();
+          alert('Category deleted successfully');
+        },
+        (error) => {
+          console.error('Delete failed', error);
+          alert('Failed to delete category');
+        }
+      );
     }
-
     this.closeDeleteModal();
-
   }
 
   /* =========================
@@ -345,11 +299,22 @@ export class AdminCategoriesComponent {
   ========================= */
 
   closeDeleteModal(): void {
-
     this.showDeleteModal = false;
-
     this.selectedDeleteIndex = -1;
+  }
 
+  /* =========================
+     CLOSE ADD/EDIT MODAL
+  ========================= */
+
+  closeModal(): void {
+    this.showModal = false;
+    this.isEditMode = false;
+    this.categoryForm = {
+      name: '',
+      icon: ''
+    };
+    this.selectedCategoryIndex = -1;
   }
 
   /** Load mock categories for demonstration */
