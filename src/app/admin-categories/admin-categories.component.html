@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 <link
   href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght=400;500;600;700&family=Inter:wght=400;500;600;700&display=swap"
   rel="stylesheet">
+=======
+﻿<header
+    class="fixed top-0 left-0 z-50 w-full h-[77px] px-12 flex items-center justify-between border-b-2 border-[#E5E7EB] bg-white shrink-0"
+    style="font-family: 'Inter', sans-serif;">
+>>>>>>> Stashed changes
 
 <div class="flex flex-col h-screen bg-[#F8FAFC] overflow-hidden select-none">
 
@@ -18,6 +24,7 @@
     </nav>
 
     <div class="flex items-center gap-6">
+<<<<<<< Updated upstream
       <div class="flex items-center gap-4 text-[#6C757D]">
         <a routerLink="/admin-profile">
           <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2"
@@ -45,6 +52,30 @@
 
     <!-- SIDEBAR -->
 
+=======
+        <div class="flex items-center gap-4 text-[#6C757D]">
+            <a routerLink="/admin-profile" class="hover:text-gray-900 flex items-center transition-colors focus:outline-none cursor-pointer">
+                <svg class="w-6 h-6 hover:text-[#2FA084]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                </svg>
+            </a>
+        </div>
+
+        <button routerLink="/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer"
+            style="background-color: #FFC9C9; color: #FB2C36;">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                </path>
+            </svg>
+            <span class="font-semibold text-[14px]">Logout</span>
+        </button>
+    </div>
+</header>
+
+<div class="admin-page">
+  <div class="admin-layout flex w-full items-start">
+>>>>>>> Stashed changes
     <aside
       class="group w-[76px] hover:w-[260px] h-full p-4 flex flex-col gap-6 shrink-0 text-white shadow-lg transition-all duration-300 ease-in-out overflow-x-hidden z-20"
       style="background-color: #2BAE96; font-family: 'IBM Plex Serif', serif;">
@@ -136,6 +167,7 @@
           [ngClass]="{                     'bg-white text-[#2BAE96] font-semibold shadow-sm': activeMenu === 'Feedback',                     'text-white hover:bg-white hover:text-[#2BAE96] font-normal': activeMenu !== 'Feedback' }"
           class="w-full h-[44px] px-3 rounded-[10px] flex items-center justify-start gap-4 text-[16px] transition-all bg-transparent border-none outline-none overflow-hidden whitespace-nowrap no-underline group/btn">
           <div
+<<<<<<< Updated upstream
             class="shrink-0 w-[22px] h-[22px] flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
             <svg class="w-[20px] h-[20px] fill-none stroke-current" stroke-width="1.8" viewBox="0 0 24 24"
               stroke-linecap="round" stroke-linejoin="round">
@@ -155,6 +187,17 @@
               <path
                 d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
             </svg>
+=======
+            class="shrink-0 w-[24px] h-[24px] relative flex items-center justify-center mx-auto group-hover:mx-0 transition-all duration-200">
+            <div class="w-[22px] h-[22px] relative">
+              <svg class="w-[14px] h-[14px] absolute bottom-0 left-0 fill-none stroke-current transition-colors" [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+              </svg>
+              <svg class="w-[14px] h-[14px] absolute top-0 right-0 fill-none stroke-current transition-colors" [ngClass]="{ 'text-[#2BAE96]': activeMenu === 'Reviews', 'text-white group-hover/btn:text-[#2BAE96]': activeMenu !== 'Reviews' }" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
+              </svg>
+            </div>
+>>>>>>> Stashed changes
           </div>
           <span class="hidden group-hover:block transition-all duration-200">Reviews</span>
         </a>
@@ -182,6 +225,7 @@
       </div>
     </aside>
 
+<<<<<<< Updated upstream
     <!-- MAIN -->
 
     <main class="flex-1 p-8 overflow-y-auto space-y-6" style="font-family: 'Inter', sans-serif;">
@@ -244,13 +288,35 @@
 
           + Add Categories
 
-        </button>
+=======
+    <main class="admin-main flex-1 mt-5">
+      <div class="admin-topbar">
+        <h1 class="text-[34px] font-bold text-[#0F172A] tracking-tight">Categories</h1>
+        <p class="text-[16px] text-[#6B7280] font-normal mt-2">Manage product categories and subcategories.</p>
+      </div>
 
+      <div class="toolbar-row">
+        <div class="search-row">
+          <div class="search-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" placeholder="Search Categories...">
+          </div>
+        </div>
+
+        <button class="btn-primary" type="button" (click)="openAddModal()">
+          Add Categories
+>>>>>>> Stashed changes
+        </button>
       </div>
 
       <!-- GRID -->
 
       <div class="category-grid">
+<<<<<<< Updated upstream
 
         <article class="category-card" *ngFor="let category of filteredCategories; let i=index">
 
@@ -286,12 +352,29 @@
 
             </button>
 
+=======
+        <article *ngFor="let c of filteredCategories; let i = index" class="category-card">
+          <div class="category-icon-wrap">
+            <ng-container *ngIf="c.icon?.includes('/')">
+              <img [src]="c.icon" alt="{{c.name}}" class="category-icon-img" />
+            </ng-container>
+            <ng-container *ngIf="!c.icon?.includes('/')">
+              <div class="category-icon">{{ c.icon }}</div>
+            </ng-container>
           </div>
 
-        </article>
+          <h2>{{ c.name }}</h2>
+          <p class="category-product-count">{{ c.productCount || 0 }} products</p>
 
+          <div class="card-actions">
+            <button class="btn-edit" type="button" (click)="openEditModal(i)">Edit</button>
+            <button class="btn-delete" type="button" (click)="deleteCategory(i)">Delete</button>
+>>>>>>> Stashed changes
+          </div>
+        </article>
       </div>
 
+<<<<<<< Updated upstream
     </main>
 
   </div>
@@ -387,3 +470,55 @@
   </div>
 
 </div>
+=======
+      <div class="modal-backdrop" *ngIf="showModal">
+        <form (ngSubmit)="saveCategory()" class="modal-box">
+          <h2>
+            {{ isEditMode ? 'Edit Category' : 'Add Category' }}
+          </h2>
+
+          <div class="form-group">
+            <label>
+              Category Name
+            </label>
+            <input type="text" name="name" [(ngModel)]="categoryForm.name" placeholder="Enter category name">
+          </div>
+
+          <div class="form-group">
+            <label>
+              Category Icon
+            </label>
+            <input type="text" name="icon" [(ngModel)]="categoryForm.icon" placeholder="📚">
+
+            <div class="emoji-suggestions">
+              <span *ngFor="let emoji of suggestedEmojis" (click)="selectSuggestedEmoji(emoji)" class="emoji-item"
+                [class.selected]="categoryForm.icon === emoji">
+                {{ emoji }}
+              </span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="save-btn" type="submit">Save</button>
+            <button class="cancel-btn" type="button" (click)="closeModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-backdrop" *ngIf="showDeleteModal">
+        <div class="modal-box">
+          <h2>Delete Category</h2>
+          <p style="color: #4b5563; font-size: 14px; margin: 8px 0 16px;">
+            are you sure you want to delete
+          </p>
+
+          <div class="modal-actions">
+            <button class="save-btn" type="button" (click)="confirmDelete()">Delete</button>
+            <button class="cancel-btn" type="button" (click)="closeDeleteModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+>>>>>>> Stashed changes

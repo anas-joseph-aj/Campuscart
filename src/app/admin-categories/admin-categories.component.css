@@ -282,6 +282,7 @@ body {
 }
 
 .admin-topbar p {
+<<<<<<< Updated upstream
   font-size: 11px;
   color: #6b7280;
 }
@@ -289,6 +290,18 @@ body {
 /* =========================
    TOOLBAR
 ========================= */
+=======
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+/* ==========================
+   SEARCH + BUTTON
+========================== */
+>>>>>>> Stashed changes
 
 .toolbar-row {
   display: flex;
@@ -368,9 +381,17 @@ body {
 ========================= */
 
 .category-card {
+<<<<<<< Updated upstream
   height: 138px;
 
   background: white;
+=======
+  width: 100%;
+  height: 190px;
+
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+>>>>>>> Stashed changes
 
   border-radius: 14px;
 
@@ -383,14 +404,23 @@ body {
   align-items: center;
   justify-content: space-between;
 
+<<<<<<< Updated upstream
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.04);
+=======
+  padding: 18px 12px 16px;
+>>>>>>> Stashed changes
 
   transition: 0.2s;
 }
 
 .category-card:hover {
   transform: translateY(-2px);
+<<<<<<< Updated upstream
+=======
+  box-shadow: 0 4px 12px rgba(38, 192, 171, 0.12);
+  border-color: #26c0ab;
+>>>>>>> Stashed changes
 }
 
 /* ICON */
@@ -419,6 +449,7 @@ body {
   color: #111827;
 }
 
+<<<<<<< Updated upstream
 /* PRODUCT COUNT */
 
 .product-count {
@@ -429,6 +460,20 @@ body {
 }
 
 /* ACTIONS */
+=======
+.category-product-count {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  color: #9CA3AF;
+  line-height: 1.4;
+}
+
+/* ==========================
+   ACTION BUTTONS
+========================== */
+>>>>>>> Stashed changes
 
 .card-actions {
   display: flex;
@@ -439,8 +484,13 @@ body {
 
 .btn-edit,
 .btn-delete {
+<<<<<<< Updated upstream
   width: 72px;
   height: 26px;
+=======
+  width: 60px;
+  height: 30px;
+>>>>>>> Stashed changes
 
   border-radius: 8px;
 
@@ -448,20 +498,37 @@ body {
   font-weight: 600;
 
   cursor: pointer;
+<<<<<<< Updated upstream
+=======
+  transition: all 0.3s ease;
+  border: none;
+>>>>>>> Stashed changes
 }
 
 /* EDIT */
 
 .btn-edit {
+<<<<<<< Updated upstream
   border: 1px solid #9ff1e5;
 
   background: #effdf8;
   color: #049688;
+=======
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.btn-edit:hover {
+  background: #A7F3D0;
+  color: #047857;
+  transform: translateY(-1px);
+>>>>>>> Stashed changes
 }
 
 /* DELETE */
 
 .btn-delete {
+<<<<<<< Updated upstream
   border: 1px solid #ffd1d8;
 
   background: #fff1f2;
@@ -471,6 +538,93 @@ body {
 /* =========================
    MODAL
 ========================= */
+=======
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.btn-delete:hover {
+  background: #FECACA;
+  color: #B91C1C;
+  transform: translateY(-1px);
+}
+
+/* ==========================
+   DELETE ICON BUTTON
+   (For Reviews Page)
+========================== */
+
+.delete-btn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #fef2f2;
+  color: #dc2626;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 1200px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .toolbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-main {
+    padding: 20px;
+  }
+
+  .admin-topbar h1 {
+    font-size: 26px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* ==========================
+   MODALS
+========================== */
+>>>>>>> Stashed changes
 
 .modal-backdrop {
   position: fixed;
