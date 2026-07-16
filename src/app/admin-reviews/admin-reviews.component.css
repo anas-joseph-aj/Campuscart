@@ -1,94 +1,107 @@
+/* =========================
+   GLOBAL
+========================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
-body {
-  background: #f6f7fb;
-  overflow: hidden;
-}
-
-/* ================= HEADER ================= */
+/* =========================
+   HEADER
+========================= */
 
 .header {
-  height: 54px;
+  height: 77px;
   background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-
+  border-bottom: 2px solid #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 24px;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  z-index: 1000;
+  padding: 0 48px;
 }
+
+/* LOGO */
 
 .header-logo {
-  width: 118px;
+  width: 140px;
+  object-fit: contain;
 }
+
+/* NAVIGATION */
 
 .header-nav {
   display: flex;
-  gap: 34px;
+  align-items: center;
+  gap: 32px;
 }
 
 .header-nav a {
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: #4b5563;
+  color: #6C757D;
+  transition: 0.2s;
 }
+
+.header-nav a:hover {
+  color: #2FA084;
+}
+
+/* RIGHT */
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
 }
 
-.profile-btn {
-  width: 28px;
-  height: 28px;
+/* PROFILE */
 
+.profile-btn {
+  width: 34px;
+  height: 34px;
   border: none;
   background: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
+  padding: 0;
+  color: #6C757D;
 }
 
 .profile-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
+
+/* LOGOUT */
 
 .logout-btn {
   border: none;
-  background: none;
-
+  background: #FFC9C9;
   display: flex;
   align-items: center;
-  gap: 6px;
-
-  color: #ff2957;
-
-  font-size: 12px;
+  gap: 8px;
+  color: #FB2C36;
+  font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 10px;
 }
 
-/* ================= PAGE ================= */
+.logout-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================
+   PAGE
+========================= */
 
 .admin-page {
   padding-top: 54px;
@@ -100,54 +113,65 @@ body {
   height: calc(100vh - 54px);
 }
 
-/* ================= SIDEBAR ================= */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
-  width: 175px;
-
-  background: #049688;
-
-  padding: 14px 10px;
-
+  width: 76px;
+  background: #2BAE96;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
+  overflow: hidden;
+  min-height: 100%;
+  transition: width 0.3s ease-in-out;
+  font-family: 'IBM Plex Serif', serif;
 }
+
+.sidebar:hover {
+  width: 260px;
+}
+
+/* SECTIONS */
 
 .sidebar-section {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .section-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 1px;
 
   color: rgba(255, 255, 255, 0.55);
 
   padding-left: 8px;
+
+  margin-bottom: 3px;
 }
+
+/* MENU */
 
 .menu-btn {
   width: 100%;
-  height: 38px;
 
   border: none;
-  border-radius: 14px;
+  border-radius: 10px;
 
   background: transparent;
 
   display: flex;
   align-items: center;
-  gap: 12px;
-
-  padding: 0 12px;
 
   color: white;
 
   cursor: pointer;
+
+  transition: 0.25s ease;
 }
 
 .menu-btn:hover {
@@ -158,11 +182,18 @@ body {
 .menu-btn.active {
   background: white;
   color: #049688;
+  font-weight: 600;
 }
 
+/* ICON */
+
 .menu-icon-wrap {
-  width: 18px;
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -171,31 +202,31 @@ body {
   height: 16px;
 }
 
-.menu-text {
-  font-size: 13px;
-  font-weight: 500;
-}
 
-/* ================= MAIN ================= */
+/* =========================
+   MAIN
+========================= */
 
 .admin-main {
   flex: 1;
 
-  padding: 16px 18px;
+  padding: 14px 18px;
 
   overflow-y: auto;
-
-  background: #f6f7fb;
 }
+
+/* BREADCRUMB */
 
 .breadcrumb {
   display: flex;
+  align-items: center;
   gap: 7px;
 
   font-size: 11px;
+
   color: #9ca3af;
 
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .active-page {
@@ -203,21 +234,25 @@ body {
   font-weight: 600;
 }
 
+/* =========================
+   TOPBAR
+========================= */
+
 .admin-topbar {
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .admin-topbar h1 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
 
   color: #111827;
 
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .admin-topbar p {
-  font-size: 13px;
+  font-size: 11px;
   color: #6b7280;
 }
 

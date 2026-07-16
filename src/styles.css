@@ -3,6 +3,97 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shared admin shell header/sidebar */
+.header {
+  height: 77px;
+  background: #ffffff;
+  border-bottom: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+}
+
+.sidebar {
+  width: 76px;
+  background: #2BAE96;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+  min-height: 100%;
+  transition: width 0.3s ease-in-out;
+  font-family: 'IBM Plex Serif', serif;
+}
+
+.sidebar:hover {
+  width: 260px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.55);
+  padding-left: 8px;
+  margin-bottom: 3px;
+}
+
+.menu-btn {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  transition: 0.25s ease;
+}
+
+.menu-btn:hover {
+  background: white;
+  color: #049688;
+}
+
+.menu-btn.active {
+  background: white;
+  color: #049688;
+  font-weight: 600;
+}
+
+.menu-icon-wrap {
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.menu-text {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.admin-main {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 /* When active, the SVG fill and stroke change */
 .active-wishlist svg {
     fill: #E53E3E !important;
